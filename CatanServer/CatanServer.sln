@@ -1,8 +1,38 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34622.214
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{13A2EAAE-0C6F-4E81-A202-330D2BED87EF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{48456702-E9EE-4D2E-9806-A0022FF9F3C0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{47C97FAB-6AF4-481E-B27D-6CE377F52A56}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{6A952B57-B006-46EF-90C2-38471792316E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catan.API", "Catan.API\Catan.API.csproj", "{816583D8-0065-4D32-AA96-521FA1C6C76D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{816583D8-0065-4D32-AA96-521FA1C6C76D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{816583D8-0065-4D32-AA96-521FA1C6C76D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{816583D8-0065-4D32-AA96-521FA1C6C76D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{816583D8-0065-4D32-AA96-521FA1C6C76D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{48456702-E9EE-4D2E-9806-A0022FF9F3C0} = {13A2EAAE-0C6F-4E81-A202-330D2BED87EF}
+		{47C97FAB-6AF4-481E-B27D-6CE377F52A56} = {13A2EAAE-0C6F-4E81-A202-330D2BED87EF}
+		{816583D8-0065-4D32-AA96-521FA1C6C76D} = {6A952B57-B006-46EF-90C2-38471792316E}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {920FA4C3-06CA-44A6-B08E-F36B3BC5EB17}
 	EndGlobalSection
 EndGlobal
