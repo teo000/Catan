@@ -1,0 +1,41 @@
+.App {
+  background-color: aliceblue;
+}
+
+.Game{
+  display: flex;
+}
+
+.GamePiece{
+  width: 30px;
+  position: absolute;
+}
+
+.Map{
+  position: relative;
+}
+
+.HexTile {
+  width: 104px;
+  height: 120px;
+  position: absolute;
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+}
+
+.NumberToken{
+  width: 30px;
+  position: absolute;
+}
+
+.Road {
+  width: 10px;
+  height: 60px;
+  background-color: #939d91;
+  position: absolute;
+}
+
+.HexTileRow{
+  clear: both;
+  text-align: center;
+}
+
