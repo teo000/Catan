@@ -1,11 +1,14 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import {GameMap} from "./components/Map";
+import {GameMap} from "./components/GameMap";
+import {GameLayout} from "./components/GameLayout";
 
 function App() {
   return (
-    <GameMap/>
+      <div className="app">
+        <GameLayout/>
+      </div>
   );
 }
 

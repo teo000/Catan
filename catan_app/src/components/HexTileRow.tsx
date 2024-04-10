@@ -28,7 +28,7 @@ function HexTileRow({rowNumber, hexTileData} : {rowNumber: number, hexTileData: 
         hexagons.push(<HexTile key={i} left={left} top={top} hexTileData={hexTileData[i]}/>);
         left += HEX_WIDTH;
     }
-    return <div className="HexTileRow" style={{ marginLeft: `${marginLeft}px` }}>{hexagons}</div>;
+    return <div className="hexTileRow" style={{ marginLeft: `${marginLeft}px` }}>{hexagons}</div>;
 }
 
 export {HexTileRow};

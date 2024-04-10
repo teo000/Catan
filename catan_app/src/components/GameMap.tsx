@@ -30,7 +30,7 @@ function GameMap(){
     console.log(hexTileData)
 
     return (
-        <div className='Map'>
+        <div className='map'>
             {hexTileData.length > 0 ? (
                 <>
                     <HexTileRow rowNumber={1} hexTileData={hexTileData.slice(0, 3)}/>

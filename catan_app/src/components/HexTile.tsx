@@ -29,7 +29,7 @@ function HexTile({top, left, hexTileData}
     return (
         <div>
             <img
-                className="HexTile"
+                className="hexTile"
                 src={resourcePath}
                 alt="hexagon"
                 style={{
@@ -38,7 +38,7 @@ function HexTile({top, left, hexTileData}
                 }}
             />
             <img
-                className="NumberToken"
+                className="numberToken"
                 src = {numberTokenPath}
                 alt="number"
                 style={{
