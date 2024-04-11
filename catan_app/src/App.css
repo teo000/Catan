@@ -16,37 +16,13 @@
   gap: 50px;
   margin-left: 50px;
   margin-top: 50px;
-  justify-content: center; /* Horizontally center the items */
+  justify-content: center;
   align-items: center;
 }
 
-.gameAction{
-  width: 100px;
-}
-
-.actionIcon{
-  width: 80px;
-}
-
-.image-button {
-  display: inline-block;
-  border: none;
-  background-color: #faf3f2; /* Green background */
-  border-radius: 5px; /* Rounded corners */
-  cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Add transition for smoother effects */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow */
-  padding: 20px;
-}
-
-.image-button:hover {
-  transform: scale(0.9);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Darker box shadow on hover */
-}
-
 .button-icon {
-  width: 80px; /* Adjust size of the icon */
-  height: 80px; /* Adjust size of the icon */
+  width: 80px;
+  height: 80px;
 }
 
 .action-bar {
@@ -56,8 +32,8 @@
   width: 100%;
   /*background-color: #806565;*/
   display: flex;
-  justify-content: center; /* Center the buttons horizontally */
-  padding: 10px; /* Add padding for spacing */
+  justify-content: center;
+  padding: 10px;
 }
 
 .action-button {
@@ -65,10 +41,9 @@
   display: inline-block;
   border: none;
   background-color: #fffdfd;
-  border-radius: 5px; /* Rounded corners */
+  border-radius: 5px;
   cursor: pointer;
-  transition: transform 0.1s ease, box-shadow 0.1s ease; /* Add transition for smoother effects */
-  /*box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); !* Add a subtle box shadow *!*/
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
   padding: 10px;
 }
 
@@ -108,3 +83,42 @@
   text-align: center;
 }
 
+.dice-layout{
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+}
+
+.dice-container{
+  display: flex;
+}
+
+
+.dice{
+  width: 80px;
+  height: 80px;
+  position: relative;
+  margin: 5px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+  background-color: white;
+}
+
+.dice-dot{
+  --top: 0%;
+  --left: 0%;
+
+  width: 15px;
+  height: 15px;
+  background-color: black;
+  border-radius: 50%;
+
+  position: absolute;
+  top: var(--top);
+  left: var(--left);
+  transform: translateX(calc(var(--left) * -1)) translateY(calc(var(--top) * -1)) ;
+}
+
+.btn-roll-dice{
+  margin-top: 10px;
+}

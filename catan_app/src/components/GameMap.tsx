@@ -6,7 +6,6 @@ import {HexTileData} from "./HexTile";
 const generateTestData = (): HexTileData[] => {
     const testData: HexTileData[] = [];
 
-    // Resource types and number tokens for testing
     const resources = ['Wood', 'Wheat', 'Sheep', 'Brick', 'Ore', 'Desert'];
     const numberTokens = [2, 3, 4, 5, 6, 8, 9, 10, 11, 12];
 
