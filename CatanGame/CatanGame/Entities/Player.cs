@@ -12,12 +12,17 @@ namespace CatanGame.Entities
 			Id = Guid.NewGuid();
 			Name = name;
 			IsActive = true;
+			ResourceCount = new Dictionary<Resources, int>();
+			foreach (Resources resource in Enum.GetValues(typeof(Resources)))
+			{
+				ResourceCount.Add(resource, 0);
+			}
 		}
 
 		public Guid Id { get; private set; }
 		public string Name { get; private set; }
 		public bool IsActive { get; private set; }
-		public List<Resource> Resources { get; private set; } = new List<Resource>();
+		public Dictionary<Resources, int> ResourceCount { get; private set; }
 		public List<Settlement> Settlements { get; private set; } = new List<Settlement>();
 		public List<Road> Roads { get; private set; } = new List<Road>();
 
@@ -28,7 +33,16 @@ namespace CatanGame.Entities
 			return Result<Player>.Success(new Player(name));
 		}
 
-
+		public bool HasResources(Buyables buyable)
+		{
+			var costs = GameInfo.Costs[buyable];
+			foreach (var (resource, required) in costs)
+			{
+				if (ResourceCount[resource] < required)
+					return false;
+			}
+			return true;
+		}
 
 	}
 }

@@ -2,12 +2,13 @@
 {
 	public class Road
 	{
-		public Road(Player player)
+		public Road(Player player, int position)
 		{
 			Player = player;
+			Position = position;
 		}
-		public int position { get; set; }
-		public Player Player { get; set; }
+		public int Position { get; }
+		public Player Player { get; }
 
 	}
 }

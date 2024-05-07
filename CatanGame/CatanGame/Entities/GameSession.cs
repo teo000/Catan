@@ -8,7 +8,7 @@ namespace CatanGame.Entities
 		public GameSession(List<Player> players) {
 			Id = Guid.NewGuid();
 			GameMap = new Map();
-			Players = players;
+			Players = new List<Player>(players);
 			GameStatus = GameStatus.InProgress;
 			TurnPlayerIndex = 0;
 		}
@@ -23,7 +23,7 @@ namespace CatanGame.Entities
 
 		public static Result<GameSession> Create (List<Player> players)
 		{
-			if (players == null || players.Count < 4)
+			if (players == null || players.Count < 3 || players.Count > 4)
 				return Result<GameSession>.Failure("Not enough players.");
 			return Result<GameSession>.Success(new GameSession(players));
 		}
@@ -33,13 +33,40 @@ namespace CatanGame.Entities
 			TurnPlayerIndex = (TurnPlayerIndex + 1) % Players.Count;
 		}
 
-		public Result<Settlement> PlaceSettlement(int position, bool isCity = false, bool isBeginning = false)
+		//astea is ditai clasele vreau sa le fac mai ok ca ma doare capul
+		//cred ca fac niste overloading nebun
+		public Result<Settlement> PlaceSettlement(int position, bool isCity = false, bool isInitialPhase = false)
 		{
-			if (position >= GameMapData.SETTLEMENTS_NO)
+			var turnPlayer = GetTurnPlayer();
+
+			if (position >= GameMapData.SETTLEMENTS_NO || position < 0)
 				return Result<Settlement>.Failure("Incorrect settlement index");
 
 			if (GameMap.Settlements[position] != null)
 				return Result<Settlement>.Failure("Settlement already placed here");
+
+			if (!isInitialPhase) //netestat
+			{
+				var playerRoads = turnPlayer.Roads;
+				bool settlementIsConnected = false;
+				foreach (var road in playerRoads)
+				{
+					var (roadEnd1, roadEnd2) = GameMapData.RoadEnds[road.Position];
+					if (roadEnd1 == position || roadEnd2 == position)
+					{
+						settlementIsConnected = true;
+						break;
+					}
+				}
+				if (!settlementIsConnected)
+					return Result<Settlement>.Failure("Settlement has no adjacent road");
+
+
+				if (!turnPlayer.HasResources(Buyables.SETTLEMENT))
+					return Result<Settlement>.Failure("You do not have enough resources");
+			}
+
+			
 
 			var adjacentSettlements = GameMapData.AdjacentSettlements[position];
 			foreach (var adjacentSettlement in adjacentSettlements)
@@ -48,7 +75,7 @@ namespace CatanGame.Entities
 					return Result<Settlement>.Failure("Other settlement too close by");
 			}
 
-			var newSettlement = new Settlement(GetTurnPlayer(), isCity);
+			var newSettlement = new Settlement(GetTurnPlayer(), isCity, position);
 
 			GameMap.Settlements[position] = newSettlement;
 			GetTurnPlayer().Settlements.Add(newSettlement);
@@ -56,7 +83,7 @@ namespace CatanGame.Entities
 			return Result<Settlement>.Success(newSettlement);
 		}
 
-		public Result<Road> PlaceRoad(int position)
+		public Result<Road> PlaceRoad(int position, bool isInitialPhase = false, int? lastPlacedSettlementPos = null)
 		{
 			var turnPlayer = GetTurnPlayer();
 
@@ -66,6 +93,7 @@ namespace CatanGame.Entities
 			if (GameMap.Roads[position] != null)
 				return Result<Road>.Failure("Road already placed here");
 
+			
 			var (roadEnd1, roadEnd2) = GameMapData.RoadEnds[position];
 			var settlement1 = GameMap.Settlements[roadEnd1];
 			var settlement2 = GameMap.Settlements[roadEnd2];
@@ -74,7 +102,14 @@ namespace CatanGame.Entities
 				&& (settlement2 is null || !GameMap.Settlements[roadEnd2].BelongsTo(turnPlayer)) )
 				return Result<Road>.Failure("Road is not connected to any settlement");
 
-			var newRoad = new Road(GetTurnPlayer());
+
+			if (isInitialPhase && roadEnd1 != lastPlacedSettlementPos && roadEnd2 != lastPlacedSettlementPos)
+				return Result<Road>.Failure("Road must be attached to the last placed settlement");
+				
+			if (isInitialPhase && !turnPlayer.HasResources(Buyables.ROAD))
+				return Result<Road>.Failure("You do not have enough resources");
+
+			var newRoad = new Road(GetTurnPlayer(), position);
 
 			GameMap.Roads[position] = newRoad;
 			GetTurnPlayer().Roads.Add(newRoad);

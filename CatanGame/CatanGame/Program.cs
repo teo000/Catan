@@ -1,6 +1,42 @@
 ﻿using CatanGame.Entities;
 using CatanGame.Data;
 using CatanGame.Common;
+using System.Linq;
+
+
+void InitialPhasePlaceSettlementAndRoad(GameSession gameSession, Player turnPlayer)
+{
+	Console.WriteLine("It's " + turnPlayer.Name + "'s turn");
+
+
+	Result<Settlement> settlementResult;
+	do
+	{
+		Console.Write("Settlement position: ");
+		int settlementPos = Convert.ToInt32(Console.ReadLine());
+
+		settlementResult = gameSession.PlaceSettlement(settlementPos, isInitialPhase: true);
+
+		Console.WriteLine(settlementResult.Error);
+	} while (!settlementResult.IsSuccess);
+
+	Console.WriteLine("Settlement placed successfully");
+
+	var lastPlacedSettlementPos = settlementResult.Value.Position;
+
+	Result<Road> roadResult;
+	do
+	{
+		Console.Write("Road position: ");
+		int roadPos = Convert.ToInt32(Console.ReadLine());
+
+		roadResult = gameSession.PlaceRoad(roadPos, isInitialPhase: true, lastPlacedSettlementPos: lastPlacedSettlementPos);
+
+		Console.WriteLine(roadResult.Error);
+	} while (!roadResult.IsSuccess);
+
+	Console.WriteLine("Road placed successfully");
+}
 
 var teo = new Player("teo");
 var rares = new Player("rares");
@@ -12,6 +48,20 @@ var players = new List<Player>() {
 };
 
 var gameSession = new GameSession(players);
+
+
+foreach (var player in players)
+{
+	InitialPhasePlaceSettlementAndRoad(gameSession, player);
+}
+
+players.Reverse();
+
+foreach (var player in players)
+{
+	InitialPhasePlaceSettlementAndRoad(gameSession, player);
+}
+
 
 
 
@@ -28,13 +78,14 @@ while (gameSession.GameStatus == GameStatus.InProgress)
 		Console.Write("Settlement position: ");
 		int settlementPos = Convert.ToInt32(Console.ReadLine());
 
-		settlementResult = gameSession.PlaceSettlement(settlementPos, isBeginning: true);
+		settlementResult = gameSession.PlaceSettlement(settlementPos, isInitialPhase: true);
 
 		Console.WriteLine(settlementResult.Error);
 	} while (!settlementResult.IsSuccess);
 
 	Console.WriteLine("Settlement placed successfully");
 
+	var lastPlacedSettlementPos = settlementResult.Value.Position;
 
 	Result<Road> roadResult;
 	do
@@ -42,7 +93,7 @@ while (gameSession.GameStatus == GameStatus.InProgress)
 		Console.Write("Road position: ");
 		int roadPos = Convert.ToInt32(Console.ReadLine());
 
-		roadResult = gameSession.PlaceRoad(roadPos);
+		roadResult = gameSession.PlaceRoad(roadPos, isInitialPhase: true, lastPlacedSettlementPos: lastPlacedSettlementPos);
 
 		Console.WriteLine(roadResult.Error);
 	} while (!roadResult.IsSuccess);
@@ -54,31 +105,31 @@ while (gameSession.GameStatus == GameStatus.InProgress)
 }
 
 
-static void PrintListofLists(List<List<int>> listOfLists)
-{
-	foreach (List<int> innerList in listOfLists)
-	{
-		Console.WriteLine(string.Join(", ", innerList));
-	}
-}
+//static void PrintListofLists(List<List<int>> listOfLists)
+//{
+//	foreach (List<int> innerList in listOfLists)
+//	{
+//		Console.WriteLine(string.Join(", ", innerList));
+//	}
+//}
 
-static void PrintListOfTuples(List<(int, int)> listOfTuples)
-{
-	int index = 0;
-	foreach ((int, int) tuple in listOfTuples)
-	{
-		Console.WriteLine($"{index}: ({tuple.Item1}, {tuple.Item2})");
-		index++;
-	}
-}
+//static void PrintListOfTuples(List<(int, int)> listOfTuples)
+//{
+//	int index = 0;
+//	foreach ((int, int) tuple in listOfTuples)
+//	{
+//		Console.WriteLine($"{index}: ({tuple.Item1}, {tuple.Item2})");
+//		index++;
+//	}
+//}
 
-static void PrintDictionaryOfLists(Dictionary<int, List<int>> dictOfLists)
-{
-	foreach (int key in dictOfLists.Keys)
-	{
-		Console.WriteLine($"{key}: " + string.Join(", ", dictOfLists[key]));
-	}
-}
+//static void PrintDictionaryOfLists(Dictionary<int, List<int>> dictOfLists)
+//{
+//	foreach (int key in dictOfLists.Keys)
+//	{
+//		Console.WriteLine($"{key}: " + string.Join(", ", dictOfLists[key]));
+//	}
+//}
 
 //PrintListofLists(GameMapData.SettlementAdjacentTiles);
 //Console.WriteLine(GameMapData.SettlementAdjacentTiles.Count);

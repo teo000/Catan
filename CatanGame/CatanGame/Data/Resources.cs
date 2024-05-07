@@ -1,6 +1,6 @@
 ﻿namespace CatanGame.Data
 {
-	public enum Resource
+	public enum Resources
 	{
 		Desert,
 		Brick,
