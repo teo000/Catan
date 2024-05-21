@@ -1,12 +1,14 @@
-﻿using Catan.Domain.Entities;
+﻿using Catan.Application.Dtos;
+using Catan.Application.Features.Game.Responses;
+using Catan.Domain.Entities;
 using MediatR;
 
 namespace Catan.Application.Features.Game.Commands.CreateGame
 {
     public class CreateGameCommandHandler : IRequestHandler<CreateGameCommand, GameSessionResponse>
     {
-        private readonly IGameSessionManager _gameSessionManager;
-        public CreateGameCommandHandler(IGameSessionManager gameSessionManager)
+        private readonly GameSessionManager _gameSessionManager;
+        public CreateGameCommandHandler(GameSessionManager gameSessionManager)
         {
             _gameSessionManager = gameSessionManager;
         }
@@ -47,7 +49,9 @@ namespace Catan.Application.Features.Game.Commands.CreateGame
                     Id = result.Value.Id,
                     Players = result.Value.Players,
                     GameStatus = result.Value.GameStatus.ToString(),
-                    Map = result.Value.Map
+                    Map = result.Value.GameMap,
+                    TurnPlayerIndex = result.Value.TurnPlayerIndex,
+                    TurnEndTime = result.Value.TurnEndTime,
                 }
             };
         }

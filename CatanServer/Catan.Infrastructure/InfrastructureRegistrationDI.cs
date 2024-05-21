@@ -11,7 +11,6 @@ namespace Catan.Infrastructure
 			this IServiceCollection services, IConfiguration configuration)
 		{
 
-			services.AddSingleton<IGameSessionManager, GameSessionManager>();
 
 
 			return services;

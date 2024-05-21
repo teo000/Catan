@@ -6,20 +6,23 @@ namespace Catan.Domain.Entities
 	{
 		public Map()
 		{
-			var valuesNo = Enum.GetValues(typeof(Resource)).Length;
+			var valuesNo = Enum.GetValues(typeof(Resources)).Length;
 			var random = new Random();
 
-			hexTiles = Enumerable.Range(0, 19)
-						 .Select(_ => new HexTile((Resource)random.Next(1, valuesNo)))
-						 .ToList();
+			HexTiles = Enumerable.Range(0, 19)
+						 .Select(_ => new HexTile((Resources)random.Next(1, valuesNo)))
+						 .ToArray();
 
 			int desertIndex = random.Next(0, 19);
-			hexTiles[desertIndex] = new HexTile(Resource.Desert);
+			HexTiles[desertIndex] = new HexTile(Resources.Desert);
 			ThiefPosition = desertIndex;
 		}
 
-		public List<HexTile> hexTiles {  get; private set; }
+		public HexTile[] HexTiles {  get; private set; }
 		public int ThiefPosition { get; private set; }
+		public Settlement[] Settlements { get; private set; } = new Settlement[GameMapData.SETTLEMENTS_NO];
+		public Road[] Roads { get; private set; } = new Road[GameMapData.ROADS_NO];
+
 
 	}
 }

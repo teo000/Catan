@@ -1,6 +1,6 @@
 ﻿using Catan.Domain.Entities;
 
-namespace Catan.Application.Features.Game
+namespace Catan.Application.Dtos
 {
     public class GameSessionDto
     {
@@ -8,5 +8,7 @@ namespace Catan.Application.Features.Game
         public Map? Map { get; set; }
         public List<Player> Players { get; set; }
         public string GameStatus { get; set; }
-    }
+		public int TurnPlayerIndex { get;  set; }
+		public DateTime TurnEndTime { get;  set; }
+	}
 }

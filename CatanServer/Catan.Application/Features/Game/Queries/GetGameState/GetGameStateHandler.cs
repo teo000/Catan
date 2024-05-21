@@ -1,11 +1,13 @@
-﻿using MediatR;
+﻿using Catan.Application.Dtos;
+using Catan.Application.Features.Game.Responses;
+using MediatR;
 
 namespace Catan.Application.Features.Game.Queries.GetGameState
 {
-	public class GetGameStateHandler : IRequestHandler<GetGameState, GameSessionResponse>
+    public class GetGameStateHandler : IRequestHandler<GetGameState, GameSessionResponse>
 	{
-		private IGameSessionManager _gameSessionManager;
-		public GetGameStateHandler(IGameSessionManager gameSessionManager)
+		private GameSessionManager _gameSessionManager;
+		public GetGameStateHandler(GameSessionManager gameSessionManager)
 		{
 			_gameSessionManager = gameSessionManager;
 		}
@@ -30,7 +32,9 @@ namespace Catan.Application.Features.Game.Queries.GetGameState
 					Id = result.Value.Id,
 					Players = result.Value.Players,
 					GameStatus = result.Value.GameStatus.ToString(),
-					Map = result.Value.Map
+					Map = result.Value.GameMap,
+					TurnPlayerIndex = result.Value.TurnPlayerIndex,
+					TurnEndTime = result.Value.TurnEndTime,
 				}
 			};
 		}

@@ -23,8 +23,8 @@ namespace CatanGame.Entities
 
 		public static Result<GameSession> Create (List<Player> players)
 		{
-			if (players == null || players.Count < 3 || players.Count > 4)
-				return Result<GameSession>.Failure("Not enough players.");
+			//if (players == null || players.Count < 3 || players.Count > 4)
+			//	return Result<GameSession>.Failure("Not enough players.");
 			return Result<GameSession>.Success(new GameSession(players));
 		}
 
@@ -34,8 +34,7 @@ namespace CatanGame.Entities
 		}
 
 		//astea is ditai clasele vreau sa le fac mai ok ca ma doare capul
-		//cred ca fac niste overloading nebun
-		public Result<Settlement> PlaceSettlement(int position, bool isCity = false, bool isInitialPhase = false)
+		public Result<Settlement> PlaceSettlement(int position, bool isInitialPhase = false)
 		{
 			var turnPlayer = GetTurnPlayer();
 
@@ -75,7 +74,7 @@ namespace CatanGame.Entities
 					return Result<Settlement>.Failure("Other settlement too close by");
 			}
 
-			var newSettlement = new Settlement(GetTurnPlayer(), isCity, position);
+			var newSettlement = new Settlement(GetTurnPlayer(), false, position);
 
 			GameMap.Settlements[position] = newSettlement;
 			GetTurnPlayer().Settlements.Add(newSettlement);
@@ -106,7 +105,7 @@ namespace CatanGame.Entities
 			if (isInitialPhase && roadEnd1 != lastPlacedSettlementPos && roadEnd2 != lastPlacedSettlementPos)
 				return Result<Road>.Failure("Road must be attached to the last placed settlement");
 				
-			if (isInitialPhase && !turnPlayer.HasResources(Buyables.ROAD))
+			if (!isInitialPhase && !turnPlayer.HasResources(Buyables.ROAD))
 				return Result<Road>.Failure("You do not have enough resources");
 
 			var newRoad = new Road(GetTurnPlayer(), position);

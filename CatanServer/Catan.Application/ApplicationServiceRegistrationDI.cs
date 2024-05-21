@@ -12,6 +12,9 @@ namespace Catan.Application
 				cfg => cfg.RegisterServicesFromAssembly(
 					Assembly.GetExecutingAssembly())
 			);
+
+			services.AddSingleton<GameSessionManager>();
+
 		}
 	}
 }
