@@ -1,7 +1,7 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
-import {GameMap} from "./components/GameMap";
+import './components/settlements/settlements.css';
+import './components/roads/roads.css';
 import {GameLayout} from "./components/GameLayout";
 
 function App() {

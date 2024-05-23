@@ -2,6 +2,7 @@ import {GameMap} from "./GameMap";
 import {ActionButton} from "./ActionButton";
 import {Dice} from "./Dice";
 import {DiceLayout} from "./DiceLayout";
+import {SettlementSpots} from "./settlements/SettlementSpots";
 
 function GameLayout(){
     return (
@@ -15,8 +16,7 @@ function GameLayout(){
                 />
 
                 <GameMap />
-
-
+                <SettlementSpots/>
             </div>
             {/*<DiceLayout />*/}
             {/*<div className='action-bar'>*/}

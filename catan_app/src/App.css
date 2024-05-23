@@ -22,7 +22,7 @@
 }
 
 .map{
-  position: relative;
+  position: absolute;
   width: 720px;
   height: 665px;
 }
@@ -33,6 +33,26 @@
   top: 50%;
   transform: translate( 0%, -50%);
 }
+
+.hexTileRow{
+  clear: both;
+  text-align: center;
+}
+
+.hexTile {
+  /*width: 144px;*/
+  /*height: 166px;*/
+  width: 146px;
+  height: 168px;
+
+  position: absolute;
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+}
+
+.numberToken{
+  position: absolute;
+}
+
 
 .actionMenu{
   display: flex;
@@ -77,32 +97,6 @@
   transform: scale(0.9);
 }
 
-
-.hexTile {
-  /*width: 144px;*/
-  /*height: 166px;*/
-  width: 146px;
-  height: 168px;
-
-  position: absolute;
-  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-}
-
-.numberToken{
-  position: absolute;
-}
-
-.road {
-  width: 10px;
-  height: 60px;
-  background-color: #939d91;
-  position: absolute;
-}
-
-.hexTileRow{
-  clear: both;
-  text-align: center;
-}
 
 .dice-layout{
   display: flex;

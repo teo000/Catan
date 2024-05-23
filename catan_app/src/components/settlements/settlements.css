@@ -1,0 +1,23 @@
+
+.spots{
+    position:absolute;
+    width: 720px;
+    height: 665px;
+}
+
+.settlement-spot{
+    position:absolute;
+    width: 30px;
+    height: 30px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.settlement{
+    position:absolute;
+    width: 30px;
+    height: 30px;
+    background-color: red;
+    border-radius: 0;
+}

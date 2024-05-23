@@ -10,6 +10,7 @@ const MapConstants = {
     HEX_WIDTH: 144,
     NUMBER_TOKEN_SIZE: 40,
     MARGIN_TOP: 0,
+    SETTLEMENT_SPOT_SIZE: 30
 }
 
 export {MapConstants}
