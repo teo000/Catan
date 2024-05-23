@@ -7,7 +7,7 @@ namespace Catan.Domain.Entities
 	{
 		private Trade(Player playerToGive, Resource resourceToGive, int countToGive, Player playerToReceive, Resource resourceToReceive, int countToReceive)
 		{
-			Id = new Guid();
+			Id = Guid.NewGuid();
 			PlayerToGive = playerToGive;
 			ResourceToGive = resourceToGive;
 			CountToGive = countToGive;
@@ -30,6 +30,11 @@ namespace Catan.Domain.Entities
 			if (countToGive <= 0 || countToReceive <= 0)
 				return Result<Trade>.Failure("Count must be greater that 0");
 			return Result<Trade>.Success(new Trade(playerToGive, resourceToGive, countToGive, playerToReceive, resourceToReceive, countToReceive));	
+		}
+
+		public void SetAccepted()
+		{
+			Status = TradeStatus.Accepted;
 		}
 	}
 }

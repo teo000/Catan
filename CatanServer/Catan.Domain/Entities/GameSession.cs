@@ -279,5 +279,37 @@ namespace Catan.Domain.Entities
 
 			return tradeResult;
 		}
+
+		public Result<Trade> GetTrade(Guid TradeId)
+		{
+			if (Trades.TryGetValue(TradeId, out var trade))
+				return Result<Trade>.Success(trade);
+			return Result<Trade>.Failure("Trade does not exist in current context.");
+		}
+
+		public Result<Trade> AcceptTrade(Guid TradeId)
+		{
+			Trade trade = null;
+			if (!Trades.TryGetValue(TradeId, out trade))
+				return Result<Trade>.Failure("Trade does not exist in current context.");
+
+			if (!trade.PlayerToReceive.HasResource(trade.ResourceToReceive, trade.CountToReceive))
+				return Result<Trade>.Failure("You do not have enough resources");
+
+			if (!trade.PlayerToReceive.HasResource(trade.ResourceToGive, trade.CountToGive))
+				return Result<Trade>.Failure("Trade could not be completed");
+
+
+			trade.PlayerToReceive.SubtractResource(trade.ResourceToReceive, trade.CountToReceive);
+			trade.PlayerToGive.SubtractResource(trade.ResourceToGive, trade.CountToGive);
+
+			trade.PlayerToReceive.AssignResource(trade.ResourceToGive, trade.CountToGive);
+			trade.PlayerToGive.AssignResource(trade.ResourceToReceive, trade.CountToReceive);
+
+			trade.SetAccepted();
+
+			return Result<Trade>.Success(trade);
+		}
+
 	}
 }

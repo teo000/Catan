@@ -45,13 +45,33 @@ namespace Catan.Domain.Entities
 			return true;
 		}
 
+		public bool HasResource(Resource resource, int count)
+		{
+			if (ResourceCount[resource] < count)
+				return false;
+			return true;
+		}
+
 		public void AssignResources (Dictionary<Resource, int> resourcesToAdd)
 		{
 			foreach (var (resource, count) in ResourceCount)
 			{
 				ResourceCount[resource] += resourcesToAdd[resource];
 			}
+		}
 
+		public void AssignResource(Resource resource, int count)
+		{
+			ResourceCount[resource] += count;
+		}
+
+		public Result<Player> SubtractResource (Resource resource, int count)
+		{
+			if (ResourceCount[resource] < count)
+				return Result<Player>.Failure("You do not have enough resources.");
+
+			ResourceCount[resource] -= count;
+			return Result<Player>.Success(this);
 		}
 
 		public void Kick()
