@@ -1,12 +1,37 @@
 .app {
-  background-color: #e7cec2;
+  background-color: #0194CA;
   height: 100vh;
   width: 100vw;
 }
 
 .gameLayout{
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  height: 100%;
+  width: 100%;
+}
+
+.board-div{
+  position:relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50%;
+  height: 100%;
+  background-color: #0194CA;
+}
+
+.map{
+  position: relative;
+  width: 720px;
+  height: 665px;
+}
+
+.board-background{
+  position: absolute;
+  width: 100%;
+  top: 50%;
+  transform: translate( 0%, -50%);
 }
 
 .actionMenu{
@@ -52,22 +77,18 @@
   transform: scale(0.9);
 }
 
-.map{
-  position: relative;
-  width: 550px;
-  height: 500px;
-  /*background-color: rgba(8, 69, 169, 0.8)*/
-}
 
 .hexTile {
-  width: 104px;
-  height: 120px;
+  /*width: 144px;*/
+  /*height: 166px;*/
+  width: 146px;
+  height: 168px;
+
   position: absolute;
   clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
 }
 
 .numberToken{
-  width: 30px;
   position: absolute;
 }
 

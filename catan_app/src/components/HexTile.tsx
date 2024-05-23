@@ -42,6 +42,7 @@ function HexTile({top, left, hexTileData}
                 src = {numberTokenPath}
                 alt="number"
                 style={{
+                    width: MapConstants.NUMBER_TOKEN_SIZE,
                     top: `${top + MapConstants.HEX_HEIGHT/2 }px`,
                     left: `${left + MapConstants.HEX_WIDTH/2 - MapConstants.NUMBER_TOKEN_SIZE/2}px`
                 }}
