@@ -4,7 +4,10 @@ namespace Catan.Application.Dtos
 {
 	public class MapDto
 	{
-		public List<HexTileDto> hexTiles { get; set; }
+		public HexTileDto[] HexTiles { get; set; }
 		public int ThiefPosition { get; set; }
+		public SettlementDto[] Settlements {get; set;}
+		public RoadDto[] Roads { get; set; }
+
 	}
 }

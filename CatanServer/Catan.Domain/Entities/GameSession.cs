@@ -1,5 +1,6 @@
 ﻿using Catan.Domain.Common;
 using Catan.Domain.Data;
+using System.Linq.Expressions;
 
 namespace Catan.Domain.Entities
 {
@@ -12,6 +13,7 @@ namespace Catan.Domain.Entities
 			GameStatus = GameStatus.InProgress;
 			TurnPlayerIndex = 0;
 			TurnEndTime = DateTime.Now.AddSeconds(GameInfo.TURN_DURATION);
+			Dice = new DiceRoll();
 		}
 		public Guid Id { get; private set; }
 		public Map GameMap { get; private set; }
@@ -20,9 +22,8 @@ namespace Catan.Domain.Entities
 		public int TurnPlayerIndex { get; private set; }
 		public DateTime TurnEndTime { get; private set; }
 		public int Round { get; private set; } = 1;
-		public Player GetTurnPlayer(){
-			return Players[TurnPlayerIndex];
-		}
+		public DiceRoll Dice { get; private set; }
+		public Dictionary<Guid, Trade> Trades { get; private set; } = new Dictionary<Guid, Trade>();
 
 		public static Result<GameSession> Create (List<Player> players)
 		{
@@ -31,11 +32,22 @@ namespace Catan.Domain.Entities
 			return Result<GameSession>.Success(new GameSession(players));
 		}
 
+		public Player GetTurnPlayer()
+		{
+			return Players[TurnPlayerIndex];
+		}
+
+		public bool IsInBeginningPhase()
+		{
+			return (Round == 1 || Round == 2);
+		}
+
 		public void EndPlayerTurn()
 		{
 			TurnPlayerIndex = (TurnPlayerIndex + 1) % Players.Count;
 			if (TurnPlayerIndex == 0)
 				Round++;
+			Dice.RolledThisTurn = false;
 			TurnEndTime = DateTime.Now.AddSeconds(GameInfo.TURN_DURATION);
 		}
 
@@ -46,6 +58,9 @@ namespace Catan.Domain.Entities
 
 			if (player != GetTurnPlayer())
 				return Result<Settlement>.Failure("It is not your turn");
+
+			if (!player.IsActive)
+				return Result<Settlement>.Failure("You have been kicked out of the lobby");
 
 			if (position >= GameMapData.SETTLEMENTS_NO || position < 0)
 				return Result<Settlement>.Failure("Incorrect settlement index");
@@ -70,9 +85,11 @@ namespace Catan.Domain.Entities
 					return Result<Settlement>.Failure("Settlement has no adjacent road");
 
 
-				if (!player.HasResources(Buyables.SETTLEMENT))
+				if (!player.HasResources(Buyable.SETTLEMENT))
 					return Result<Settlement>.Failure("You do not have enough resources");
 			}
+			else if (player.Settlements.Count > Round)
+				return Result<Settlement>.Failure("You cannot place another settlement now");
 
 			var adjacentSettlements = GameMapData.AdjacentSettlements[position];
 			foreach (var adjacentSettlement in adjacentSettlements)
@@ -81,10 +98,12 @@ namespace Catan.Domain.Entities
 					return Result<Settlement>.Failure("Other settlement too close by");
 			}
 
-			var newSettlement = new Settlement(GetTurnPlayer(), false, position);
+			//vezi si ca are destule
+
+			var newSettlement = new Settlement(player, false, position);
 
 			GameMap.Settlements[position] = newSettlement;
-			GetTurnPlayer().Settlements.Add(newSettlement);
+			player.Settlements.Add(newSettlement);
 
 			return Result<Settlement>.Success(newSettlement);
 		}
@@ -97,6 +116,9 @@ namespace Catan.Domain.Entities
 			if (player != GetTurnPlayer())
 				return Result<Road>.Failure("It is not your turn");
 
+			if (!player.IsActive)
+				return Result<Road>.Failure("You have been kicked out of the lobby");
+
 			if (position >= GameMapData.ROADS_NO)
 				return Result<Road>.Failure("Incorrect road index");
 
@@ -108,23 +130,154 @@ namespace Catan.Domain.Entities
 			var settlement1 = GameMap.Settlements[roadEnd1];
 			var settlement2 = GameMap.Settlements[roadEnd2];
 
-			if ( (settlement1 is null || !settlement1.BelongsTo(player))
-				&& (settlement2 is null || !GameMap.Settlements[roadEnd2].BelongsTo(player)) )
+			if ((settlement1 is null || !settlement1.BelongsTo(player))
+				&& (settlement2 is null || !settlement2.BelongsTo(player)) )
 				return Result<Road>.Failure("Road is not connected to any settlement");
 
 
-			if (isInitialPhase && roadEnd1 != lastPlacedSettlementPos && roadEnd2 != lastPlacedSettlementPos)
-				return Result<Road>.Failure("Road must be attached to the last placed settlement");
-				
-			if (!isInitialPhase && !player.HasResources(Buyables.ROAD))
-				return Result<Road>.Failure("You do not have enough resources");
+			if (isInitialPhase)
+			{
+				if (lastPlacedSettlementPos == null)
+					return Result<Road>.Failure("Server-side error.");
 
-			var newRoad = new Road(GetTurnPlayer(), position);
+				if (roadEnd1 != lastPlacedSettlementPos && roadEnd2 != lastPlacedSettlementPos)
+					return Result<Road>.Failure("Road must be attached to the last placed settlement.");
+
+				if (player.Roads.Count > Round)
+					return Result<Road>.Failure("You cannot place another road now.");
+			}
+
+			if (!isInitialPhase && !player.HasResources(Buyable.ROAD))
+			return Result<Road>.Failure("You do not have enough resources");
+
+			var newRoad = new Road(player, position);
 
 			GameMap.Roads[position] = newRoad;
-			GetTurnPlayer().Roads.Add(newRoad);
+			player.Roads.Add(newRoad);
 
 			return Result<Road>.Success(newRoad);
+		}
+
+		public Result<Settlement> PlaceCity(Player player, int position)
+		{
+			if (player != GetTurnPlayer())
+				return Result<Settlement>.Failure("It is not your turn");
+
+			if (!player.IsActive)
+				return Result<Settlement>.Failure("You have been kicked out of the lobby");
+
+			if (position >= GameMapData.SETTLEMENTS_NO || position < 0)
+				return Result<Settlement>.Failure("Incorrect settlement index");
+
+			if (GameMap.Settlements[position] == null)
+				return Result<Settlement>.Failure("You must place a settlement first");
+
+			if (GameMap.Settlements[position].IsCity)
+				return Result<Settlement>.Failure("A city already exists here.");
+
+			if (!GameMap.Settlements[position].BelongsTo(player))
+				return Result<Settlement>.Failure("You cannot place a city over your opponent's.");
+
+			if (!player.HasResources(Buyable.CITY))
+				return Result<Settlement>.Failure("You do not have enough resources");
+
+			//vezi si ca are destule
+
+			var newCity = new Settlement(player, true, position);
+
+			GameMap.Settlements[position] = newCity;
+			player.Settlements.Add(newCity);
+
+			return Result<Settlement>.Success(newCity);
+
+		}
+
+		public Player? CheckIfIsWon()
+		{
+			foreach (var player in Players)
+				if (player.CalculatePoints() >= 10)
+					return player;
+			return null;
+		}
+
+		public Result<Dictionary<Player, Dictionary<Resource, int>>> RollDice (Player player)
+		{
+			if (player != GetTurnPlayer())
+				return Result<Dictionary<Player, Dictionary<Resource, int>>>.Failure("It is not your turn.");
+			if (Dice.RolledThisTurn)
+				return Result<Dictionary<Player, Dictionary<Resource, int>>>.Failure("The dice can only be rolled once a turn.");
+
+			Dice.Roll();
+			var assignedResources = AssignResources(Dice.GetSummedValue());
+			
+			return Result<Dictionary<Player, Dictionary<Resource, int>>>.Success(assignedResources);
+		}
+
+		private Dictionary<Player, Dictionary<Resource, int>> AssignResources(int number)
+		{
+			var hexTiles = GameMap.HexTiles;
+			Dictionary<Player, Dictionary<Resource, int>> resourcesToAdd = new Dictionary<Player, Dictionary<Resource, int>>();
+
+			foreach (var player in Players) {
+				resourcesToAdd.Add(player, new Dictionary<Resource, int>());
+			}
+
+			foreach (var hexTile in hexTiles)
+				if (hexTile.Number == number)
+					foreach (var settlement in hexTile.Settlements)
+					{
+						var player = settlement.Player;
+						var resource = hexTile.Resource;
+						var count = settlement.IsCity ? 2 : 1;
+
+						if (!resourcesToAdd[player].ContainsKey(resource))
+							resourcesToAdd[player].Add(resource, count);
+						else resourcesToAdd[player][resource] += count;
+					}
+
+			foreach (var player in Players)
+				player.AssignResources(resourcesToAdd[player]);
+
+			return resourcesToAdd;
+		}
+
+		public void MarkAbandoned()
+		{
+			GameStatus = GameStatus.Abandoned;
+			foreach(var player in Players)
+			{
+				player.Kick();
+			}
+		}
+
+		public void MarkFinished()
+		{
+			GameStatus = GameStatus.Finished;
+		}
+
+		public List<Player> GetActivePlayers()
+		{
+			var players = new List<Player>();
+			foreach (var player in Players)
+			{
+				if (player.IsActive)
+					players.Add(player);
+			}
+
+			return players;
+		}
+
+		public Result<Trade> AddNewPendingTrade(Player playerToGive, Resource resourceToGive, int countToGive, Player playerToReceive, Resource resourceToReceive, int countToReceive)
+		{
+			var tradeResult = Trade.Create(playerToGive, resourceToGive, countToGive, playerToReceive, resourceToReceive, countToReceive);	
+
+			if (!tradeResult.IsSuccess) 
+				return tradeResult;
+
+			var trade = tradeResult.Value;
+			Trades.Add(trade.Id, trade);
+
+			return tradeResult;
 		}
 	}
 }

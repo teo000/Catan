@@ -1,6 +1,6 @@
 ﻿namespace Catan.Domain.Data
 {
-	public enum Buyables
+	public enum Buyable
 	{
 		SETTLEMENT,
 		CITY,

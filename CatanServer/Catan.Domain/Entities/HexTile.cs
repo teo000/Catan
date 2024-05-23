@@ -5,7 +5,7 @@ namespace Catan.Domain.Entities
 {
 	public class HexTile : Tile
 	{
-		public HexTile(Resources resource)
+		public HexTile(Resource resource)
 		{
 			Resource = resource;
 
@@ -19,7 +19,7 @@ namespace Catan.Domain.Entities
 		}
 
 		[JsonConverter(typeof(JsonStringEnumConverter))]
-		public Resources Resource { get; private set; }
+		public Resource Resource { get; private set; }
 		public int Number {  get; private set; }
 		public List<Settlement> Settlements { get; private set; }
 	}

@@ -1,4 +1,4 @@
-﻿using Catan.Application.Features.Game.Responses;
+﻿using Catan.Application.Responses;
 using Catan.Domain.Entities;
 using MediatR;
 

@@ -7,6 +7,5 @@ namespace Catan.Application.Dtos
 	{
 		public string Resource { get; private set; }
 		public int Number { get; private set; }
-		public List<Settlement> Settlements { get; private set; }
 	}
 }

@@ -1,5 +1,6 @@
-﻿using Catan.Application.Dtos;
-using Catan.Application.Features.Game.Responses;
+﻿using AutoMapper;
+using Catan.Application.Dtos;
+using Catan.Application.Responses;
 using MediatR;
 
 namespace Catan.Application.Features.Game.Queries.GetGameState
@@ -7,9 +8,11 @@ namespace Catan.Application.Features.Game.Queries.GetGameState
     public class GetGameStateHandler : IRequestHandler<GetGameState, GameSessionResponse>
 	{
 		private GameSessionManager _gameSessionManager;
-		public GetGameStateHandler(GameSessionManager gameSessionManager)
+		private IMapper _mapper;
+		public GetGameStateHandler(GameSessionManager gameSessionManager, IMapper mapper)
 		{
 			_gameSessionManager = gameSessionManager;
+			_mapper = mapper;
 		}
 
 		public async Task<GameSessionResponse> Handle(GetGameState request, CancellationToken cancellationToken)
@@ -24,18 +27,22 @@ namespace Catan.Application.Features.Game.Queries.GetGameState
 				};
 			}
 
+
+
 			return new GameSessionResponse()
 			{
 				Success = true,
-				GameSession = new GameSessionDto()
-				{
-					Id = result.Value.Id,
-					Players = result.Value.Players,
-					GameStatus = result.Value.GameStatus.ToString(),
-					Map = result.Value.GameMap,
-					TurnPlayerIndex = result.Value.TurnPlayerIndex,
-					TurnEndTime = result.Value.TurnEndTime,
-				}
+				GameSession = _mapper.Map<GameSessionDto>(result.Value)
+				
+				//GameSession = new GameSessionDto()
+				//{
+				//	Id = result.Value.Id,
+				//	Players = result.Value.Players,
+				//	GameStatus = result.Value.GameStatus.ToString(),
+				//	Map = result.Value.GameMap,
+				//	TurnPlayerIndex = result.Value.TurnPlayerIndex,
+				//	TurnEndTime = result.Value.TurnEndTime,
+				//}
 			};
 		}
 	}

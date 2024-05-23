@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Catan.Application.Mapper;
+using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
 namespace Catan.Application
@@ -14,6 +15,7 @@ namespace Catan.Application
 			);
 
 			services.AddSingleton<GameSessionManager>();
+			services.AddAutoMapper(typeof(MappingProfile).Assembly);
 
 		}
 	}

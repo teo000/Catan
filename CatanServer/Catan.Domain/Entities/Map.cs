@@ -6,15 +6,15 @@ namespace Catan.Domain.Entities
 	{
 		public Map()
 		{
-			var valuesNo = Enum.GetValues(typeof(Resources)).Length;
+			var valuesNo = Enum.GetValues(typeof(Resource)).Length;
 			var random = new Random();
 
 			HexTiles = Enumerable.Range(0, 19)
-						 .Select(_ => new HexTile((Resources)random.Next(1, valuesNo)))
+						 .Select(_ => new HexTile((Resource)random.Next(1, valuesNo)))
 						 .ToArray();
 
 			int desertIndex = random.Next(0, 19);
-			HexTiles[desertIndex] = new HexTile(Resources.Desert);
+			HexTiles[desertIndex] = new HexTile(Resource.Desert);
 			ThiefPosition = desertIndex;
 		}
 

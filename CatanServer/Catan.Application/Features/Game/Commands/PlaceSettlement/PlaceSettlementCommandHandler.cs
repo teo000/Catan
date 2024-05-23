@@ -1,11 +1,11 @@
 ﻿using MediatR;
-using Catan.Application.Features.Game.Responses;
 using Catan.Application.Dtos;
 using Catan.Domain.Entities;
+using Catan.Application.Responses;
 
 namespace Catan.Application.Features.Game.Commands.PlaceSettlement
 {
-	public class PlaceSettlementCommandHandler : IRequestHandler<PlaceSettlementCommand, SettlementResponse>
+    public class PlaceSettlementCommandHandler : IRequestHandler<PlaceSettlementCommand, SettlementResponse>
 	{
 		private readonly GameSessionManager _gameSessionManager;
 

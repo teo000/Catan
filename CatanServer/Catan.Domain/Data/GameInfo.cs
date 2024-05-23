@@ -5,46 +5,46 @@ namespace Catan.Domain.Data
 	public static class GameInfo
 	{
 		public const int TURN_DURATION = 300;
-		public static ReadOnlyDictionary<Buyables, Dictionary<Resources, int>> Costs;
+		public static ReadOnlyDictionary<Buyable, Dictionary<Resource, int>> Costs;
 
 		static GameInfo() 
 		{
-			Dictionary<Buyables, Dictionary<Resources, int>> costs = new Dictionary<Buyables, Dictionary<Resources, int>>()
+			Dictionary<Buyable, Dictionary<Resource, int>> costs = new Dictionary<Buyable, Dictionary<Resource, int>>()
 			{
 				{
-					Buyables.SETTLEMENT, new Dictionary<Resources, int>()
+					Buyable.SETTLEMENT, new Dictionary<Resource, int>()
 					{
-						{ Resources.Brick, 1 },
-						{ Resources.Wheat, 1 },
-						{ Resources.Sheep, 1 },
-						{ Resources.Wood, 1 },
+						{ Resource.Brick, 1 },
+						{ Resource.Wheat, 1 },
+						{ Resource.Sheep, 1 },
+						{ Resource.Wood, 1 },
 					}
 				},
 				{
-					Buyables.CITY, new Dictionary<Resources, int>()
+					Buyable.CITY, new Dictionary<Resource, int>()
 					{
-						{ Resources.Wheat, 2 },
-						{ Resources.Ore, 3 },
+						{ Resource.Wheat, 2 },
+						{ Resource.Ore, 3 },
 					}
 				},
 				{
-					Buyables.ROAD, new Dictionary<Resources, int>()
+					Buyable.ROAD, new Dictionary<Resource, int>()
 					{
-						{ Resources.Brick, 1 },
-						{ Resources.Wood, 1 },
+						{ Resource.Brick, 1 },
+						{ Resource.Wood, 1 },
 					}
 				},
 				{
-					Buyables.DEVELOPMENT, new Dictionary<Resources, int>()
+					Buyable.DEVELOPMENT, new Dictionary<Resource, int>()
 					{
-						{ Resources.Sheep,1 },
-						{ Resources.Wheat, 1 },
-						{ Resources.Ore, 1 },
+						{ Resource.Sheep,1 },
+						{ Resource.Wheat, 1 },
+						{ Resource.Ore, 1 },
 					}
 				}
 			};
 
-			Costs = new ReadOnlyDictionary<Buyables, Dictionary<Resources, int>>(costs);
+			Costs = new ReadOnlyDictionary<Buyable, Dictionary<Resource, int>>(costs);
 		}
 
 

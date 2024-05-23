@@ -60,8 +60,32 @@ namespace Catan.Application
 
 		private void EndPlayerTurn(GameSession session)
 		{
-			session.EndPlayerTurn();
-			StartTurnTimer(session.Id);
+			var player = session.GetTurnPlayer();
+			if (session.IsInBeginningPhase())
+			{
+				if (player.Roads.Count < session.Round
+					|| player.Settlements.Count < session.Round)
+					player.Kick();
+			}
+			else
+			{
+				if (!session.Dice.RolledThisTurn)
+					player.Kick();
+			}
+
+			if (session.GetActivePlayers().Count < 2)
+				session.MarkAbandoned();
+			
+			var winner = session.CheckIfIsWon();
+			if (winner is not null)
+				session.MarkFinished();
+
+
+			if (session.GameStatus == GameStatus.InProgress)
+			{
+				session.EndPlayerTurn();
+				StartTurnTimer(session.Id);
+			}
 		}
 
 		private void OnTurnTimeout(object? state)
@@ -79,10 +103,5 @@ namespace Catan.Application
 
 			EndPlayerTurn(session);
 		}
-
-		//public Result<Road> PlaceRoad(Guid guid, int position)
-		//{
-
-		//}
 	}
 }

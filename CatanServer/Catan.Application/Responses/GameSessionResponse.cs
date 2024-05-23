@@ -1,7 +1,6 @@
 ﻿using Catan.Application.Dtos;
-using Catan.Application.Responses;
 
-namespace Catan.Application.Features.Game.Responses
+namespace Catan.Application.Responses
 {
     public class GameSessionResponse : BaseResponse
     {

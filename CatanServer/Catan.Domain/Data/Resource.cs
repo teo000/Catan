@@ -1,6 +1,6 @@
 ﻿namespace Catan.Domain.Data
 {
-	public enum Resources
+	public enum Resource
 	{
 		Desert,
 		Brick,
