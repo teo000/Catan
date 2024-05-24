@@ -1,4 +1,9 @@
-
+.settlements{
+    position:absolute;
+    width: 720px;
+    height: 665px;
+    pointer-events: none;
+}
 
 .settlement-spot{
     position:absolute;

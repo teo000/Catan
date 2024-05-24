@@ -6,8 +6,8 @@ namespace Catan.Application.Dtos
 	{
 		public HexTileDto[] HexTiles { get; set; }
 		public int ThiefPosition { get; set; }
-		public SettlementDto[] Settlements {get; set;}
-		public RoadDto[] Roads { get; set; }
+		public List<SettlementDto> Settlements {get; set;}
+		public List<RoadDto> Roads { get; set; }
 
 	}
 }

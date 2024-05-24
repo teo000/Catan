@@ -100,14 +100,14 @@ function GameLayout(){
                         visibleRoadSpots={visibleRoadSpots}
                         onRoadClick={handleRoadClick}
                     />
-                    <div className='settlements'>
-                        <Settlements settlementSpotInfo={settlementSpotInfo} settlementIds={settlements}></Settlements>
-                    </div>
-                    <div className='roads'>
-                        <Roads roadSpotInfo={roadSpotInfo} roadIds={roads}></Roads>
-                    </div>
-                </div>
 
+                </div>
+                <div className='settlements'>
+                    <Settlements settlementSpotInfo={settlementSpotInfo} settlementIds={settlements}></Settlements>
+                </div>
+                <div className='roads'>
+                    <Roads roadSpotInfo={roadSpotInfo} roadIds={roads}></Roads>
+                </div>
             </div>
             <div className="gameplay-div">
                 <div className="actions-chat-container">

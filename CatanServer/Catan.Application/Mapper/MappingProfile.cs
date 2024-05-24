@@ -25,8 +25,10 @@ namespace Catan.Application.Mapper
 
 			CreateMap<Map, MapDto>()
 				   .ForMember(dest => dest.HexTiles, opt => opt.MapFrom(src => src.HexTiles))
-				   .ForMember(dest => dest.Settlements, opt => opt.MapFrom(src => src.Settlements))
-				   .ForMember(dest => dest.Roads, opt => opt.MapFrom(src => src.Roads));
+				   .ForMember(dest => dest.Settlements, 
+						opt => opt.MapFrom(src => src.Settlements.Where(settlement => settlement != null).ToList()))
+				   .ForMember(dest => dest.Roads,
+						opt => opt.MapFrom(src => src.Roads.Where(road => road != null).ToList()));
 
 			CreateMap<Player, PlayerDto>()
 					.ForMember(dest => dest.ResourceCount, opt => opt.MapFrom(src => src.ResourceCount))

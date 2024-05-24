@@ -24,5 +24,10 @@ namespace Catan.Domain.Entities
 		public Road[] Roads { get; private set; } = new Road[GameMapData.ROADS_NO];
 
 
+		public void MoveThief(int position)
+		{
+			ThiefPosition = position;
+		}
+
 	}
 }

@@ -49,7 +49,7 @@ namespace Catan.Application.Features.Trade.Commands.AcceptTrade
 					ValidationErrors = new List<string>() { "Trade is no longer available." }
 				};
 
-			if (trade.PlayerToReceive.Id != request.PlayerId)
+			if (trade.PlayerToGive.Id != request.PlayerId)
 				return new TradeResponse()
 				{
 					Success = false,
@@ -62,7 +62,7 @@ namespace Catan.Application.Features.Trade.Commands.AcceptTrade
 				return new TradeResponse()
 				{
 					Success = false,
-					ValidationErrors = new List<string>() {  gameSessionResponse.Error}
+					ValidationErrors = new List<string>() {  result.Error}
 				};
 			}
 

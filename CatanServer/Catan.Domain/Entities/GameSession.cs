@@ -225,15 +225,16 @@ namespace Catan.Domain.Entities
 			foreach (var hexTile in hexTiles)
 				if (hexTile.Number == number)
 					foreach (var settlement in hexTile.Settlements)
-					{
-						var player = settlement.Player;
-						var resource = hexTile.Resource;
-						var count = settlement.IsCity ? 2 : 1;
+						if (GameMap.ThiefPosition != settlement.Position)
+						{
+							var player = settlement.Player;
+							var resource = hexTile.Resource;
+							var count = settlement.IsCity ? 2 : 1;
 
-						if (!resourcesToAdd[player].ContainsKey(resource))
-							resourcesToAdd[player].Add(resource, count);
-						else resourcesToAdd[player][resource] += count;
-					}
+							if (!resourcesToAdd[player].ContainsKey(resource))
+								resourcesToAdd[player].Add(resource, count);
+							else resourcesToAdd[player][resource] += count;
+						}
 
 			foreach (var player in Players)
 				player.AssignResources(resourcesToAdd[player]);
@@ -309,6 +310,21 @@ namespace Catan.Domain.Entities
 			trade.SetAccepted();
 
 			return Result<Trade>.Success(trade);
+		}
+
+		public Result<Map> MoveThief(Player player, int position)
+		{
+			if (player != GetTurnPlayer())
+				return Result<Map>.Failure("It is not your turn.");
+
+			if (Dice.GetSummedValue() != 7)
+				return Result<Map>.Failure("You have to roll a 7 to move the thief,");
+
+			if (GameMap.ThiefPosition == position)
+				return Result<Map>.Failure("Move the thief to a different position.");
+
+			GameMap.MoveThief(position);
+			return Result<Map>.Success(GameMap);
 		}
 
 	}

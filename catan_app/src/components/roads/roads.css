@@ -1,3 +1,9 @@
+.roads{
+    position:absolute;
+    width: 720px;
+    height: 665px;
+    pointer-events: none;
+}
 
 .road-spot{
     position:absolute;
