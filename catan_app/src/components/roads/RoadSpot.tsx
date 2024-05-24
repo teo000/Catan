@@ -5,19 +5,18 @@ interface RoadSpotProps {
     top: number,
     left: number,
     rotation: number,
-    isRoad: boolean,
     onClick: (id: number) => void
 }
 
-function RoadSpot({index, top, left, rotation, isRoad, onClick} : RoadSpotProps){
+function RoadSpot({index, top, left, rotation, onClick} : RoadSpotProps){
 
     return (
         <div
-            className={isRoad ? "road" : "road-spot" }
+            className="road-spot"
             onClick={() => (onClick(index))}
             style={{
                 transform: `rotate(${rotation}deg)`,
-                top: `${ isRoad?  `${top - 12}px` : `${top}px`  }`,
+                top: `${top}px` ,
                 left: `${left}px`
             }}
         />

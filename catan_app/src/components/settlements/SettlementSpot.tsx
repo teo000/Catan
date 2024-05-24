@@ -5,14 +5,13 @@ interface SettlementSpotProps {
     left: number,
     top: number,
     index: number,
-    isSettlement:boolean,
     onClick: (id: number) => void
 }
 
-function SettlementSpot({left, top, index, isSettlement, onClick} : SettlementSpotProps){
+function SettlementSpot({left, top, index, onClick} : SettlementSpotProps){
 
     return (
-        <div className={isSettlement? 'settlement' : 'settlement-spot'}
+        <div className='settlement-spot'
              onClick = {() => onClick(index)}
                 style={{
                     left: `${left}px`,

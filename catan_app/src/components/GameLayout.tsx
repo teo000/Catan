@@ -4,6 +4,10 @@ import {ActionBar, ButtonActions} from "./action-button/ActionBar";
 import {useState} from "react";
 import {RoadSpot} from "./roads/RoadSpot";
 import {RoadSpots} from "./roads/RoadSpots";
+import {ComputeSettlementSpotsInfo} from "./settlements/ComputeSettlementSpotsInfo";
+import {Settlements} from "./settlements/Settlements";
+import {ComputeRoadSpotsInfo} from "./roads/ComputeRoadSpotsInfo";
+import {Roads} from "./roads/Roads";
 
 function GameLayout(){
     const [visibleSettlementSpots, setVisibleSettlementSpots] = useState<number[]>([]);
@@ -14,23 +18,27 @@ function GameLayout(){
     const [settlements, setSettlements] = useState<number[]>([]);
     const [roads, setRoads] = useState<number[]>([]);
 
-    const [isSettlement, setIsSettlement] = useState<boolean[]>(new Array(54).fill(false));
-    const [isRoad, setIsRoad] = useState<boolean[]>(new Array(72).fill(false));
+
+    const settlementSpotInfo = ComputeSettlementSpotsInfo();
+    const roadSpotInfo = ComputeRoadSpotsInfo();
+
 
     const handleSettlementClick = (id: number) => {
-        setIsSettlement(prevState => {
+        setSettlements(prevState => {
             const newState = [...prevState];
-            newState[id] = true;
+            newState.push(id);
             return newState;
         });
     };
+
     const handleRoadClick = (id: number) => {
-        setIsRoad(prevState => {
+        setRoads(prevState => {
             const newState = [...prevState];
-            newState[id] = true;
+            newState.push(id);
             return newState;
         });
     };
+
     const handlePlaceSettlementButtonClick = (action: ButtonActions) => {
         if (action === ButtonActions.PlaceSettlement) {
             if (activeButton === ButtonActions.PlaceSettlement)
@@ -83,16 +91,23 @@ function GameLayout(){
                 <GameMap />
                 <div className='spots'>
                     <SettlementSpots
-                        visibleSettlements={visibleSettlementSpots}
-                        isSettlement={isSettlement}
+                        settlementSpotInfo={settlementSpotInfo} // fa chestia asta globala statica sau ceva de genul
+                        visibleSettlementSpots={visibleSettlementSpots}
                         onSettlementClick={handleSettlementClick}
                     />
                     <RoadSpots
-                        visibleRoads={visibleRoadSpots}
-                        isRoad={isRoad}
+                        roadSpotInfo={roadSpotInfo} // fa chestia asta globala statica sau ceva de genul
+                        visibleRoadSpots={visibleRoadSpots}
                         onRoadClick={handleRoadClick}
                     />
+                    <div className='settlements'>
+                        <Settlements settlementSpotInfo={settlementSpotInfo} settlementIds={settlements}></Settlements>
+                    </div>
+                    <div className='roads'>
+                        <Roads roadSpotInfo={roadSpotInfo} roadIds={roads}></Roads>
+                    </div>
                 </div>
+
             </div>
             <div className="gameplay-div">
                 <div className="actions-chat-container">

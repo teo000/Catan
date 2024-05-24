@@ -54,4 +54,17 @@ function ComputeSettlementSpotRow(rowNumber: number, startingNumber: number){
 
 }
 
-export {ComputeSettlementSpotRow};
+function ComputeSettlementSpotsInfo(){
+    let settlements = [];
+    let startingNumber = 0;
+
+    for (let i = 1; i <= 12; i++) {
+        let row = ComputeSettlementSpotRow(i, startingNumber);
+        startingNumber += row.length;
+        settlements.push(...row);
+    }
+
+    return settlements
+}
+
+export {ComputeSettlementSpotRow, ComputeSettlementSpotsInfo};

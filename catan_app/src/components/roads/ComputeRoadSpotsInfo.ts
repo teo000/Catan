@@ -78,4 +78,17 @@ function ComputeRoadSpotRowInfo(rowNumber: number, startingNumber: number){
 
 }
 
-export {ComputeRoadSpotRowInfo};
+function ComputeRoadSpotsInfo(){
+    let roads = [];
+    let startingNumber = 0;
+
+    for (let i = 1; i <= 11; i++){
+        let row = ComputeRoadSpotRowInfo(i, startingNumber);
+        startingNumber += row.length;
+        roads.push(...row);
+    }
+
+    return roads
+}
+
+export {ComputeRoadSpotsInfo};
