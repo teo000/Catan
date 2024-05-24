@@ -1,0 +1,16 @@
+.hexTileRow{
+    clear: both;
+    text-align: center;
+}
+
+.hexTile {
+    width: 146px;
+    height: 168px;
+
+    position: absolute;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+}
+
+.numberToken{
+    position: absolute;
+}

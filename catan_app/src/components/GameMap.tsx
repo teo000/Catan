@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
-import {HexTileRow} from "./HexTileRow";
-import {HexTileData} from "./HexTile";
+import {HexTileRow} from "./hexTiles/HexTileRow";
+import {HexTileData} from "./hexTiles/HexTile";
 
 
 const generateTestData = (): HexTileData[] => {

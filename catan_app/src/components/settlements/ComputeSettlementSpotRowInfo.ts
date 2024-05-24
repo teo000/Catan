@@ -1,5 +1,6 @@
 import {SettlementSpot} from "./SettlementSpot";
 import {MapConstants} from "../MapConstants";
+import {start} from "repl";
 
 type SpotRowLayout = {
     count: number;
@@ -27,19 +28,30 @@ const SpotsLayoutByRowNumber : Record<number, SpotRowLayout> = {
     12: {count: 3, marginLeft: MapConstants.HEX_WIDTH * 3 / 2, top: MapConstants.HEX_HEIGHT * 16/3},
 }
 
-function SettlementSpotRow({rowNumber} : {rowNumber: number}){
-    const spots = [];
+export type SettlementSpotInfo = {
+    id: number;
+    left: number;
+    top: number;
+}
+
+function ComputeSettlementSpotRow(rowNumber: number, startingNumber: number){
+    const spotsInfo = [];
     const {count, marginLeft, top} = SpotsLayoutByRowNumber[rowNumber];
     let left = marginLeft
 
     for (let i = 0; i<count; i++){
-        spots.push(<SettlementSpot key={i} left={left - MapConstants.SETTLEMENT_SPOT_SIZE/2} top={top - MapConstants.SETTLEMENT_SPOT_SIZE/2}/>)
+        let settlementInfo : SettlementSpotInfo = {
+            id: startingNumber + i,
+            left: left - MapConstants.SETTLEMENT_SPOT_SIZE/2,
+            top: top - MapConstants.SETTLEMENT_SPOT_SIZE/2
+        };
+
+        spotsInfo.push(settlementInfo)
         left += MapConstants.HEX_WIDTH;
     }
 
-    return <div className="settlement-spots-row" style={{ marginLeft: `${marginLeft}px` }}>{spots}</div>;
-
+    return spotsInfo
 
 }
 
-export {SettlementSpotRow};
+export {ComputeSettlementSpotRow};

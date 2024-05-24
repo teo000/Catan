@@ -1,14 +1,19 @@
 import {useState} from "react";
+import {ButtonActions} from "../action-button/ActionBar";
 
-function SettlementSpot({left, top} : {left: number, top: number}){
-    const [isSettlement, setIsSettlement] = useState(false);
-    const handleClick = () => {
-        setIsSettlement(true);
-    };
+interface SettlementSpotProps {
+    left: number,
+    top: number,
+    index: number,
+    isSettlement:boolean,
+    onClick: (id: number) => void
+}
+
+function SettlementSpot({left, top, index, isSettlement, onClick} : SettlementSpotProps){
 
     return (
         <div className={isSettlement? 'settlement' : 'settlement-spot'}
-             onClick = {handleClick}
+             onClick = {() => onClick(index)}
                 style={{
                     left: `${left}px`,
                     top: `${top}px`

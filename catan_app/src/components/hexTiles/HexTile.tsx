@@ -1,4 +1,4 @@
-import {MapConstants} from "./MapConstants";
+import {MapConstants} from "../MapConstants";
 
 type HexTileData = {
     resource: string

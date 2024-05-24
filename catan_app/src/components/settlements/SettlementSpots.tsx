@@ -1,30 +1,40 @@
+import {ComputeSettlementSpotRow} from "./ComputeSettlementSpotRowInfo";
+import {SettlementSpot} from "./SettlementSpot";
 
+interface SettlementSpotsProps {
+    visibleSettlements: number[];
+    isSettlement: boolean[];
+    onSettlementClick: (id: number) => void;
+}
 
+function SettlementSpots({ visibleSettlements, isSettlement, onSettlementClick }: SettlementSpotsProps) {
 
+    let settlements = [];
+    let startingNumber = 0;
 
+    for (let i = 1; i <= 12; i++) {
+        let row = ComputeSettlementSpotRow(i, startingNumber);
+        startingNumber += row.length;
+        settlements.push(...row);
+    }
 
+    console.log(settlements)
 
-//asta va primi in final lista cu settlements ca sa poata sa deseneze
-//momentan o sa faca doar niste cerculete
-import {SettlementSpotRow} from "./SettlementSpotRow";
-
-function SettlementSpots(){
     return (
-        <div className="spots">
-            <SettlementSpotRow rowNumber={1}/>
-            <SettlementSpotRow rowNumber={2}/>
-            <SettlementSpotRow rowNumber={3}/>
-            <SettlementSpotRow rowNumber={4}/>
-            <SettlementSpotRow rowNumber={5}/>
-            <SettlementSpotRow rowNumber={6}/>
-            <SettlementSpotRow rowNumber={7}/>
-            <SettlementSpotRow rowNumber={8}/>
-            <SettlementSpotRow rowNumber={9}/>
-            <SettlementSpotRow rowNumber={10}/>
-            <SettlementSpotRow rowNumber={11}/>
-            <SettlementSpotRow rowNumber={12}/>
+        <div className="settlement-spots">
+            {settlements.map(settlement => (
+                visibleSettlements.includes(settlement.id) && (
+                    <SettlementSpot key={settlement.id}
+                                   left={settlement.left}
+                                   top={settlement.top}
+                                   index={settlement.id}
+                                   isSettlement={isSettlement[settlement.id]}
+                                   onClick={() => onSettlementClick(settlement.id)}
+                    />
+                )
+            ))}
         </div>
-    )
+    );
 }
 
 export {SettlementSpots}

@@ -1,6 +1,6 @@
 import {HexTile} from "./HexTile";
 import {HexTileData} from "./HexTile";
-import {MapConstants} from "./MapConstants";
+import {MapConstants} from "../MapConstants";
 
 
 type HexagonRowLayout = {
