@@ -6,7 +6,7 @@ using Catan.Infrastructure;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddCors(options =>
 {
-	options.AddPolicy("Open", builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+	options.AddPolicy("AllowAllHeaders", builder => builder.WithOrigins("http://localhost:3000").AllowAnyHeader().AllowAnyMethod().AllowCredentials());
 });
 
 builder.Services.AddApplicationServices();
@@ -27,7 +27,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseCors("Open");
+app.UseCors("AllowAllHeaders");
 app.UseAuthorization();
 
 app.MapControllers();

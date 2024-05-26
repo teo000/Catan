@@ -15,6 +15,7 @@ namespace Catan.Application
 			);
 
 			services.AddSingleton<GameSessionManager>();
+			services.AddSingleton<LobbyManager>();
 			services.AddAutoMapper(typeof(MappingProfile).Assembly);
 
 		}

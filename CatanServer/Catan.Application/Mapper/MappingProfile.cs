@@ -39,6 +39,10 @@ namespace Catan.Application.Mapper
 				   .ForMember(dest => dest.Map, opt => opt.MapFrom(src => src.GameMap))
 				   .ForMember(dest => dest.GameStatus, opt => opt.MapFrom(src => src.GameStatus.ToString()))
 				   .ForMember(dest => dest.Players, opt => opt.MapFrom(src => src.Players));
+
+			CreateMap<Lobby, LobbyDto>()
+				.ForMember(dest => dest.Players, opt => opt.MapFrom(src => src.Players))
+				.ForMember(dest => dest.GameSession, opt => opt.MapFrom(src => src.GameSession));
 		}
 	}
 }

@@ -1,4 +1,5 @@
 using Catan.Application.Features.Game.Commands.CreateGame;
+using Catan.Application.Features.Game.Commands.EndTurn;
 using Catan.Application.Features.Game.Commands.MoveThief;
 using Catan.Application.Features.Game.Commands.PlaceRoad;
 using Catan.Application.Features.Game.Commands.PlaceSettlement;
@@ -70,5 +71,17 @@ namespace Catan.API.Controllers
 				return BadRequest(result);
 			return Ok(result);
 		}
+
+		[HttpPost("end-turn")]
+		[ProducesResponseType(StatusCodes.Status201Created)]
+		[ProducesResponseType(StatusCodes.Status400BadRequest)]
+		public async Task<IActionResult> EndTurn(EndTurnCommand command)
+		{
+			var result = await Mediator.Send(command);
+			if (!result.Success)
+				return BadRequest(result);
+			return Ok(result);
+		}
+
 	}
 }

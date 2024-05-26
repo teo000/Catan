@@ -58,7 +58,7 @@ namespace Catan.Application
 			sessionTimers[sessionId] = timer;
 		}
 
-		private void EndPlayerTurn(GameSession session)
+		public void EndPlayerTurn(GameSession session)
 		{
 			var player = session.GetTurnPlayer();
 			if (session.IsInBeginningPhase())

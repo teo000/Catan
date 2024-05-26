@@ -6,15 +6,15 @@ type HexTileData = {
 }
 
 const ResourcePaths : Record<string, string> = {
-    BRICK: 'images/map/brick.png',
-    WOOD: 'images/map/wood.png',
-    SHEEP: 'images/map/sheep.png',
-    WHEAT: 'images/map/wheat.png',
-    ORE: 'images/map/ore.png',
-    DESERT: 'images/map/desert.png',
+    BRICK: '/images/map/brick.png',
+    WOOD: '/images/map/wood.png',
+    SHEEP: '/images/map/sheep.png',
+    WHEAT: '/images/map/wheat.png',
+    ORE: '/images/map/ore.png',
+    DESERT: '/images/map/desert.png',
 };
 
-const NUMBER_PATH = 'images/numbers/'
+const NUMBER_PATH = '/images/numbers/'
 function getNumberPath(number: number) : string {
     return NUMBER_PATH + number + '.png'
 }

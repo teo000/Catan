@@ -1,15 +1,23 @@
 import {GameMap} from "./GameMap";
 import {SettlementSpots} from "./settlements/SettlementSpots";
-import {ActionBar, ButtonActions} from "./action-button/ActionBar";
-import {useState} from "react";
-import {RoadSpot} from "./roads/RoadSpot";
+import {ActionBar, ButtonActions} from "./actionButton/ActionBar";
+import React, {useCallback, useEffect, useState} from "react";
 import {RoadSpots} from "./roads/RoadSpots";
 import {ComputeSettlementSpotsInfo} from "./settlements/ComputeSettlementSpotsInfo";
 import {Settlements} from "./settlements/Settlements";
 import {ComputeRoadSpotsInfo} from "./roads/ComputeRoadSpotsInfo";
 import {Roads} from "./roads/Roads";
+import useFetch from "../hooks/useFetch";
+import {LobbyResponse} from "../responses/LobbyResponse";
+import {useLocation} from "react-router-dom";
 
-function GameLayout(){
+const GameLayout = React.memo(() => {
+    const { data, error, loading, request } = useFetch<LobbyResponse>('/api/v1/Lobby');
+
+    const location = useLocation();
+    const currentPath = location.pathname;
+    const joinCode = currentPath.substring(currentPath.lastIndexOf('/') + 1);
+
     const [visibleSettlementSpots, setVisibleSettlementSpots] = useState<number[]>([]);
     const [visibleRoadSpots, setVisibleRoadSpots] = useState<number[]>([]);
 
@@ -17,7 +25,6 @@ function GameLayout(){
 
     const [settlements, setSettlements] = useState<number[]>([]);
     const [roads, setRoads] = useState<number[]>([]);
-
 
     const settlementSpotInfo = ComputeSettlementSpotsInfo();
     const roadSpotInfo = ComputeRoadSpotsInfo();
@@ -79,13 +86,25 @@ function GameLayout(){
         return [4, 5, 6];
     };
 
+    const fetchGameState = useCallback(async () => {
+        await request(`/${joinCode}`,'get');
+    }, [request]);
+
+    useEffect(() => {
+        const intervalId = setInterval(fetchGameState, 1000); // Fetch every second
+        return () => clearInterval(intervalId); // Cleanup interval on unmount
+    }, [fetchGameState]);
+
+    if (error) return <p>Error: {error}</p>;
+
 
     return (
         <div className="gameLayout">
             <div className='board-div'>
+                <label className="turn-label">It's X's turn</label>
                 <img
                     className='board-background'
-                    src='images/water_background.png'
+                    src='/images/water_background.png'
                     alt='background'
                 />
                 <GameMap />
@@ -126,7 +145,7 @@ function GameLayout(){
 
         </div>
     );
-}
+})
 
 
 export {GameLayout};
