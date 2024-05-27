@@ -17,10 +17,13 @@ export const Lobby = React.memo(() => {
     const joinCode = currentPath.substring(currentPath.lastIndexOf('/') + 1);
 
     const [players, setPlayers] = useDeepCompareState<Player[]>([]);
-    const { player } = usePlayer();
+    const { player, setPlayer, gameId, setGameId } = usePlayer();
     const [loaded, setLoaded] = useState(false);
 
     const requestData = {joinCode};
+
+    const gameStatus = data?.lobby.gameSession?.gameStatus
+    const isOver = gameStatus === 'Abandoned' || gameStatus === 'Finished'
 
     const onStartGame = useCallback(async () => {
 
@@ -42,9 +45,11 @@ export const Lobby = React.memo(() => {
     }, [request]);
 
     useEffect(() => {
-        const intervalId = setInterval(fetchGameState, 1000);
-        return () => clearInterval(intervalId);
-    }, [fetchGameState]);
+        if (!isOver) {
+            const intervalId = setInterval(fetchGameState, 1000);
+            return () => clearInterval(intervalId);
+        }
+    }, [fetchGameState, isOver]);
 
     useEffect(() => {
         if (data?.lobby?.players) {
@@ -52,6 +57,10 @@ export const Lobby = React.memo(() => {
         }
     }, [data, setPlayers]);
 
+    useEffect(()=>{
+        if (data?.lobby.gameSession)
+            setGameId(data.lobby.gameSession.id)
+    })
 
     useEffect(() =>{
         if (!loading)
@@ -65,8 +74,9 @@ export const Lobby = React.memo(() => {
         return <p> ... </p>
 
     const gameSession = data?.lobby.gameSession;
-    if (gameSession !== undefined && gameSession !== null)
-        return <GameLayout gameSession={gameSession} />
+    if (gameSession !== undefined && gameSession !== null) {
+        return <GameLayout gameSession={gameSession}/>
+    }
 
     const lobby = data?.lobby;
     if (lobby !== undefined && lobby !== null)

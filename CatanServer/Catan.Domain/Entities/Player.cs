@@ -25,6 +25,9 @@ namespace Catan.Domain.Entities
 		public Dictionary<Resource, int> ResourceCount { get; private set; }
 		public List<Settlement> Settlements { get; private set; } = new List<Settlement>();
 		public List<Road> Roads { get; private set; } = new List<Road>();
+		public Color Color { get; set; }
+
+		public int LastPlacedSettlementPos = -1;
 
 		//ar trebui poate sa notez undeva ce fel de trade-uri din astea mai favorabile pot sa fac
 		public static Result<Player> Create(string name) 
@@ -89,6 +92,12 @@ namespace Catan.Domain.Entities
 			//adauga aia cu cel mai lung drum !!!!!!
 
 			return points;
+		}
+
+		public void AddSettlement(Settlement settlement)
+		{
+			Settlements.Add(settlement);
+			LastPlacedSettlementPos = settlement.Position;
 		}
 	}
 }

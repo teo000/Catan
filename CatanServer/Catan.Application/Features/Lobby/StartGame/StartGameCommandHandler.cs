@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Catan.Application.Features.Lobby.StartGame
 {
-	public class StartGameCommandHandler : IRequestHandler<StartGameCommand, GameSessionResponse>
+	public class StartGameCommandHandler : IRequestHandler<StartGameCommand, LobbyResponse>
 	{
 		private LobbyManager _lobbyManager;
 		private IMapper _mapper;
@@ -16,22 +16,22 @@ namespace Catan.Application.Features.Lobby.StartGame
 			_mapper = mapper;
 		}
 
-		public async Task<GameSessionResponse> Handle(StartGameCommand request, CancellationToken cancellationToken)
+		public async Task<LobbyResponse> Handle(StartGameCommand request, CancellationToken cancellationToken)
 		{
 			var result = _lobbyManager.StartGame(request.JoinCode);
             if (!result.IsSuccess)
             {
-				return new GameSessionResponse()
+				return new LobbyResponse()
 				{
 					Success = false,
 					ValidationErrors = new List<string>() { result.Error },
 				};
             }
 
-			return new GameSessionResponse()
+			return new LobbyResponse()
 			{
 				Success = true,
-				GameSession = _mapper.Map<GameSessionDto>(result.Value)
+				Lobby = _mapper.Map<LobbyDto>(result.Value)
 			};
         }
 	}

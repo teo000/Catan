@@ -1,5 +1,6 @@
 ﻿using Catan.Domain.Common;
 using Catan.Domain.Data;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 
 namespace Catan.Domain.Entities
@@ -10,6 +11,14 @@ namespace Catan.Domain.Entities
 			Id = Guid.NewGuid();
 			GameMap = new Map();
 			Players = new List<Player>(players);
+
+			var colors = new List<Color>() { Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW};
+			colors.Shuffle();
+			for (int i = 0; i < players.Count; i++)
+			{
+				players[i].Color = colors[i];
+			}
+
 			GameStatus = GameStatus.InProgress;
 			TurnPlayerIndex = 0;
 			TurnEndTime = DateTime.Now.AddSeconds(GameInfo.TURN_DURATION);
@@ -47,7 +56,7 @@ namespace Catan.Domain.Entities
 			TurnPlayerIndex = (TurnPlayerIndex + 1) % Players.Count;
 			if (TurnPlayerIndex == 0)
 				Round++;
-			Dice.RolledThisTurn = false;
+			Dice.Reset();
 			TurnEndTime = DateTime.Now.AddSeconds(GameInfo.TURN_DURATION);
 		}
 
@@ -88,7 +97,7 @@ namespace Catan.Domain.Entities
 				if (!player.HasResources(Buyable.SETTLEMENT))
 					return Result<Settlement>.Failure("You do not have enough resources");
 			}
-			else if (player.Settlements.Count > Round)
+			else if (player.Settlements.Count >= Round)
 				return Result<Settlement>.Failure("You cannot place another settlement now");
 
 			var adjacentSettlements = GameMapData.AdjacentSettlements[position];
@@ -103,13 +112,19 @@ namespace Catan.Domain.Entities
 			var newSettlement = new Settlement(player, false, position);
 
 			GameMap.Settlements[position] = newSettlement;
-			player.Settlements.Add(newSettlement);
+			player.AddSettlement(newSettlement);
+
+			foreach (var hexTilePos in GameMapData.SettlementAdjacentTiles[position])
+			{
+				var hexTile = GameMap.HexTiles[hexTilePos];
+				hexTile.Settlements.Add(newSettlement);
+			}
 
 			return Result<Settlement>.Success(newSettlement);
 		}
 
 		//tb curatat aici dar nu acum
-		public Result<Road> PlaceRoad(Player player, int position, int? lastPlacedSettlementPos = null)
+		public Result<Road> PlaceRoad(Player player, int position)
 		{
 			var isInitialPhase = (Round == 1 || Round == 2);
 
@@ -137,10 +152,7 @@ namespace Catan.Domain.Entities
 
 			if (isInitialPhase)
 			{
-				if (lastPlacedSettlementPos == null)
-					return Result<Road>.Failure("Server-side error.");
-
-				if (roadEnd1 != lastPlacedSettlementPos && roadEnd2 != lastPlacedSettlementPos)
+				if (roadEnd1 != player.LastPlacedSettlementPos && roadEnd2 != player.LastPlacedSettlementPos)
 					return Result<Road>.Failure("Road must be attached to the last placed settlement.");
 
 				if (player.Roads.Count > Round)
@@ -206,6 +218,8 @@ namespace Catan.Domain.Entities
 				return Result<Dictionary<Player, Dictionary<Resource, int>>>.Failure("It is not your turn.");
 			if (Dice.RolledThisTurn)
 				return Result<Dictionary<Player, Dictionary<Resource, int>>>.Failure("The dice can only be rolled once a turn.");
+			if (IsInBeginningPhase())
+				return Result<Dictionary<Player, Dictionary<Resource, int>>>.Failure("The dice can't be rolled right now.");
 
 			Dice.Roll();
 			var assignedResources = AssignResources(Dice.GetSummedValue());

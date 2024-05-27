@@ -10,7 +10,7 @@ interface DotPositionMatrix {
 }
 
 
-function Dice({number}: {number: number}){
+function Dice({number}: {number: number | null}){
     const dotPositionMatrix : DotPositionMatrix = {
         0: [],
         1: [{ x: 50, y: 50 }],
@@ -21,9 +21,13 @@ function Dice({number}: {number: number}){
         6: [{ x: 20, y: 20 }, { x: 80, y: 20 }, { x: 20, y: 50 }, { x: 80, y: 50 }, { x: 20, y: 80 }, { x: 80, y: 80 }]
     };
 
+    if (number === null)
+        return <div className="dice"></div>
+
     return (
         <div className="dice">
-            {dotPositionMatrix[number].map((dotPosition, index) => (
+            {
+                dotPositionMatrix[number].map((dotPosition, index) => (
                 <div
                     key={index}
                     className="dice-dot"

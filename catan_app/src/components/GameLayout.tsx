@@ -12,7 +12,10 @@ import {GameSession} from "../interfaces/GameSession";
 import useFetch from "../hooks/useFetch";
 import {LobbyResponse} from "../responses/LobbyResponse";
 import {usePlayer} from "./PlayerProvider";
-import {DiceLayout} from "./dice/DiceLayout";
+import DiceLayout from "./dice/DiceLayout";
+import {ResourcesDiv} from "./resourcesDiv/ResourcesDiv";
+import {getEmptyResourceCount} from "../interfaces/ResourceCount";
+import Overlay from "./overlay/Overlay";
 
 
 interface GameLayoutProps {
@@ -30,10 +33,15 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
     const [settlements, setSettlements] = useState<number[]>([]);
     const [roads, setRoads] = useState<number[]>([]);
 
+    const [diceRoll, setDiceRoll] = useState(gameSession.dice);
+
+
     const settlementSpotInfo = ComputeSettlementSpotsInfo();
     const roadSpotInfo = ComputeRoadSpotsInfo();
 
     const {player} = usePlayer();
+
+    const isAbandoned = (gameSession.gameStatus === 'Abandoned')
 
     const handleSettlementClick = async (id: number) => {
         const requestData = {gameId: gameSession.id, playerId: player?.id, position: id};
@@ -55,7 +63,19 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
         });
     };
 
-    const handleRoadClick = (id: number) => {
+    const handleRoadClick = async (id: number) => {
+        const requestData = {gameId: gameSession.id, playerId: player?.id, position: id};
+
+        try {
+            const response = await request('/road', 'post', requestData);
+            if (response === null || !response.success){
+                console.error('Failed to place road: Invalid response format', response);
+            }
+            console.log(response);
+        } catch (err) {
+            console.error('Failed to place road', err);
+        }
+
         setRoads(prevState => {
             const newState = [...prevState];
             newState.push(id);
@@ -80,7 +100,7 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
 
     const determineVisibleSettlements = (): number[] => {
         // aici vom face ca doar settlement-urile conectate la vreun drum sa fie vizibile
-        return [1, 2, 3];
+        return Array.from({ length: 55 }, (_, index) => index);
     };
 
     const handlePlaceRoadButtonClick = (action: ButtonActions) => {
@@ -100,10 +120,17 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
 
     const determineVisibleRoads = (): number[] => {
         // aici vom face ca doar road-urile conectate la vreun settlement sa fie vizibile
-        return [4, 5, 6];
+        return Array.from({ length: 73 }, (_, index) => index);
+
     };
 
-    console.log(gameSession);
+    if (!player)
+        return <p> Something went wrong ... </p>
+
+    // console.log(gameSession);
+
+    let playerState = gameSession.players.find(p => p.id === player.id);
+    let resourceCount = playerState ? playerState.resourceCount : getEmptyResourceCount()
 
     return (
         <div className="gameLayout">
@@ -116,7 +143,7 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
                     alt='background'
                 />
                 <GameMap hexTiles={gameSession.map.hexTiles}/>
-                <DiceLayout></DiceLayout>
+                <DiceLayout gameSessionId={gameSession.id} diceRoll={gameSession.dice} turnPlayer={gameSession.turnPlayer}></DiceLayout>
                 <div className='spots'>
                     <SettlementSpots
                         settlementSpotInfo={settlementSpotInfo} // fa chestia asta globala statica sau ceva de genul
@@ -131,10 +158,14 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
 
                 </div>
                 <div className='settlements'>
-                    <Settlements settlementSpotInfo={settlementSpotInfo} settlements={gameSession.map.settlements}></Settlements>
+                    <Settlements settlementSpotInfo={settlementSpotInfo}
+                                 settlements={gameSession.map.settlements}
+                                 players={gameSession.players}/>
                 </div>
                 <div className='roads'>
-                    <Roads roadSpotInfo={roadSpotInfo} roadIds={roads}></Roads>
+                    <Roads roadSpotInfo={roadSpotInfo}
+                           roads={gameSession.map.roads}
+                           players={gameSession.players}></Roads>
                 </div>
             </div>
             <div className="gameplay-div">
@@ -147,11 +178,9 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
                         Trades will appear here...
                     </div>
                 </div>
-
-                <div className="cards-div"></div>
+                <ResourcesDiv resourceCount={resourceCount}/>
             </div>
-            {/*<DiceLayout />*/}
-
+            {isAbandoned && <Overlay winner={null} message="Game has been abandoned" />}
         </div>
     );
 }

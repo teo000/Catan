@@ -50,20 +50,21 @@ namespace Catan.Application
 			return joinResult;
         }
 
-		public Result<GameSession> StartGame(string joinCode)
+		public Result<Lobby> StartGame(string joinCode)
 		{
 			var lobbyResult = Get(joinCode);
 			if (!lobbyResult.IsSuccess)
-				return Result<GameSession>.Failure("Lobby does not exist in current context.");
+				return Result<Lobby>.Failure("Lobby does not exist in current context.");
 
 			var lobby = lobbyResult.Value;
 
 			var result = _gameSessionManager.CreateGameSession(lobby.Players);
 
-			if (result.IsSuccess)
-				lobby.SetGameSession(result.Value);
+			if (!result.IsSuccess)
+				return Result<Lobby>.Failure(result.Error);
 
-			return result;
+			lobby.SetGameSession(result.Value);
+			return Result<Lobby>.Success(lobby);
 		}
 
 	}

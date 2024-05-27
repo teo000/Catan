@@ -81,85 +81,87 @@ var players = new List<Player>() {
 var gameSession = new GameSession(players);
 
 
-foreach (var player in players)
+//foreach (var player in players)
+//{
+//	InitialPhasePlaceSettlementAndRoad(gameSession, player);
+//}
+
+//players.Reverse();
+
+//foreach (var player in players)
+//{
+//	InitialPhasePlaceSettlementAndRoad(gameSession, player);
+//}
+
+
+//while (gameSession.GameStatus == GameStatus.InProgress)
+//{
+//	var turnPlayer = gameSession.GetTurnPlayer();
+
+//	Console.WriteLine("It's " + turnPlayer.Name + "'s turn");
+
+//	Console.WriteLine("Place road (r), settlement (s), or quit (q):  ");
+
+
+
+//	char action;
+
+//	do
+//	{
+
+//		action = (char)Console.Read();
+//		Console.ReadLine();
+
+//		switch (action)
+//		{
+//			case 'r':
+//				PlaceRoad(gameSession); break;
+//			case 's':
+//				PlaceSettlement(gameSession); break;
+//			//case 'c':
+//			//	PlaceSettlement(gameSession); break;
+//			default:
+//				break;
+//		}
+
+//		PlaceSettlement(gameSession);
+
+//	} while (action != 'q');
+
+//	gameSession.ChangeTurn();
+
+//}
+
+
+static void PrintListofLists(List<List<int>> listOfLists)
 {
-	InitialPhasePlaceSettlementAndRoad(gameSession, player);
-}
-
-players.Reverse();
-
-foreach (var player in players)
-{
-	InitialPhasePlaceSettlementAndRoad(gameSession, player);
-}
-
-
-while (gameSession.GameStatus == GameStatus.InProgress)
-{
-	var turnPlayer = gameSession.GetTurnPlayer();
-
-	Console.WriteLine("It's " + turnPlayer.Name + "'s turn");
-
-	Console.WriteLine("Place road (r), settlement (s), or quit (q):  ");
-
-
-
-	char action;
-
-	do
+	int i = 0;
+	foreach (List<int> innerList in listOfLists)
 	{
-
-		action = (char)Console.Read();
-		Console.ReadLine();
-
-		switch (action)
-		{
-			case 'r':
-				PlaceRoad(gameSession); break;
-			case 's':
-				PlaceSettlement(gameSession); break;
-			//case 'c':
-			//	PlaceSettlement(gameSession); break;
-			default:
-				break;
-		}
-
-		PlaceSettlement(gameSession);
-
-	} while (action != 'q');
-
-	gameSession.ChangeTurn();
-
+		Console.WriteLine(i + ": " + string.Join(", ", innerList));
+		i++;
+	}
 }
 
+static void PrintListOfTuples(List<(int, int)> listOfTuples)
+{
+	int index = 0;
+	foreach ((int, int) tuple in listOfTuples)
+	{
+		Console.WriteLine($"{index}: ({tuple.Item1}, {tuple.Item2})");
+		index++;
+	}
+}
 
-//static void PrintListofLists(List<List<int>> listOfLists)
-//{
-//	foreach (List<int> innerList in listOfLists)
-//	{
-//		Console.WriteLine(string.Join(", ", innerList));
-//	}
-//}
+static void PrintDictionaryOfLists(Dictionary<int, List<int>> dictOfLists)
+{
+	foreach (int key in dictOfLists.Keys)
+	{
+		Console.WriteLine($"{key}: " + string.Join(", ", dictOfLists[key]));
+	}
+}
 
-//static void PrintListOfTuples(List<(int, int)> listOfTuples)
-//{
-//	int index = 0;
-//	foreach ((int, int) tuple in listOfTuples)
-//	{
-//		Console.WriteLine($"{index}: ({tuple.Item1}, {tuple.Item2})");
-//		index++;
-//	}
-//}
-
-//static void PrintDictionaryOfLists(Dictionary<int, List<int>> dictOfLists)
-//{
-//	foreach (int key in dictOfLists.Keys)
-//	{
-//		Console.WriteLine($"{key}: " + string.Join(", ", dictOfLists[key]));
-//	}
-//}
-
-//PrintListofLists(GameMapData.SettlementAdjacentTiles);
+PrintListofLists(GameMapData.SettlementAdjacentTiles);
 //Console.WriteLine(GameMapData.SettlementAdjacentTiles.Count);
 //Console.WriteLine();
 

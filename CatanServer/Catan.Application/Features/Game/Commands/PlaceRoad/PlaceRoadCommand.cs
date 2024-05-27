@@ -8,6 +8,5 @@ namespace Catan.Application.Features.Game.Commands.PlaceRoad
 		public Guid GameId { get; set; }
 		public Guid PlayerId { get; set; }
 		public int Position { get; set; }
-		public int? LastPlacedSettlementPosition { get; set; }
 	}
 }

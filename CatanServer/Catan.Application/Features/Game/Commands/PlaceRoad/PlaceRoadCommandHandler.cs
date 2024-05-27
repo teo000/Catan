@@ -70,7 +70,7 @@ namespace Catan.Application.Features.Game.Commands.PlaceRoad
 			}
 
 			
-			var result = gameSession.PlaceRoad(player, request.Position, lastPlacedSettlementPos: request.LastPlacedSettlementPosition);
+			var result = gameSession.PlaceRoad(player, request.Position);
 
 			if (!result.IsSuccess)
 			{

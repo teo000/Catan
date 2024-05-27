@@ -14,7 +14,6 @@ const HomePage = () => {
 
     const { player, setPlayer } = usePlayer();
 
-
     const createLobby = async () => {
         const requestData = { playerName };
 
@@ -25,6 +24,7 @@ const HomePage = () => {
                     const foundPlayer = response.lobby.players.find(player => player.id === response.playerId);
                     if (foundPlayer)
                         setPlayer(foundPlayer)
+                    console.log(foundPlayer?.name);
                     navigate(`/lobby/${response.lobby.joinCode}`);
                 }
             } else {
@@ -40,6 +40,9 @@ const HomePage = () => {
         try {
             const response = await request('/join', 'post', requestData);
             if (response && response.success && response.success) {
+                const foundPlayer = response.lobby.players.find(player => player.id === response.playerId);
+                if (foundPlayer)
+                    setPlayer(foundPlayer)
                 navigate(`/lobby/${lobbyCode}`);
             } else {
                 console.error('Failed to create lobby: Invalid response format', response);

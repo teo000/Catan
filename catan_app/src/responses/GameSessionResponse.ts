@@ -1,6 +1,6 @@
 import {GameSession} from "../interfaces/GameSession";
 
-export interface LobbyResponse {
+export interface GameSessionResponse {
     gameSession: GameSession;
     success: boolean;
     message: string;
