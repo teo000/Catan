@@ -1,23 +1,21 @@
 import {GameMap} from "./GameMap";
 import {SettlementSpots} from "./settlements/SettlementSpots";
 import {ActionBar, ButtonActions} from "./actionButton/ActionBar";
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useState} from "react";
 import {RoadSpots} from "./roads/RoadSpots";
 import {ComputeSettlementSpotsInfo} from "./settlements/ComputeSettlementSpotsInfo";
 import {Settlements} from "./settlements/Settlements";
 import {ComputeRoadSpotsInfo} from "./roads/ComputeRoadSpotsInfo";
 import {Roads} from "./roads/Roads";
-import useFetch from "../hooks/useFetch";
-import {LobbyResponse} from "../responses/LobbyResponse";
-import {useLocation} from "react-router-dom";
+import {TurnTimerLabel} from "./turnTimerLabel/TurnTimerLabel";
+import {GameSession} from "../interfaces/GameSession";
 
-const GameLayout = React.memo(() => {
-    const { data, error, loading, request } = useFetch<LobbyResponse>('/api/v1/Lobby');
 
-    const location = useLocation();
-    const currentPath = location.pathname;
-    const joinCode = currentPath.substring(currentPath.lastIndexOf('/') + 1);
+interface GameLayoutProps {
+    gameSession : GameSession
+}
 
+const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
     const [visibleSettlementSpots, setVisibleSettlementSpots] = useState<number[]>([]);
     const [visibleRoadSpots, setVisibleRoadSpots] = useState<number[]>([]);
 
@@ -86,22 +84,11 @@ const GameLayout = React.memo(() => {
         return [4, 5, 6];
     };
 
-    const fetchGameState = useCallback(async () => {
-        await request(`/${joinCode}`,'get');
-    }, [request]);
-
-    useEffect(() => {
-        const intervalId = setInterval(fetchGameState, 1000); // Fetch every second
-        return () => clearInterval(intervalId); // Cleanup interval on unmount
-    }, [fetchGameState]);
-
-    if (error) return <p>Error: {error}</p>;
-
-
     return (
         <div className="gameLayout">
             <div className='board-div'>
-                <label className="turn-label">It's X's turn</label>
+                <TurnTimerLabel playerName={gameSession.turnPlayer.name} time={gameSession?.turnEndTime}/>
+
                 <img
                     className='board-background'
                     src='/images/water_background.png'
@@ -145,7 +132,7 @@ const GameLayout = React.memo(() => {
 
         </div>
     );
-})
+}
 
 
 export {GameLayout};

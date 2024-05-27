@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import useFetch from "../hooks/useFetch";
-import {LobbyPlayerResponse} from "../responses/LobbyPlayerResponse";
+import useFetch from "../../hooks/useFetch";
+import {LobbyPlayerResponse} from "../../responses/LobbyPlayerResponse";
+import './homepage.css';
 
 const HomePage = () => {
     const { data, error, loading, request } = useFetch<LobbyPlayerResponse>('/api/v1/Lobby');
@@ -42,8 +43,8 @@ const HomePage = () => {
     };
 
     return (
-        <div>
-            <h1>Welcome to My Game</h1>
+        <div className="homepage" >
+            <h1>Welcome to Settlers of Catan</h1>
             <button onClick={createLobby}>Create Lobby</button>
             <input
                 type="text"

@@ -5,9 +5,10 @@ export interface GameSession {
     id: string;
     map: Map;
     players: Player[];
+    turnPlayer: Player;
     gameStatus: string;
-    turnPlayerIndex: number;
+    // turnPlayerIndex: number;
     turnEndTime: string;
     round: number;
-    trades: Record<string, any>; // Adjust type as needed
+    trades: Record<string, any>;
 }

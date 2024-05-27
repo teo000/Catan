@@ -12,7 +12,7 @@ interface UseFetchResult<T> {
 const useFetch = <T = unknown>(initialUrl?: string, options?: AxiosRequestConfig): UseFetchResult<T> => {
     const [data, setData] = useState<T | null>(null);
     const [error, setError] = useState<string | null>(null);
-    const [loading, setLoading] = useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(true);
 
     const request = useCallback(async (url: string, method: 'get' | 'post' | 'put' | 'delete', requestData?: any) => {
         setLoading(true);

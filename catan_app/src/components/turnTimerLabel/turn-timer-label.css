@@ -1,0 +1,11 @@
+.turn-label-div{
+    position: relative;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    margin: 30px 30px auto 30px;
+    font-weight: bold;
+    font-size: 20px;
+    color: white
+}
+

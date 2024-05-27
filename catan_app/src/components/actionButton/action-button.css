@@ -12,7 +12,7 @@
     transition: background-color 0.3s, box-shadow 0.3s, transform 0.3s;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     font-family: Verdana, sans-serif;
-    font-weight: bold; /* Make the text bold */
+    font-weight: bold;
 }
 
 .action-button:hover:not(.clicked) {
