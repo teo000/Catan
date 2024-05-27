@@ -8,6 +8,6 @@ namespace Catan.Application.Dtos
 		public int ThiefPosition { get; set; }
 		public List<SettlementDto> Settlements {get; set;}
 		public List<RoadDto> Roads { get; set; }
-
+		
 	}
 }

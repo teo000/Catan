@@ -12,7 +12,7 @@ namespace Catan.Application.Dtos
 		//public int TurnPlayerIndex { get;  set; }
 		public DateTime TurnEndTime { get;  set; }
         public int Round {  get; set; }
-		public Dictionary<Guid, TradeDto> trades { get; private set; } 
-
+		public Dictionary<Guid, TradeDto> trades { get;  set; } 
+        public DiceRollDto Dice {  get; set; }
 	}
 }
