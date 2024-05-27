@@ -7,7 +7,6 @@ export interface GameSession {
     players: Player[];
     turnPlayer: Player;
     gameStatus: string;
-    // turnPlayerIndex: number;
     turnEndTime: string;
     round: number;
     trades: Record<string, any>;

@@ -1,8 +1,10 @@
-import {HexTile} from "./HexTile";
+import {HexTileDto} from "./HexTileDto";
+import {SettlementDto} from "./SettlementDto";
+import {Road} from "./Road";
 
 export interface Map {
-    hexTiles: HexTile[];
+    hexTiles: HexTileDto[];
     thiefPosition: number;
-    settlements: any[]; // Adjust type as needed
-    roads: any[]; // Adjust type as needed
+    settlements: SettlementDto[];
+    roads: Road[];
 }

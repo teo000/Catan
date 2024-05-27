@@ -1,10 +1,10 @@
 import {useEffect, useState} from "react";
 import {HexTileRow} from "./hexTiles/HexTileRow";
-import {HexTileData} from "./hexTiles/HexTile";
+import {HexTileDto} from "./hexTiles/HexTile";
+import {Map} from "../interfaces/Map";
 
-
-const generateTestData = (): HexTileData[] => {
-    const testData: HexTileData[] = [];
+const generateTestData = (): HexTileDto[] => {
+    const testData: HexTileDto[] = [];
 
     const resources = ['Wood', 'Wheat', 'Sheep', 'Brick', 'Ore', 'Desert'];
     const numberTokens = [2, 3, 4, 5, 6, 8, 9, 10, 11, 12];
@@ -12,21 +12,22 @@ const generateTestData = (): HexTileData[] => {
     for (let i = 0; i < 19; i++) {
         const randomResource = resources[Math.floor(Math.random() * resources.length)];
         const randomNumberToken = numberTokens[Math.floor(Math.random() * numberTokens.length)];
-        testData.push({ resource: randomResource, numberToken: randomNumberToken });
+        testData.push({ resource: randomResource, number: randomNumberToken });
     }
 
     return testData;
 };
 
-const testData: HexTileData[] = generateTestData();
-function GameMap(){
-    const [hexTileData, setHexTileData] = useState<HexTileData[]>([])
+const testData: HexTileDto[] = generateTestData();
+function GameMap({hexTiles} : {hexTiles:HexTileDto[]}){
+    const [hexTileData, setHexTileData] = useState<HexTileDto[]>([])
 
     useEffect(() => {
-        setHexTileData(testData);
+        if (hexTileData.length === 0)
+            setHexTileData(hexTiles);
     }, []);
 
-    console.log(hexTileData)
+    // console.log(hexTileData)
 
     return (
         <div className='map'>

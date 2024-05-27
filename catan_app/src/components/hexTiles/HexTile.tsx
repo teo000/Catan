@@ -1,9 +1,6 @@
+import { HexTileDto } from "../../interfaces/HexTileDto";
 import {MapConstants} from "../MapConstants";
 
-type HexTileData = {
-    resource: string
-    numberToken: number
-}
 
 const ResourcePaths : Record<string, string> = {
     BRICK: '/images/map/brick.png',
@@ -20,11 +17,11 @@ function getNumberPath(number: number) : string {
 }
 
 function HexTile({top, left, hexTileData}
-                     : {top: number, left: number, hexTileData: HexTileData}) {
-    const {resource, numberToken} = hexTileData
+                     : {top: number, left: number, hexTileData: HexTileDto}) {
+    const {resource, number} = hexTileData
     const resourcePath : string = ResourcePaths[resource.toUpperCase()];
 
-    const numberTokenPath = getNumberPath(numberToken);
+    const numberTokenPath = getNumberPath(number);
 
     return (
         <div>
@@ -51,4 +48,4 @@ function HexTile({top, left, hexTileData}
     )
 }
 export {HexTile};
-export type {HexTileData}
+export type {HexTileDto}

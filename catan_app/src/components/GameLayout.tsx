@@ -9,6 +9,10 @@ import {ComputeRoadSpotsInfo} from "./roads/ComputeRoadSpotsInfo";
 import {Roads} from "./roads/Roads";
 import {TurnTimerLabel} from "./turnTimerLabel/TurnTimerLabel";
 import {GameSession} from "../interfaces/GameSession";
+import useFetch from "../hooks/useFetch";
+import {LobbyResponse} from "../responses/LobbyResponse";
+import {usePlayer} from "./PlayerProvider";
+import {DiceLayout} from "./dice/DiceLayout";
 
 
 interface GameLayoutProps {
@@ -16,6 +20,8 @@ interface GameLayoutProps {
 }
 
 const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
+    const { data, error, loading, request } = useFetch<LobbyResponse>('/api/v1/Game');
+
     const [visibleSettlementSpots, setVisibleSettlementSpots] = useState<number[]>([]);
     const [visibleRoadSpots, setVisibleRoadSpots] = useState<number[]>([]);
 
@@ -27,8 +33,21 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
     const settlementSpotInfo = ComputeSettlementSpotsInfo();
     const roadSpotInfo = ComputeRoadSpotsInfo();
 
+    const {player} = usePlayer();
 
-    const handleSettlementClick = (id: number) => {
+    const handleSettlementClick = async (id: number) => {
+        const requestData = {gameId: gameSession.id, playerId: player?.id, position: id};
+
+        try {
+            const response = await request('/settlement', 'post', requestData);
+            if (response === null || !response.success){
+                console.error('Failed to place settlement: Invalid response format', response);
+            }
+            console.log(response);
+        } catch (err) {
+            console.error('Failed to place settlement', err);
+        }
+
         setSettlements(prevState => {
             const newState = [...prevState];
             newState.push(id);
@@ -84,6 +103,8 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
         return [4, 5, 6];
     };
 
+    console.log(gameSession);
+
     return (
         <div className="gameLayout">
             <div className='board-div'>
@@ -94,7 +115,8 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
                     src='/images/water_background.png'
                     alt='background'
                 />
-                <GameMap />
+                <GameMap hexTiles={gameSession.map.hexTiles}/>
+                <DiceLayout></DiceLayout>
                 <div className='spots'>
                     <SettlementSpots
                         settlementSpotInfo={settlementSpotInfo} // fa chestia asta globala statica sau ceva de genul
@@ -109,7 +131,7 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
 
                 </div>
                 <div className='settlements'>
-                    <Settlements settlementSpotInfo={settlementSpotInfo} settlementIds={settlements}></Settlements>
+                    <Settlements settlementSpotInfo={settlementSpotInfo} settlements={gameSession.map.settlements}></Settlements>
                 </div>
                 <div className='roads'>
                     <Roads roadSpotInfo={roadSpotInfo} roadIds={roads}></Roads>

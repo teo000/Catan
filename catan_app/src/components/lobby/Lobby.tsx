@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useCallback, useEffect, useRef, useState} from "react";
 import useFetch from "../../hooks/useFetch";
 import {LobbyResponse} from "../../responses/LobbyResponse";
 import {useLocation} from "react-router-dom";
@@ -6,6 +6,8 @@ import {GameLayout} from "../GameLayout";
 import {WaitingRoom} from "./WaitingRoom";
 import {Player} from "../../interfaces/Player";
 import {useDeepCompareState} from "../../hooks/useDeepCompareEffect";
+import {LobbyPlayerResponse} from "../../responses/LobbyPlayerResponse";
+import {usePlayer} from "../PlayerProvider";
 
 export const Lobby = React.memo(() => {
     const { data, error, loading, request } = useFetch<LobbyResponse>('/api/v1/Lobby');
@@ -15,20 +17,22 @@ export const Lobby = React.memo(() => {
     const joinCode = currentPath.substring(currentPath.lastIndexOf('/') + 1);
 
     const [players, setPlayers] = useDeepCompareState<Player[]>([]);
+    const { player } = usePlayer();
     const [loaded, setLoaded] = useState(false);
 
+    const requestData = {joinCode};
+
     const onStartGame = useCallback(async () => {
-        const requestData = {joinCode};
 
         try {
             const response = await request('/start', 'post', requestData);
             if (response === null || !response.success){
                 console.error('Failed to create lobby: Invalid response format', response);
             }
+
         } catch (err) {
             console.error('Failed to create lobby', err);
         }
-
         setLoaded(false);
 
     }, [request]);
@@ -48,11 +52,11 @@ export const Lobby = React.memo(() => {
         }
     }, [data, setPlayers]);
 
+
     useEffect(() =>{
         if (!loading)
             setLoaded(true);
-        }
-    )
+    },[loading] )
 
     if (error) return <p>Error: {error}</p>;
     if (!loaded) return <p>Loading...</p>

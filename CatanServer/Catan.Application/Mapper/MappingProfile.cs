@@ -16,6 +16,8 @@ namespace Catan.Application.Mapper
 			CreateMap<Road, RoadDto>()
 					.ForMember(dest => dest.PlayerId, opt => opt.MapFrom(src => src.Player.Id));
 
+			CreateMap<DiceRoll, DiceRollDto>();
+
 			CreateMap<Trade, TradeDto>()
 				.ForMember(dest => dest.PlayerToGiveId, opt => opt.MapFrom(src => src.PlayerToGive.Id))
 				.ForMember(dest => dest.PlayerToReceiveId, opt => opt.MapFrom(src => src.PlayerToReceive.Id))
@@ -39,11 +41,13 @@ namespace Catan.Application.Mapper
 				   .ForMember(dest => dest.Map, opt => opt.MapFrom(src => src.GameMap))
 				   .ForMember(dest => dest.GameStatus, opt => opt.MapFrom(src => src.GameStatus.ToString()))
 				   .ForMember(dest => dest.Players, opt => opt.MapFrom(src => src.Players))
-				   .ForMember(dest => dest.TurnPlayer, opt => opt.MapFrom(src => src.GetTurnPlayer()));
+				   .ForMember(dest => dest.TurnPlayer, opt => opt.MapFrom(src => src.GetTurnPlayer()))
+				   .ForMember(dest => dest.Dice, opt => opt.MapFrom(src => src.Dice));
 
 			CreateMap<Lobby, LobbyDto>()
 				.ForMember(dest => dest.Players, opt => opt.MapFrom(src => src.Players))
 				.ForMember(dest => dest.GameSession, opt => opt.MapFrom(src => src.GameSession));
+
 		}
 	}
 }

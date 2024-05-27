@@ -1,5 +1,5 @@
 import {HexTile} from "./HexTile";
-import {HexTileData} from "./HexTile";
+import {HexTileDto} from "./HexTile";
 import {MapConstants} from "../MapConstants";
 
 
@@ -17,7 +17,7 @@ const HexagonLayoutByRowNumber : Record<number, HexagonRowLayout> = {
     5: {count: 3, marginLeft: MapConstants.HEX_WIDTH, top: MapConstants.HEX_HEIGHT * 4 + MapConstants.MARGIN_TOP},
 }
 
-function HexTileRow({rowNumber, hexTileData} : {rowNumber: number, hexTileData: HexTileData[]}){
+function HexTileRow({rowNumber, hexTileData} : {rowNumber: number, hexTileData: HexTileDto[]}){
     const hexagons = [];
 
     const {marginLeft, top, count} = HexagonLayoutByRowNumber[rowNumber];

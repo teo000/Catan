@@ -1,4 +1,4 @@
-export interface HexTile {
+export interface HexTileDto {
     resource: string;
     number: number;
 }

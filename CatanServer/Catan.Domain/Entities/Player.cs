@@ -55,9 +55,10 @@ namespace Catan.Domain.Entities
 		public void AssignResources (Dictionary<Resource, int> resourcesToAdd)
 		{
 			foreach (var (resource, count) in ResourceCount)
-			{
-				ResourceCount[resource] += resourcesToAdd[resource];
-			}
+				if (resourcesToAdd.TryGetValue(resource, out var resourceCount))
+				{
+					ResourceCount[resource] += resourceCount;
+				}
 		}
 
 		public void AssignResource(Resource resource, int count)

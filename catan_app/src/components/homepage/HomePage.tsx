@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import useFetch from "../../hooks/useFetch";
 import {LobbyPlayerResponse} from "../../responses/LobbyPlayerResponse";
 import './homepage.css';
+import {usePlayer} from "../PlayerProvider";
 
 const HomePage = () => {
     const { data, error, loading, request } = useFetch<LobbyPlayerResponse>('/api/v1/Lobby');
@@ -11,13 +12,21 @@ const HomePage = () => {
     const [lobbyCode, setLobbyCode] = useState('');
     const [playerName, setPlayerName] = useState('');
 
+    const { player, setPlayer } = usePlayer();
+
+
     const createLobby = async () => {
         const requestData = { playerName };
 
         try {
             const response = await request('/create', 'post', requestData);
             if (response && response.lobby && response.lobby.joinCode) {
-                navigate(`/lobby/${response.lobby.joinCode}`);
+                if( !player && response.playerId && response.lobby.players){
+                    const foundPlayer = response.lobby.players.find(player => player.id === response.playerId);
+                    if (foundPlayer)
+                        setPlayer(foundPlayer)
+                    navigate(`/lobby/${response.lobby.joinCode}`);
+                }
             } else {
                 console.error('Failed to create lobby: Invalid response format', response);
             }
@@ -25,9 +34,8 @@ const HomePage = () => {
             console.error('Failed to create lobby', err);
         }
     };
-
     const joinLobby = async () => {
-        const requestData = { lobbyCode, playerName };
+        const requestData = { joinCode : lobbyCode, playerName };
 
         try {
             const response = await request('/join', 'post', requestData);
