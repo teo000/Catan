@@ -54,22 +54,25 @@ const HomePage = () => {
     };
 
     return (
-        <div className="homepage" >
-            <h1>Welcome to Settlers of Catan</h1>
-            <button onClick={createLobby}>Create Lobby</button>
-            <input
-                type="text"
-                value={lobbyCode}
-                onChange={(e) => setLobbyCode(e.target.value)}
-                placeholder="Enter Lobby Code"
-            />
-            <input
-                type="text"
-                value={playerName}
-                onChange={(e) => setPlayerName(e.target.value)}
-                placeholder="Enter your name"
-            />
-            <button onClick={joinLobby}>Join Lobby</button>
+        <div className="homepage-container">
+            <div className="homepage" >
+                <h1>Welcome to Settlers of Catan</h1>
+                <input
+                    type="text"
+                    value={playerName}
+                    onChange={(e) => setPlayerName(e.target.value)}
+                    placeholder="Enter your name"
+                />
+                <input
+                    type="text"
+                    value={lobbyCode}
+                    onChange={(e) => setLobbyCode(e.target.value)}
+                    placeholder="Enter Lobby Code"
+                />
+
+                <button onClick={createLobby}>Create Lobby</button>
+                <button onClick={joinLobby}>Join Lobby</button>
+            </div>
         </div>
     );
 };
