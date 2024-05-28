@@ -8,7 +8,7 @@ const GamePiecePaths : Record<string, string>={
 
 interface ActionButtonProps {
     text: string;
-    isActive: boolean;
+    isActive?: boolean;
     onClick: () => void;
     className: string;
 }

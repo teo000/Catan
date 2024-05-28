@@ -15,7 +15,7 @@ namespace Catan.Domain.Entities
 			ResourceCount = new Dictionary<Resource, int>();
 			foreach (Resource resource in Enum.GetValues(typeof(Resource)))
 			{
-				ResourceCount.Add(resource, 0);
+				ResourceCount.Add(resource, 4);
 			}
 		}
 

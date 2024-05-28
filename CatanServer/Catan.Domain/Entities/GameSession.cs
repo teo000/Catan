@@ -1,6 +1,7 @@
 ﻿using Catan.Domain.Common;
 using Catan.Domain.Data;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq.Expressions;
 
 namespace Catan.Domain.Entities
@@ -341,5 +342,17 @@ namespace Catan.Domain.Entities
 			return Result<Map>.Success(GameMap);
 		}
 
+		public Result<GameSession> TradeBank(Player player, Resource resourceToGive, int count, Resource resourceToReceive)
+		{
+			if (player != GetTurnPlayer())
+				return Result<GameSession>.Failure("It is not your turn.");
+			if (!player.HasResource(resourceToGive, count * 4))
+				return Result<GameSession>.Failure("You do not have enough resources");
+
+			player.SubtractResource(resourceToGive, count * 4);
+			player.AssignResource(resourceToReceive, count);
+
+			return Result<GameSession>.Success(this);
+		}
 	}
 }

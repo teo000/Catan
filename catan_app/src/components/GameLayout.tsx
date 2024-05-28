@@ -16,6 +16,9 @@ import DiceLayout from "./dice/DiceLayout";
 import {ResourcesDiv} from "./resourcesDiv/ResourcesDiv";
 import {getEmptyResourceCount} from "../interfaces/ResourceCount";
 import Overlay from "./overlay/Overlay";
+import Modal from 'react-modal';
+import {TradeBank} from "./tradeWindow/TradeBank";
+
 
 
 interface GameLayoutProps {
@@ -42,6 +45,12 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
     const {player} = usePlayer();
 
     const isAbandoned = (gameSession.gameStatus === 'Abandoned')
+
+    const [isTradeBankOpen, setIsTradeBankOpen] = useState(false);
+
+    const handleOpenTradeBank = () => {
+        setIsTradeBankOpen(true);
+    };
 
     const handleSettlementClick = async (id: number) => {
         const requestData = {gameId: gameSession.id, playerId: player?.id, position: id};
@@ -173,6 +182,7 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
                     <ActionBar activeButton={activeButton}
                                handlePlaceSettlementButtonClick={handlePlaceSettlementButtonClick}
                                handlePlaceRoadButtonClick={handlePlaceRoadButtonClick}
+                               handleTradeBankButtonClick={handleOpenTradeBank}
                     />
                     <div className="chat-div">
                         Trades will appear here...
@@ -181,6 +191,7 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
                 <ResourcesDiv resourceCount={resourceCount}/>
             </div>
             {isAbandoned && <Overlay winner={null} message="Game has been abandoned" />}
+            <TradeBank isOpen={isTradeBankOpen} setIsOpen={setIsTradeBankOpen}/>
         </div>
     );
 }

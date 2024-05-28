@@ -2,6 +2,7 @@ import {ActionButton} from "./ActionButton";
 import {useState} from "react";
 import {PlaceSettlementButton} from "./PlaceSettlementButton";
 import {PlaceRoadButton} from "./PlaceRoadButton";
+import {TradeButton} from "./TradeButton";
 
 export enum ButtonActions {
     None = 'None',
@@ -14,12 +15,13 @@ interface ActionBarProps {
     activeButton: ButtonActions;
     handlePlaceSettlementButtonClick: (action: ButtonActions) => void;
     handlePlaceRoadButtonClick: (action: ButtonActions) => void;
+    handleTradeBankButtonClick: () => void;
 }
 
-function ActionBar({ activeButton, handlePlaceSettlementButtonClick , handlePlaceRoadButtonClick}: ActionBarProps) {
+function ActionBar({ activeButton, handlePlaceSettlementButtonClick , handlePlaceRoadButtonClick, handleTradeBankButtonClick}: ActionBarProps) {
     return (
         <div className="actions-div">
-            {/*<TradeButton isActive={activeButton === ButtonActions.Trade} onClick={() => handleButtonClick(ButtonActions.Trade)} />*/}
+            <TradeButton onClick = {handleTradeBankButtonClick}/>
             <PlaceSettlementButton
                 isActive={activeButton === ButtonActions.PlaceSettlement}
                 onClick={() => handlePlaceSettlementButtonClick(ButtonActions.PlaceSettlement)}

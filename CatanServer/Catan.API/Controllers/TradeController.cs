@@ -1,5 +1,6 @@
 ﻿using Catan.Application.Features.Trade.Commands.AcceptTrade;
 using Catan.Application.Features.Trade.Commands.InitiateTrade;
+using Catan.Application.Features.Trade.Commands.TradeBank;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Catan.API.Controllers
@@ -35,5 +36,15 @@ namespace Catan.API.Controllers
 			return Ok(result);
 		}
 
+		[HttpPost("bank")]
+		[ProducesResponseType(StatusCodes.Status201Created)]
+		[ProducesResponseType(StatusCodes.Status400BadRequest)]
+		public async Task<IActionResult> TradeBank(TradeBankCommand command)
+		{
+			var result = await Mediator.Send(command);
+			if (!result.Success)
+				return BadRequest(result);
+			return Ok(result);
+		}
 	}
 }
