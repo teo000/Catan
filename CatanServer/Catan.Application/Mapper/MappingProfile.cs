@@ -43,7 +43,8 @@ namespace Catan.Application.Mapper
 				   .ForMember(dest => dest.GameStatus, opt => opt.MapFrom(src => src.GameStatus.ToString()))
 				   .ForMember(dest => dest.Players, opt => opt.MapFrom(src => src.Players))
 				   .ForMember(dest => dest.TurnPlayer, opt => opt.MapFrom(src => src.GetTurnPlayer()))
-				   .ForMember(dest => dest.Dice, opt => opt.MapFrom(src => src.Dice));
+				   .ForMember(dest => dest.Dice, opt => opt.MapFrom(src => src.Dice))
+				   .ForMember(dest => dest.Trades, opt => opt.MapFrom(src => src.Trades));
 
 			CreateMap<Lobby, LobbyDto>()
 				.ForMember(dest => dest.Players, opt => opt.MapFrom(src => src.Players))

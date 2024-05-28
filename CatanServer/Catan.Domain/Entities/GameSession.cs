@@ -33,7 +33,7 @@ namespace Catan.Domain.Entities
 		public DateTime TurnEndTime { get; private set; }
 		public int Round { get; private set; } = 1;
 		public DiceRoll Dice { get; private set; }
-		public Dictionary<Guid, Trade> Trades { get; private set; } = new Dictionary<Guid, Trade>();
+		public List<Trade> Trades { get; private set; } = new List<Trade>();
 
 		public static Result<GameSession> Create (List<Player> players)
 		{
@@ -291,22 +291,32 @@ namespace Catan.Domain.Entities
 				return tradeResult;
 
 			var trade = tradeResult.Value;
-			Trades.Add(trade.Id, trade);
+			Trades.Add(trade);
 
 			return tradeResult;
+		}
+		
+		private Trade getTrade (Guid id)
+		{
+			foreach (var trade in Trades)
+			{
+				if (trade.Id == id) return trade;
+			}
+			return null;
 		}
 
 		public Result<Trade> GetTrade(Guid TradeId)
 		{
-			if (Trades.TryGetValue(TradeId, out var trade))
+			var trade = getTrade(TradeId);
+			if (trade is not null)
 				return Result<Trade>.Success(trade);
 			return Result<Trade>.Failure("Trade does not exist in current context.");
 		}
 
 		public Result<Trade> AcceptTrade(Guid TradeId)
 		{
-			Trade trade = null;
-			if (!Trades.TryGetValue(TradeId, out trade))
+			var trade = getTrade(TradeId);
+			if (trade is null)
 				return Result<Trade>.Failure("Trade does not exist in current context.");
 
 			if (!trade.PlayerToReceive.HasResource(trade.ResourceToReceive, trade.CountToReceive))

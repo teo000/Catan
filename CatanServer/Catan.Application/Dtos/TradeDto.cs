@@ -9,6 +9,6 @@
 		public Guid PlayerToReceiveId { get; set; }
 		public string ResourceToReceive { get; set; }
 		public int CountToReceive { get; set; }
-		public string Status { get; private set; }
+		public string Status { get;  set; }
 	}
 }

@@ -1,6 +1,7 @@
 import {Player} from "./Player";
 import {Map} from "./Map"
 import {DiceRoll} from "./DiceRoll";
+import {TradeDto} from "./TradeDto";
 
 export interface GameSession {
     id: string;
@@ -10,6 +11,6 @@ export interface GameSession {
     gameStatus: string;
     turnEndTime: string;
     round: number;
-    trades: Record<string, any>;
+    trades: TradeDto[];
     dice: DiceRoll;
 }

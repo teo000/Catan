@@ -1,0 +1,61 @@
+/*.trade-list {*/
+/*    max-height: 400px; */
+/*    overflow-y: auto;*/
+/*    border: 1px solid #ccc;*/
+/*    padding: 10px;*/
+/*    border-radius: 5px;*/
+/*    background-color: #f9f9f9;*/
+/*}*/
+
+.trade-list {
+    width: 60%;
+    height: 90%;
+    background-color: #fffdfd;
+    border-radius: 20px;
+    font-family: Verdana, sans-serif;
+    padding: 20px
+}
+
+.trade-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    background-color: #e5872d;
+    border-radius: 20px;
+    padding: 20px;
+    color: #fffdfd;
+}
+
+.trade-item:last-child {
+    border-bottom: none;
+}
+
+.accept-button {
+    background-color: green;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.reject-button {
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.accept-button:hover,
+.reject-button:hover {
+    opacity: 0.7;
+}
+
+.accept-button:active,
+.reject-button:active{
+    opacity: 0.5;
+    transform: scale(0.9);
+}

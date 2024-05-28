@@ -1,4 +1,5 @@
-﻿using Catan.Domain.Data;
+﻿using Catan.Domain.Common;
+using Catan.Domain.Data;
 
 namespace Catan.Domain.Entities
 {
@@ -9,16 +10,19 @@ namespace Catan.Domain.Entities
 			var valuesNo = Enum.GetValues(typeof(Resource)).Length;
 			var random = new Random();
 
-			HexTiles = Enumerable.Range(0, 19)
-						 .Select(_ => new HexTile((Resource)random.Next(1, valuesNo)))
-						 .ToArray();
+			var resourceList = GameMapData.getBeginningResourceList();
+			ListExtensions.Shuffle(resourceList);
 
-			int desertIndex = random.Next(0, 19);
-			HexTiles[desertIndex] = new HexTile(Resource.Desert);
-			ThiefPosition = desertIndex;
+			for (int i = 0; i < GameMapData.HEX_TILE_NO; i++) {
+				var resource = resourceList[i];
+				HexTiles[i] = new HexTile(resource);
+				if (resource == Resource.Desert)
+					ThiefPosition = i;
+			}
+
 		}
 
-		public HexTile[] HexTiles {  get; private set; }
+		public HexTile[] HexTiles {  get; private set; } = new HexTile[GameMapData.HEX_TILE_NO];
 		public int ThiefPosition { get; private set; }
 		public Settlement[] Settlements { get; private set; } = new Settlement[GameMapData.SETTLEMENTS_NO];
 		public Road[] Roads { get; private set; } = new Road[GameMapData.ROADS_NO];

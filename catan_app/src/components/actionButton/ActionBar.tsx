@@ -16,12 +16,18 @@ interface ActionBarProps {
     handlePlaceSettlementButtonClick: (action: ButtonActions) => void;
     handlePlaceRoadButtonClick: (action: ButtonActions) => void;
     handleTradeBankButtonClick: () => void;
+    handleTradePlayerButtonClick : () => void;
 }
 
-function ActionBar({ activeButton, handlePlaceSettlementButtonClick , handlePlaceRoadButtonClick, handleTradeBankButtonClick}: ActionBarProps) {
+function ActionBar({ activeButton,
+                       handlePlaceSettlementButtonClick ,
+                       handlePlaceRoadButtonClick, handleTradeBankButtonClick,
+                       handleTradePlayerButtonClick
+}: ActionBarProps) {
     return (
         <div className="actions-div">
-            <TradeButton onClick = {handleTradeBankButtonClick}/>
+            <TradeButton onClick = {handleTradeBankButtonClick} who='bank'/>
+            <TradeButton onClick = {handleTradePlayerButtonClick} who='player'/>
             <PlaceSettlementButton
                 isActive={activeButton === ButtonActions.PlaceSettlement}
                 onClick={() => handlePlaceSettlementButtonClick(ButtonActions.PlaceSettlement)}

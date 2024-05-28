@@ -181,6 +181,28 @@ namespace Catan.Domain.Data
 
 		public static Dictionary<int, List<int>> AdjacentSettlements = new Dictionary<int, List<int>>();
 
+		public static List<Resource> getBeginningResourceList()
+		{
+			List<Resource> resources = new List<Resource>();
+
+			for (int i = 0; i < 4; i++)
+			{
+				resources.Add(Resource.Sheep);
+				resources.Add(Resource.Wheat);
+				resources.Add(Resource.Wood);
+
+			}
+
+			for (int i = 0; i < 3; i++)
+			{
+				resources.Add(Resource.Ore);
+				resources.Add(Resource.Brick);
+			}
+
+            resources.Add(Resource.Desert);
+			return resources;
+		}
+
 		//public static Dictionary<int, List<int>> SettlementAdjacentTiles = new Dictionary<int, List<int>>()
 		//{
 		//	{0, new List<int> {0}},

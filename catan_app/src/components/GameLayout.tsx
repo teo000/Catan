@@ -18,6 +18,8 @@ import {getEmptyResourceCount} from "../interfaces/ResourceCount";
 import Overlay from "./overlay/Overlay";
 import Modal from 'react-modal';
 import {TradeBank} from "./tradeWindow/TradeBank";
+import {TradePlayer} from "./tradeWindow/TradePlayer";
+import {TradeList} from "./pendingTrades/TradesList";
 
 
 
@@ -47,9 +49,14 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
     const isAbandoned = (gameSession.gameStatus === 'Abandoned')
 
     const [isTradeBankOpen, setIsTradeBankOpen] = useState(false);
+    const [isTradePlayerOpen, setIsTradePlayerOpen] = useState(false);
 
     const handleOpenTradeBank = () => {
         setIsTradeBankOpen(true);
+    };
+
+    const handleOpenTradePlayer = () => {
+        setIsTradePlayerOpen(true);
     };
 
     const handleSettlementClick = async (id: number) => {
@@ -136,7 +143,7 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
     if (!player)
         return <p> Something went wrong ... </p>
 
-    // console.log(gameSession);
+    console.log(gameSession);
 
     let playerState = gameSession.players.find(p => p.id === player.id);
     let resourceCount = playerState ? playerState.resourceCount : getEmptyResourceCount()
@@ -183,15 +190,18 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
                                handlePlaceSettlementButtonClick={handlePlaceSettlementButtonClick}
                                handlePlaceRoadButtonClick={handlePlaceRoadButtonClick}
                                handleTradeBankButtonClick={handleOpenTradeBank}
+                               handleTradePlayerButtonClick={handleOpenTradePlayer}
                     />
-                    <div className="chat-div">
-                        Trades will appear here...
-                    </div>
+                    {/*<div className="chat-div">*/}
+                    {/*    Trades will appear here...*/}
+                    {/*</div>*/}
+                    <TradeList trades={gameSession.trades} players={gameSession.players}/>
                 </div>
                 <ResourcesDiv resourceCount={resourceCount}/>
             </div>
             {isAbandoned && <Overlay winner={null} message="Game has been abandoned" />}
             <TradeBank isOpen={isTradeBankOpen} setIsOpen={setIsTradeBankOpen}/>
+            <TradePlayer players={gameSession.players} isOpen={isTradePlayerOpen} setIsOpen={setIsTradePlayerOpen}/>
         </div>
     );
 }
