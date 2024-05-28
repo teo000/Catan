@@ -49,7 +49,7 @@ namespace Catan.Application.Features.Trade.Commands.AcceptTrade
 					ValidationErrors = new List<string>() { "Trade is no longer available." }
 				};
 
-			if (trade.PlayerToGive.Id != request.PlayerId)
+			if (trade.PlayerToReceive.Id != request.PlayerId)
 				return new TradeResponse()
 				{
 					Success = false,
