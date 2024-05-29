@@ -24,9 +24,9 @@ namespace Catan.Domain.Entities
 		public bool IsActive { get; private set; }
 		public Dictionary<Resource, int> ResourceCount { get; private set; }
 		public List<Settlement> Settlements { get; private set; } = new List<Settlement>();
+		public List<City> Cities { get; private set; } = new List<City>();
 		public List<Road> Roads { get; private set; } = new List<Road>();
 		public Color Color { get; set; }
-
 		public int LastPlacedSettlementPos = -1;
 
 		//ar trebui poate sa notez undeva ce fel de trade-uri din astea mai favorabile pot sa fac
@@ -47,6 +47,24 @@ namespace Catan.Domain.Entities
 			}
 			return true;
 		}
+
+		public bool SubtractResources(Buyable buyable)
+		{
+			var costs = GameInfo.Costs[buyable];
+			foreach (var (resource, required) in costs)
+			{
+				if (ResourceCount[resource] < required)
+					return false;
+			}
+
+			foreach (var (resource, required) in costs)
+			{
+				ResourceCount[resource] -= required;
+			}
+
+			return true;
+		}
+
 
 		public bool HasResource(Resource resource, int count)
 		{
@@ -85,13 +103,9 @@ namespace Catan.Domain.Entities
 
 		public int CalculatePoints()
 		{
-			int points = 0;
-			foreach (var settlement in Settlements)
-				points += settlement.IsCity ? 2 : 1;
-
 			//adauga aia cu cel mai lung drum !!!!!!
 
-			return points;
+			return Settlements.Count + Cities.Count * 2;
 		}
 
 		public void AddSettlement(Settlement settlement)
@@ -99,5 +113,6 @@ namespace Catan.Domain.Entities
 			Settlements.Add(settlement);
 			LastPlacedSettlementPos = settlement.Position;
 		}
+
 	}
 }

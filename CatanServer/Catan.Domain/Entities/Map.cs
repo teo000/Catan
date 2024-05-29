@@ -24,7 +24,7 @@ namespace Catan.Domain.Entities
 
 		public HexTile[] HexTiles {  get; private set; } = new HexTile[GameMapData.HEX_TILE_NO];
 		public int ThiefPosition { get; private set; }
-		public Settlement[] Settlements { get; private set; } = new Settlement[GameMapData.SETTLEMENTS_NO];
+		public GamePiece[] Buildings { get; private set; } = new GamePiece[GameMapData.SETTLEMENTS_NO];
 		public Road[] Roads { get; private set; } = new Road[GameMapData.ROADS_NO];
 
 

@@ -78,7 +78,7 @@ namespace Catan.Application
 			
 			var winner = session.CheckIfIsWon();
 			if (winner is not null)
-				session.MarkFinished();
+				session.MarkFinished(winner);
 
 
 			if (session.GameStatus == GameStatus.InProgress)

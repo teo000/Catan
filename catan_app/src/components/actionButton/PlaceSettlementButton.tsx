@@ -1,10 +1,5 @@
 import React from "react";
-import {ActionButton} from "./ActionButton";
-interface CustomButtonProps {
-    isActive: boolean;
-    onClick: () => void;
-}
-
+import {ActionButton, CustomButtonProps} from "./ActionButton";
 export const PlaceSettlementButton: React.FC<CustomButtonProps> = ({ isActive, onClick }) => {
 
     const handleClick = () => {

@@ -22,7 +22,7 @@ export function Settlements({settlementSpotInfo, settlements, players} : Settlem
 
 
     return (
-        <div className="settlement-spots">
+        <div className="settlements">
             {settlementSpotInfo.map(settlement => (
                 settlementIds.includes(settlement.id) && (
                     <Settlement key={settlement.id}

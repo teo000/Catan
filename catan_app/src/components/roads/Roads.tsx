@@ -23,7 +23,7 @@ export const Roads: React.FC<RoadsProps> = ({roadSpotInfo, roads, players }) => 
     }, {} as { [id: number]: PlayerColor });
 
     return (
-        <div className="road-spots">
+        <div className="roads">
             {roadSpotInfo.map(road => (
                 roadIds.includes(road.id) && (
                     <Road key={road.id}

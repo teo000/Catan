@@ -1,7 +1,7 @@
 import {GameMap} from "./GameMap";
 import {SettlementSpots} from "./settlements/SettlementSpots";
 import {ActionBar, ButtonActions} from "./actionButton/ActionBar";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {RoadSpots} from "./roads/RoadSpots";
 import {ComputeSettlementSpotsInfo} from "./settlements/ComputeSettlementSpotsInfo";
 import {Settlements} from "./settlements/Settlements";
@@ -20,6 +20,8 @@ import Modal from 'react-modal';
 import {TradeBank} from "./tradeWindow/TradeBank";
 import {TradePlayer} from "./tradeWindow/TradePlayer";
 import {TradeList} from "./pendingTrades/TradesList";
+import {SettlementDto} from "../interfaces/SettlementDto";
+import {Cities} from "./cities/Cities";
 
 
 
@@ -32,14 +34,9 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
 
     const [visibleSettlementSpots, setVisibleSettlementSpots] = useState<number[]>([]);
     const [visibleRoadSpots, setVisibleRoadSpots] = useState<number[]>([]);
+    const [visibleCitySpots, setVisibleCitySpots] = useState<number[]>([]);
 
     const [activeButton, setActiveButton] = useState<ButtonActions>(ButtonActions.None);
-
-    const [settlements, setSettlements] = useState<number[]>([]);
-    const [roads, setRoads] = useState<number[]>([]);
-
-    const [diceRoll, setDiceRoll] = useState(gameSession.dice);
-
 
     const settlementSpotInfo = ComputeSettlementSpotsInfo();
     const roadSpotInfo = ComputeRoadSpotsInfo();
@@ -47,9 +44,18 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
     const {player} = usePlayer();
 
     const isAbandoned = (gameSession.gameStatus === 'Abandoned')
+    const isWon = (gameSession.gameStatus === 'Finished')
 
     const [isTradeBankOpen, setIsTradeBankOpen] = useState(false);
     const [isTradePlayerOpen, setIsTradePlayerOpen] = useState(false);
+
+    useEffect(() => {
+        if (player?.id !== gameSession.turnPlayer.id) {
+            setActiveButton(ButtonActions.None)
+            setVisibleRoadSpots([]);
+            setVisibleSettlementSpots([]);
+        }
+    }, [gameSession.turnPlayer.id, player?.id]);
 
     const handleOpenTradeBank = () => {
         setIsTradeBankOpen(true);
@@ -71,12 +77,84 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
         } catch (err) {
             console.error('Failed to place settlement', err);
         }
+    };
 
-        setSettlements(prevState => {
-            const newState = [...prevState];
-            newState.push(id);
-            return newState;
-        });
+    const handlePlaceSettlementButtonClick = (action: ButtonActions) => {
+        if (action === ButtonActions.PlaceSettlement) {
+            if (activeButton === ButtonActions.PlaceSettlement)
+                setVisibleSettlementSpots([])
+            else {
+                const newVisibleSettlements = determineVisibleSettlementSpots();
+                setVisibleSettlementSpots(newVisibleSettlements);
+            }
+            setVisibleRoadSpots([]);
+            setVisibleCitySpots([]);
+        } else {
+            setVisibleSettlementSpots([]);
+        }
+        setActiveButton(action === activeButton ? ButtonActions.None : action);
+    };
+
+    const determineVisibleSettlementSpots = (): number[] => {
+        // aici vom face ca doar settlement-urile conectate la vreun drum sa fie vizibile
+
+        const settlementPositionsSet = new Set<number>(  Array.from({ length: 55 }, (_, index) => index));
+        const settlementPositions = gameSession.map.settlements.map(s => s.position);
+        console.log("settlements: " + settlementPositions)
+        for (const pos of settlementPositions)
+            settlementPositionsSet.delete(pos);
+
+        return Array.from(settlementPositionsSet);
+    };
+
+    const handleCityClick = async (id: number) => {
+        const requestData = {gameId: gameSession.id, playerId: player?.id, position: id};
+
+        try {
+            const response = await request('/city', 'post', requestData);
+            if (response === null || !response.success){
+                console.error('Failed to place settlement: Invalid response format', response);
+            }
+            console.log(response);
+            setVisibleCitySpots(prevState => {
+                const newState = [...prevState];
+                const index = newState.indexOf(id);
+                if (index > -1) {
+                    newState.splice(index, 1);
+                }
+                return newState;
+            });
+        } catch (err) {
+            console.error('Failed to place settlement', err);
+        }
+    };
+
+    const handlePlaceCityButtonClick = (action: ButtonActions) => {
+        if (action === ButtonActions.PlaceCity) {
+            if (activeButton === ButtonActions.PlaceCity)
+                setVisibleCitySpots([])
+            else {
+                const newVisibleCities = determineVisibleCitySpots();
+                setVisibleCitySpots(newVisibleCities);
+            }
+            setVisibleRoadSpots([]);
+            setVisibleSettlementSpots([]);
+        } else {
+            setVisibleCitySpots([]);
+        }
+        setActiveButton(action === activeButton ? ButtonActions.None : action);
+    };
+
+    const determineVisibleCitySpots = (): number[] => {
+        // aici vom face ca doar settlement-urile conectate la vreun drum sa fie vizibile
+
+        const settlementPositions = gameSession.map.settlements
+            .filter(s => s.playerId === player?.id)
+            .map(s => s.position);
+
+        console.log("settlements: " + settlementPositions)
+
+        return Array.from(settlementPositions);
     };
 
     const handleRoadClick = async (id: number) => {
@@ -92,31 +170,6 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
             console.error('Failed to place road', err);
         }
 
-        setRoads(prevState => {
-            const newState = [...prevState];
-            newState.push(id);
-            return newState;
-        });
-    };
-
-    const handlePlaceSettlementButtonClick = (action: ButtonActions) => {
-        if (action === ButtonActions.PlaceSettlement) {
-            if (activeButton === ButtonActions.PlaceSettlement)
-                setVisibleSettlementSpots([])
-            else {
-                const newVisibleSettlements = determineVisibleSettlements();
-                setVisibleSettlementSpots(newVisibleSettlements);
-            }
-            setVisibleRoadSpots([]);
-        } else {
-            setVisibleSettlementSpots([]);
-        }
-        setActiveButton(action === activeButton ? ButtonActions.None : action);
-    };
-
-    const determineVisibleSettlements = (): number[] => {
-        // aici vom face ca doar settlement-urile conectate la vreun drum sa fie vizibile
-        return Array.from({ length: 55 }, (_, index) => index);
     };
 
     const handlePlaceRoadButtonClick = (action: ButtonActions) => {
@@ -128,6 +181,7 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
                 setVisibleRoadSpots(newVisibleRoads);
             }
             setVisibleSettlementSpots([]);
+            setVisibleCitySpots([]);
         } else {
             setVisibleRoadSpots([]);
         }
@@ -136,6 +190,7 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
 
     const determineVisibleRoads = (): number[] => {
         // aici vom face ca doar road-urile conectate la vreun settlement sa fie vizibile
+
         return Array.from({ length: 73 }, (_, index) => index);
 
     };
@@ -166,29 +221,33 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
                         visibleSettlementSpots={visibleSettlementSpots}
                         onSettlementClick={handleSettlementClick}
                     />
+                    <SettlementSpots
+                        settlementSpotInfo={settlementSpotInfo}
+                        visibleSettlementSpots={visibleCitySpots}
+                        onSettlementClick={handleCityClick}
+                    />
                     <RoadSpots
                         roadSpotInfo={roadSpotInfo} // fa chestia asta globala statica sau ceva de genul
                         visibleRoadSpots={visibleRoadSpots}
                         onRoadClick={handleRoadClick}
                     />
-
                 </div>
-                <div className='settlements'>
-                    <Settlements settlementSpotInfo={settlementSpotInfo}
-                                 settlements={gameSession.map.settlements}
-                                 players={gameSession.players}/>
-                </div>
-                <div className='roads'>
-                    <Roads roadSpotInfo={roadSpotInfo}
-                           roads={gameSession.map.roads}
-                           players={gameSession.players}></Roads>
-                </div>
+                <Settlements settlementSpotInfo={settlementSpotInfo}
+                             settlements={gameSession.map.settlements}
+                             players={gameSession.players}/>
+                <Roads roadSpotInfo={roadSpotInfo}
+                       roads={gameSession.map.roads}
+                       players={gameSession.players}/>
+                <Cities settlementSpotInfo={settlementSpotInfo}
+                        cities={gameSession.map.cities}
+                        players={gameSession.players}/>
             </div>
             <div className="gameplay-div">
                 <div className="actions-chat-container">
                     <ActionBar activeButton={activeButton}
                                handlePlaceSettlementButtonClick={handlePlaceSettlementButtonClick}
                                handlePlaceRoadButtonClick={handlePlaceRoadButtonClick}
+                               handlePlaceCityButtonClick={handlePlaceCityButtonClick}
                                handleTradeBankButtonClick={handleOpenTradeBank}
                                handleTradePlayerButtonClick={handleOpenTradePlayer}
                     />
@@ -200,6 +259,14 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
                 <ResourcesDiv resourceCount={resourceCount}/>
             </div>
             {isAbandoned && <Overlay winner={null} message="Game has been abandoned" />}
+            {isWon && gameSession.winner &&
+                <Overlay winner={gameSession.winner.name}
+                         message="Game finished!"
+                         // message={gameSession.winner.id === player.id ?
+                         // "You won!" : `${gameSession.winner.name} wins`}
+
+                />
+            }
             <TradeBank isOpen={isTradeBankOpen} setIsOpen={setIsTradeBankOpen}/>
             <TradePlayer players={gameSession.players} isOpen={isTradePlayerOpen} setIsOpen={setIsTradePlayerOpen}/>
         </div>

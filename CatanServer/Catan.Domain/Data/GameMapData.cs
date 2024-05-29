@@ -203,42 +203,5 @@ namespace Catan.Domain.Data
 			return resources;
 		}
 
-		//public static Dictionary<int, List<int>> SettlementAdjacentTiles = new Dictionary<int, List<int>>()
-		//{
-		//	{0, new List<int> {0}},
-		//	{1, new List<int> {1}},
-		//	{2, new List<int> {2}},
-		//	{3, new List<int> {0}},
-
-		//	{4, new List<int> {0}},
-		//	{5, new List<int> {0, 1}},
-		//	{6, new List<int> {1, 2}},
-		//	{7, new List<int> {2 }},
-
-		//	{8, new List<int> {0, 3}},
-		//	{9, new List<int> {0, 1, 4}},
-		//	{10, new List<int> {1, 2, 5 } },
-		//	{11, new List<int> {2, 6 } },
-
-		//	{12, new List<int> {3 } },
-		//	{13, new List<int> {0, 3, 4 } },
-		//	{14, new List<int> {1, 4, 5 } },
-		//	{15, new List<int> {2, 5, 6 } },
-		//	{16, new List<int> {2, 6}},
-
-		//	{17, new List<int> {3, 7 } },
-		//	{18, new List<int> {3, 4, 8} },
-		//	{19, new List<int> {4, 5, 9 } },
-		//	{20, new List<int> {6, 7, 11} },
-		//	{21, new List<int> {7, 12} },
-
-		//	{22, new List<int> {8 } },
-		//	{23, new List<int> {4, 8, 9} },
-		//	{24, new List<int> {} }
-
-
-		//};
-
-
 	}
 }

@@ -13,4 +13,5 @@ export interface GameSession {
     round: number;
     trades: TradeDto[];
     dice: DiceRoll;
+    winner: Player | null;
 }

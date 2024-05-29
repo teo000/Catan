@@ -46,7 +46,7 @@ export const Lobby = React.memo(() => {
 
     useEffect(() => {
         if (!isOver) {
-            const intervalId = setInterval(fetchGameState, 1000);
+            const intervalId = setInterval(fetchGameState, 500);
             return () => clearInterval(intervalId);
         }
     }, [fetchGameState, isOver]);
@@ -70,15 +70,15 @@ export const Lobby = React.memo(() => {
     if (error) return <p>Error: {error}</p>;
     if (!loaded) return <p>Loading...</p>
 
-    if (data === undefined || data === null || data.lobby === undefined || data.lobby === null)
+    if (data === undefined || data === null)
         return <p> ... </p>
 
-    const gameSession = data?.lobby.gameSession;
+    const gameSession = data.lobby.gameSession;
     if (gameSession !== undefined && gameSession !== null) {
         return <GameLayout gameSession={gameSession}/>
     }
 
-    const lobby = data?.lobby;
+    const lobby = data.lobby;
     if (lobby !== undefined && lobby !== null)
         return <WaitingRoom players={players} onClick={onStartGame}/>
 

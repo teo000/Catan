@@ -1,42 +1,31 @@
-.settlements{
+.cities{
     position:absolute;
     width: 720px;
     height: 665px;
     pointer-events: none;
 }
 
-.settlement-spot{
+.city-spot{
     position:absolute;
     width: 30px;
     height: 30px;
     background-color: rgba(255, 255, 255, 0.5);
     border-radius: 50%;
     cursor: pointer;
-    z-index: 1;
-    animation: fade 3s infinite;
+    /*z-index: 1000000;*/
+    /*color: red;*/
 }
 
-@keyframes fade {
-    0% {
-        opacity: 0;
-    }
-    50% {
-        opacity: 1;
-    }
-    100% {
-        opacity: 0;
-    }
-}
+/*.city{*/
+/*    position:absolute;*/
+/*    width: 30px;*/
+/*    height: 30px;*/
+/*    background-color: #910000;*/
+/*    border-radius: 50%;*/
+/*    !*z-index: 10;*!*/
+/*}*/
 
-.settlement{
-    position:absolute;
-    width: 30px;
-    height: 30px;
-    background-color: #910000;
-    border-radius: 50%;
-    /*z-index: 10;*/
-}
-.star {
+.city {
     position: absolute;
     width: 40px;
     height: 40px;
@@ -52,10 +41,4 @@
             2% 35%,
             39% 35%
     );
-}
-.rhombus {
-    position: absolute;
-    width: 30px;
-    height: 30px;
-    transform: rotate(45deg);
 }

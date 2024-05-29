@@ -34,11 +34,15 @@ namespace Catan.Domain.Entities
 		public int Round { get; private set; } = 1;
 		public DiceRoll Dice { get; private set; }
 		public List<Trade> Trades { get; private set; } = new List<Trade>();
+		public Player? Winner { get; private set; }
+
 
 		public static Result<GameSession> Create (List<Player> players)
 		{
 			//if (players == null || players.Count < 3 || players.Count > 4)
 			//	return Result<GameSession>.Failure("Not enough players.");
+			if (players == null || players.Count < 2)
+				return Result<GameSession>.Failure("Not enough players.");
 			return Result<GameSession>.Success(new GameSession(players));
 		}
 
@@ -75,8 +79,8 @@ namespace Catan.Domain.Entities
 			if (position >= GameMapData.SETTLEMENTS_NO || position < 0)
 				return Result<Settlement>.Failure("Incorrect settlement index");
 
-			if (GameMap.Settlements[position] != null)
-				return Result<Settlement>.Failure("Settlement already placed here");
+			if (GameMap.Buildings[position] != null)
+				return Result<Settlement>.Failure("Game piece already placed here");
 
 			if (!isInitialPhase) //netestat
 			{
@@ -97,6 +101,9 @@ namespace Catan.Domain.Entities
 
 				if (!player.HasResources(Buyable.SETTLEMENT))
 					return Result<Settlement>.Failure("You do not have enough resources");
+
+				if (player.Settlements.Count >= GameInfo.SETTLEMENTS_PER_PLAYER)
+					return Result<Settlement>.Failure("You have placed all your settlements.");
 			}
 			else if (player.Settlements.Count >= Round)
 				return Result<Settlement>.Failure("You cannot place another settlement now");
@@ -104,22 +111,26 @@ namespace Catan.Domain.Entities
 			var adjacentSettlements = GameMapData.AdjacentSettlements[position];
 			foreach (var adjacentSettlement in adjacentSettlements)
 			{
-				if (GameMap.Settlements[adjacentSettlement] is not null)
+				if (GameMap.Buildings[adjacentSettlement] is not null)
 					return Result<Settlement>.Failure("Other settlement too close by");
 			}
 
-			//vezi si ca are destule
+			var newSettlement = new Settlement(player, position);
 
-			var newSettlement = new Settlement(player, false, position);
-
-			GameMap.Settlements[position] = newSettlement;
+			GameMap.Buildings[position] = newSettlement;
 			player.AddSettlement(newSettlement);
+			if (!isInitialPhase)
+				player.SubtractResources(Buyable.SETTLEMENT);
 
 			foreach (var hexTilePos in GameMapData.SettlementAdjacentTiles[position])
 			{
 				var hexTile = GameMap.HexTiles[hexTilePos];
-				hexTile.Settlements.Add(newSettlement);
+				hexTile.Buildings.Add(newSettlement);
 			}
+
+			var winner = CheckIfIsWon();
+			if (winner != null)
+				MarkFinished(winner);
 
 			return Result<Settlement>.Success(newSettlement);
 		}
@@ -143,12 +154,26 @@ namespace Catan.Domain.Entities
 
 			
 			var (roadEnd1, roadEnd2) = GameMapData.RoadEnds[position];
-			var settlement1 = GameMap.Settlements[roadEnd1];
-			var settlement2 = GameMap.Settlements[roadEnd2];
+			var settlement1 = GameMap.Buildings[roadEnd1];
+			var settlement2 = GameMap.Buildings[roadEnd2];
 
-			if ((settlement1 is null || !settlement1.BelongsTo(player))
+			bool connected = false;
+
+			foreach (var road in GameMap.Roads)
+				if(road is not null && road.BelongsTo(player))
+				{
+					var (otherRoadEnd1, otherRoadEnd2) = GameMapData.RoadEnds[road.Position];
+					if (otherRoadEnd1 == roadEnd1 || otherRoadEnd1 == roadEnd2
+						|| otherRoadEnd2 == roadEnd1 || otherRoadEnd2 == roadEnd2)
+					{
+						connected = true;
+						break;
+					}
+				}
+
+			if ( !connected && (settlement1 is null || !settlement1.BelongsTo(player))
 				&& (settlement2 is null || !settlement2.BelongsTo(player)) )
-				return Result<Road>.Failure("Road is not connected to any settlement");
+				return Result<Road>.Failure("Road is not connected");
 
 
 			if (isInitialPhase)
@@ -161,54 +186,63 @@ namespace Catan.Domain.Entities
 			}
 
 			if (!isInitialPhase && !player.HasResources(Buyable.ROAD))
-			return Result<Road>.Failure("You do not have enough resources");
+				return Result<Road>.Failure("You do not have enough resources");
 
 			var newRoad = new Road(player, position);
 
 			GameMap.Roads[position] = newRoad;
 			player.Roads.Add(newRoad);
+			if(!isInitialPhase)
+				player.SubtractResources(Buyable.ROAD);
+
 
 			return Result<Road>.Success(newRoad);
 		}
 
-		public Result<Settlement> PlaceCity(Player player, int position)
+		public Result<City> PlaceCity(Player player, int position)
 		{
 			if (player != GetTurnPlayer())
-				return Result<Settlement>.Failure("It is not your turn");
+				return Result<City>.Failure("It is not your turn");
 
 			if (!player.IsActive)
-				return Result<Settlement>.Failure("You have been kicked out of the lobby");
+				return Result<City>.Failure("You have been kicked out of the lobby");
 
 			if (position >= GameMapData.SETTLEMENTS_NO || position < 0)
-				return Result<Settlement>.Failure("Incorrect settlement index");
+				return Result<City>.Failure("Incorrect settlement index");
 
-			if (GameMap.Settlements[position] == null)
-				return Result<Settlement>.Failure("You must place a settlement first");
+			if (GameMap.Buildings[position] == null)
+				return Result<City>.Failure("You must place a settlement first");
 
-			if (GameMap.Settlements[position].IsCity)
-				return Result<Settlement>.Failure("A city already exists here.");
+			if (GameMap.Buildings[position] is City)
+				return Result<City>.Failure("A city already exists here.");
 
-			if (!GameMap.Settlements[position].BelongsTo(player))
-				return Result<Settlement>.Failure("You cannot place a city over your opponent's.");
+			if (!GameMap.Buildings[position].BelongsTo(player))
+				return Result<City>.Failure("You cannot place a city over your opponent's.");
 
 			if (!player.HasResources(Buyable.CITY))
-				return Result<Settlement>.Failure("You do not have enough resources");
+				return Result<City>.Failure("You do not have enough resources");
 
-			//vezi si ca are destule
+			if (player.Cities.Count >= GameInfo.CITIES_PER_PLAYER)
+				return Result<City>.Failure("You have placed all your cities.");
 
-			var newCity = new Settlement(player, true, position);
+			var newCity = new City(player, position);
 
-			GameMap.Settlements[position] = newCity;
-			player.Settlements.Add(newCity);
+			GameMap.Buildings[position] = newCity;
+			player.Cities.Add(newCity);
+			player.SubtractResources(Buyable.CITY);
 
-			return Result<Settlement>.Success(newCity);
+			var winner = CheckIfIsWon();
+			if (winner != null)
+				MarkFinished(winner);
+
+			return Result<City>.Success(newCity);
 
 		}
 
 		public Player? CheckIfIsWon()
 		{
 			foreach (var player in Players)
-				if (player.CalculatePoints() >= 10)
+				if (player.CalculatePoints() >= GameInfo.WINNING_POINTS)
 					return player;
 			return null;
 		}
@@ -239,12 +273,12 @@ namespace Catan.Domain.Entities
 
 			foreach (var hexTile in hexTiles)
 				if (hexTile.Number == number)
-					foreach (var settlement in hexTile.Settlements)
-						if (GameMap.ThiefPosition != settlement.Position)
+					foreach (var building in hexTile.Buildings)
+						if (GameMap.ThiefPosition != building.Position)
 						{
-							var player = settlement.Player;
+							var player = building.Player;
 							var resource = hexTile.Resource;
-							var count = settlement.IsCity ? 2 : 1;
+							var count = building.Points;
 
 							if (!resourcesToAdd[player].ContainsKey(resource))
 								resourcesToAdd[player].Add(resource, count);
@@ -266,9 +300,10 @@ namespace Catan.Domain.Entities
 			}
 		}
 
-		public void MarkFinished()
+		public void MarkFinished(Player player)
 		{
 			GameStatus = GameStatus.Finished;
+			Winner = player;
 		}
 
 		public List<Player> GetActivePlayers()

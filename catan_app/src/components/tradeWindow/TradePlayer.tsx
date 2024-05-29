@@ -2,7 +2,6 @@ import Modal from "react-modal";
 import React, {useEffect, useState} from "react";
 import "./tradeWindow.css"
 import useFetch from "../../hooks/useFetch";
-import {LobbyResponse} from "../../responses/LobbyResponse";
 import {usePlayer} from "../PlayerProvider";
 import {BaseResponse} from "../../responses/BaseResponse";
 import {Player} from "../../interfaces/Player";
@@ -58,8 +57,6 @@ export const TradePlayer: React.FC<TradeBankProps> = ({ players, isOpen, setIsOp
         } catch (err) {
             console.error('Failed to trade player', err);
         }
-
-        // setIsOpen(false);
     };
 
     const handleCancel = () => {

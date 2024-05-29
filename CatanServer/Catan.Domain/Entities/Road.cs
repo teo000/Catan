@@ -1,14 +1,9 @@
 ﻿namespace Catan.Domain.Entities
 {
-	public class Road
+	public class Road : GamePiece
 	{
-		public Road(Player player, int position)
+		public Road(Player player, int position) : base(player, position)
 		{
-			Player = player;
-			Position = position;
 		}
-		public int Position { get; }
-		public Player Player { get; }
-
 	}
 }

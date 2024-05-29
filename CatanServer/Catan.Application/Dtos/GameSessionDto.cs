@@ -15,5 +15,7 @@ namespace Catan.Application.Dtos
         public int Round {  get; set; }
 		public List<TradeDto> Trades { get;  set; } 
         public DiceRollDto Dice {  get; set; }
+		public PlayerDto? Winner { get; private set; }
+
 	}
 }

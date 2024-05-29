@@ -13,6 +13,8 @@ namespace Catan.Application.Mapper
 
 			CreateMap<Settlement, SettlementDto>()
 					.ForMember(dest => dest.PlayerId, opt => opt.MapFrom(src => src.Player.Id));
+			CreateMap<City, CityDto>()
+					.ForMember(dest => dest.PlayerId, opt => opt.MapFrom(src => src.Player.Id));
 			CreateMap<Road, RoadDto>()
 					.ForMember(dest => dest.PlayerId, opt => opt.MapFrom(src => src.Player.Id));
 
@@ -28,13 +30,21 @@ namespace Catan.Application.Mapper
 			CreateMap<Map, MapDto>()
 				   .ForMember(dest => dest.HexTiles, opt => opt.MapFrom(src => src.HexTiles))
 				   .ForMember(dest => dest.Settlements, 
-						opt => opt.MapFrom(src => src.Settlements.Where(settlement => settlement != null).ToList()))
+						opt => opt.MapFrom(src => src.Buildings
+						.Where(building => building != null)
+						.Where(building => building is Settlement)
+						.ToList()))
+				   .ForMember(dest => dest.Cities,
+						opt => opt.MapFrom(src => src.Buildings
+						.Where(building => building != null)
+						.Where(building => building is City)
+						.ToList()))
 				   .ForMember(dest => dest.Roads,
 						opt => opt.MapFrom(src => src.Roads.Where(road => road != null).ToList()));
 
 			CreateMap<Player, PlayerDto>()
 					.ForMember(dest => dest.ResourceCount, opt => opt.MapFrom(src => src.ResourceCount))
-					.ForMember(dest => dest.Settlements, opt => opt.MapFrom(src => src.Settlements))
+					//.ForMember(dest => dest.Settlements, opt => opt.MapFrom(src => src.Settlements))
 					.ForMember(dest => dest.Roads, opt => opt.MapFrom(src => src.Roads))
 					.ForMember(dest => dest.Color, opt => opt.MapFrom(src => src.Color.ToString().ToLower()));
 
@@ -44,7 +54,8 @@ namespace Catan.Application.Mapper
 				   .ForMember(dest => dest.Players, opt => opt.MapFrom(src => src.Players))
 				   .ForMember(dest => dest.TurnPlayer, opt => opt.MapFrom(src => src.GetTurnPlayer()))
 				   .ForMember(dest => dest.Dice, opt => opt.MapFrom(src => src.Dice))
-				   .ForMember(dest => dest.Trades, opt => opt.MapFrom(src => src.Trades));
+				   .ForMember(dest => dest.Trades, opt => opt.MapFrom(src => src.Trades))
+				   .ForMember(dest => dest.Winner, opt => opt.MapFrom(src => src.Winner));
 
 			CreateMap<Lobby, LobbyDto>()
 				.ForMember(dest => dest.Players, opt => opt.MapFrom(src => src.Players))

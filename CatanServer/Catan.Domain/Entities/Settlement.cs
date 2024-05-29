@@ -1,22 +1,11 @@
 ﻿namespace Catan.Domain.Entities
 {
-	public class Settlement
+	public class Settlement : Building
 	{
-		public Settlement(Player player, bool isCity, int position)
+		public Settlement(Player player, int position) : base(player, position)
 		{
-			Player = player;
-			IsCity = isCity;
-			Position = position;
 		}
-		public int Position { get; }
-		public bool IsCity { get; }
-		public Player Player { get; }
+		public override int Points { get; } = 1;
 
-		public bool BelongsTo (Player player)
-		{
-			if (player == Player)
-				return true;
-			return false;
-		}
 	}
 }
