@@ -10,6 +10,7 @@ export interface Player {
     settlements: SettlementDto[];
     roads: RoadDto[];
     color: string;
+    winningPoints: number;
 }
 
 export enum PlayerColor {

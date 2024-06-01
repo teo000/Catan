@@ -18,6 +18,10 @@ namespace Catan.Application.Mapper
 			CreateMap<Road, RoadDto>()
 					.ForMember(dest => dest.PlayerId, opt => opt.MapFrom(src => src.Player.Id));
 
+			CreateMap<LongestRoad, LongestRoadDto>()
+				.ForMember(dest => dest.Roads, opt => opt.MapFrom(src => src.Roads))
+				.ForMember(dest => dest.Player, opt => opt.MapFrom(src => src.Player));
+
 			CreateMap<DiceRoll, DiceRollDto>();
 
 			CreateMap<Trade, TradeDto>()

@@ -129,30 +129,45 @@ namespace Catan.Domain.Data
 				}
 			}
 
-
+			int index = 0;
 			for(int row=0; row < SettlementLayout.Count - 1; row++)
 			{
 				if (SettlementLayout[row].Count < SettlementLayout[row + 1].Count)
 				{
 					for(int pos = 0; pos < SettlementLayout[row].Count; pos++)
 					{
-						RoadEnds.Add((SettlementLayout[row + 1][pos], SettlementLayout[row][pos]));
-						RoadEnds.Add((SettlementLayout[row][pos], SettlementLayout[row + 1][pos + 1]));
+						var roadEnd1 = (SettlementLayout[row + 1][pos], SettlementLayout[row][pos]);
+						var roadEnd2 = (SettlementLayout[row][pos], SettlementLayout[row + 1][pos + 1]);
+
+						RoadEnds.Add(roadEnd1);
+						RoadByRoadEnds.Add(roadEnd1, index++);
+
+						RoadEnds.Add(roadEnd2);
+						RoadByRoadEnds.Add(roadEnd2, index++);
+					
 					}
 				}
 				else if (SettlementLayout[row].Count == SettlementLayout[row + 1].Count)
 				{
 					for (int pos = 0; pos < SettlementLayout[row].Count; pos++)
 					{
-						RoadEnds.Add((SettlementLayout[row][pos], SettlementLayout[row + 1][pos]));
+						var roadEnd = (SettlementLayout[row][pos], SettlementLayout[row + 1][pos]);
+						RoadEnds.Add(roadEnd);
+						RoadByRoadEnds.Add(roadEnd, index++);
 					}
 				}
 				else
 				{
 					for (int pos = 0; pos < SettlementLayout[row+1].Count; pos++)
 					{
-						RoadEnds.Add((SettlementLayout[row][pos], SettlementLayout[row + 1][pos]));
-						RoadEnds.Add((SettlementLayout[row + 1][pos], SettlementLayout[row][pos + 1]));
+						var roadEnd1 = (SettlementLayout[row][pos], SettlementLayout[row + 1][pos]);
+						var roadEnd2 = (SettlementLayout[row + 1][pos], SettlementLayout[row][pos + 1]);
+
+						RoadEnds.Add(roadEnd1);
+						RoadByRoadEnds.Add(roadEnd1, index++);
+
+						RoadEnds.Add(roadEnd2);
+						RoadByRoadEnds.Add(roadEnd2 , index++);
 					}
 				}
 			}
@@ -178,6 +193,8 @@ namespace Catan.Domain.Data
 		public static List<List<int>> SettlementAdjacentTiles = new List<List<int>>();
 
 		public static List<(int, int)> RoadEnds = new List<(int, int)>();
+
+		public static Dictionary<(int, int), int> RoadByRoadEnds = new Dictionary<(int, int), int>();
 
 		public static Dictionary<int, List<int>> AdjacentSettlements = new Dictionary<int, List<int>>();
 

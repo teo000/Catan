@@ -28,6 +28,7 @@ namespace Catan.Domain.Entities
 		public List<Road> Roads { get; private set; } = new List<Road>();
 		public Color Color { get; set; }
 		public int LastPlacedSettlementPos = -1;
+		public int WinningPoints { get; set; }
 
 		//ar trebui poate sa notez undeva ce fel de trade-uri din astea mai favorabile pot sa fac
 		public static Result<Player> Create(string name) 

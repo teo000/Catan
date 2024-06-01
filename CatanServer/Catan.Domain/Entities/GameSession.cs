@@ -1,8 +1,5 @@
 ﻿using Catan.Domain.Common;
 using Catan.Domain.Data;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq.Expressions;
 
 namespace Catan.Domain.Entities
 {
@@ -35,6 +32,7 @@ namespace Catan.Domain.Entities
 		public DiceRoll Dice { get; private set; }
 		public List<Trade> Trades { get; private set; } = new List<Trade>();
 		public Player? Winner { get; private set; }
+		public LongestRoad LongestRoad { get; private set; }
 
 
 		public static Result<GameSession> Create (List<Player> players)
@@ -195,10 +193,11 @@ namespace Catan.Domain.Entities
 			if(!isInitialPhase)
 				player.SubtractResources(Buyable.ROAD);
 
+			CalculateNewLongestRoad();
 
 			return Result<Road>.Success(newRoad);
 		}
-
+	
 		public Result<City> PlaceCity(Player player, int position)
 		{
 			if (player != GetTurnPlayer())
@@ -242,8 +241,16 @@ namespace Catan.Domain.Entities
 		public Player? CheckIfIsWon()
 		{
 			foreach (var player in Players)
-				if (player.CalculatePoints() >= GameInfo.WINNING_POINTS)
+			{
+				var points = player.CalculatePoints();
+				if (LongestRoad is not null && LongestRoad.Player.Equals(player))
+					points += 2;
+
+				player.WinningPoints = points;
+
+				if (points >= GameInfo.WINNING_POINTS)
 					return player;
+			}
 			return null;
 		}
 
@@ -399,5 +406,26 @@ namespace Catan.Domain.Entities
 
 			return Result<GameSession>.Success(this);
 		}
+
+		private void CalculateNewLongestRoad()
+		{
+			//adauga caz special broken road
+			foreach (var player in Players) {
+				var roadEnds = GameMap.Roads
+					.Where(r => r.BelongsTo(player))
+					.Select(r => GameMapData.RoadEnds[r.Position]).ToList();
+
+				var (longestRoadLength, longestRoad) = GraphFunctions.FindLongestRoad(roadEnds);
+
+				if (longestRoadLength >= 5 && longestRoadLength >= LongestRoad.Roads.Count)
+				{
+					var roadList = longestRoad.Select(r => GameMapData.RoadByRoadEnds[r])
+						.Select(pos => GameMap.Roads[pos]).ToList();
+					LongestRoad = new LongestRoad(roadList, player);
+				}
+			}
+
+		}
+
 	}
 }

@@ -2,6 +2,7 @@ import {Player} from "./Player";
 import {Map} from "./Map"
 import {DiceRoll} from "./DiceRoll";
 import {TradeDto} from "./TradeDto";
+import {LongestRoad} from "./LongestRoad";
 
 export interface GameSession {
     id: string;
@@ -14,4 +15,5 @@ export interface GameSession {
     trades: TradeDto[];
     dice: DiceRoll;
     winner: Player | null;
+    longestRoad: LongestRoad;
 }
