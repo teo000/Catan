@@ -1,12 +1,14 @@
 import {SettlementSpotInfo} from "./ComputeSettlementSpotsInfo";
 import {Settlement} from "./Settlement";
 import {SettlementDto} from "../../../../interfaces/SettlementDto";
-import {getPlayerColor, Player, PlayerColor} from "../../../../interfaces/Player";
+import {getPlayerColor, PlayerDto, PlayerColor} from "../../../../interfaces/PlayerDto";
+
+import "./settlements.css";
 
 interface SettlementsProps{
     settlementSpotInfo : SettlementSpotInfo[],
     settlements : SettlementDto[],
-    players: Player[]
+    players: PlayerDto[]
 }
 
 export function Settlements({settlementSpotInfo, settlements, players} : SettlementsProps){

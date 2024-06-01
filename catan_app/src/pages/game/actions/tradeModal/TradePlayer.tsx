@@ -4,10 +4,10 @@ import "./tradeWindow.css"
 import useFetch from "../../../../hooks/useFetch";
 import {usePlayer} from "../../../../context/PlayerProvider";
 import {BaseResponse} from "../../../../responses/BaseResponse";
-import {Player} from "../../../../interfaces/Player";
+import {PlayerDto} from "../../../../interfaces/PlayerDto";
 
 interface TradeBankProps {
-    players: Player[];
+    players: PlayerDto[];
     isOpen: boolean;
     setIsOpen: (isOpen: boolean) => void;
 }

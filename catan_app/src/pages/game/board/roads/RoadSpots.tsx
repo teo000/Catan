@@ -1,13 +1,15 @@
 import {RoadSpot} from "./RoadSpot";
 import {RoadSpotInfo} from "./ComputeRoadSpotsInfo";
+import {SpotsInfo} from "../../utils/SpotsInfo";
 
 interface RoadSpotsProps {
-    roadSpotInfo: RoadSpotInfo[];
     visibleRoadSpots: number[];
     onRoadClick: (id: number) => void;
 }
 
-const RoadSpots: React.FC<RoadSpotsProps> = ({roadSpotInfo, visibleRoadSpots, onRoadClick }) => {
+const RoadSpots: React.FC<RoadSpotsProps> = ({visibleRoadSpots, onRoadClick }) => {
+
+    const roadSpotInfo = SpotsInfo.RoadSpotInfo;
 
     return (
         <div className="road-spots">

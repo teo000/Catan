@@ -1,4 +1,15 @@
 
+.actions-div{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 90%;
+    width: 25%;
+    /*background-color: #fce6d2;*/
+    border-radius: 20px;
+
+}
+
 .action-button {
     background-color: #e5872d;
     width: 100%;

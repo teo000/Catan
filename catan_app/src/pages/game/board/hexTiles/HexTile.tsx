@@ -1,6 +1,6 @@
 import { HexTileDto } from "../../../../interfaces/HexTileDto";
 import {MapConstants} from "../../utils/MapConstants";
-
+import "./hexTiles.css";
 
 const ResourcePaths : Record<string, string> = {
     BRICK: '/images/map/brick.png',

@@ -1,6 +1,6 @@
 import {GameMap} from "./board/GameMap";
 import {SettlementSpots} from "./board/settlements/SettlementSpots";
-import {ActionBar, ButtonActions} from "./actions/actionButton/ActionBar";
+import {ActionBar, ButtonActions} from "./actions/buttons/ActionBar";
 import React, {useEffect, useState} from "react";
 import {RoadSpots} from "./board/roads/RoadSpots";
 import {ComputeSettlementSpotsInfo} from "./board/settlements/ComputeSettlementSpotsInfo";
@@ -8,22 +8,22 @@ import {Settlements} from "./board/settlements/Settlements";
 import {ComputeRoadSpotsInfo} from "./board/roads/ComputeRoadSpotsInfo";
 import {Roads} from "./board/roads/Roads";
 import {TurnTimerLabel} from "./actions/turnTimerLabel/TurnTimerLabel";
-import {GameSession} from "../../interfaces/GameSession";
+import {GameSessionDto} from "../../interfaces/GameSessionDto";
 import useFetch from "../../hooks/useFetch";
 import {LobbyResponse} from "../../responses/LobbyResponse";
 import {usePlayer} from "../../context/PlayerProvider";
 import DiceLayout from "./actions/dice/DiceLayout";
 import {ResourcesDiv} from "./actions/resourcesDiv/ResourcesDiv";
-import {getEmptyResourceCount} from "../../interfaces/ResourceCount";
+import {getEmptyResourceCount} from "../../interfaces/ResourceCountDto";
 import Overlay from "./misc/overlay/Overlay";
-import {TradeBank} from "./actions/tradeWindow/TradeBank";
-import {TradePlayer} from "./actions/tradeWindow/TradePlayer";
-import {TradeList} from "./actions/pendingTrades/TradesList";
+import {TradeBank} from "./actions/tradeModal/TradeBank";
+import {TradePlayer} from "./actions/tradeModal/TradePlayer";
 import {Cities} from "./board/cities/Cities";
+import {ChatDiv} from "./actions/chat-div/ChatDiv";
 
 
 interface GameLayoutProps {
-    gameSession : GameSession
+    gameSession : GameSessionDto
 }
 
 const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
@@ -204,7 +204,6 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
         <div className="gameLayout">
             <div className='board-div'>
                 <TurnTimerLabel playerName={gameSession.turnPlayer.name} time={gameSession?.turnEndTime}/>
-
                 <img
                     className='board-background'
                     src='/images/water_background.png'
@@ -214,17 +213,14 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
                 <DiceLayout gameSessionId={gameSession.id} diceRoll={gameSession.dice} turnPlayer={gameSession.turnPlayer}></DiceLayout>
                 <div className='spots'>
                     <SettlementSpots
-                        settlementSpotInfo={settlementSpotInfo} // fa chestia asta globala statica sau ceva de genul
                         visibleSettlementSpots={visibleSettlementSpots}
                         onSettlementClick={handleSettlementClick}
                     />
                     <SettlementSpots
-                        settlementSpotInfo={settlementSpotInfo}
                         visibleSettlementSpots={visibleCitySpots}
                         onSettlementClick={handleCityClick}
                     />
                     <RoadSpots
-                        roadSpotInfo={roadSpotInfo} // fa chestia asta globala statica sau ceva de genul
                         visibleRoadSpots={visibleRoadSpots}
                         onRoadClick={handleRoadClick}
                     />
@@ -248,10 +244,8 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
                                handleTradeBankButtonClick={handleOpenTradeBank}
                                handleTradePlayerButtonClick={handleOpenTradePlayer}
                     />
-                    {/*<div className="chat-div">*/}
-                    {/*    Trades will appear here...*/}
-                    {/*</div>*/}
-                    <TradeList trades={gameSession.trades} players={gameSession.players}/>
+
+                    <ChatDiv trades={gameSession.trades} players={gameSession.players}/>
                 </div>
                 <ResourcesDiv resourceCount={resourceCount}/>
             </div>

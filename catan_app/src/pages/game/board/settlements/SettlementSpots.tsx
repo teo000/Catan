@@ -1,14 +1,15 @@
-import {ComputeSettlementSpotRow, SettlementSpotInfo} from "./ComputeSettlementSpotsInfo";
+import {SettlementSpotInfo} from "./ComputeSettlementSpotsInfo";
 import {SettlementSpot} from "./SettlementSpot";
+import {SpotsInfo} from "../../utils/SpotsInfo";
 
 interface SettlementSpotsProps {
-    settlementSpotInfo: SettlementSpotInfo[];
     visibleSettlementSpots: number[];
     onSettlementClick: (id: number) => void;
 }
 
 
-function SettlementSpots({ settlementSpotInfo, visibleSettlementSpots , onSettlementClick }: SettlementSpotsProps) {
+function SettlementSpots({visibleSettlementSpots , onSettlementClick }: SettlementSpotsProps) {
+    const settlementSpotInfo = SpotsInfo.SettlementSpotInfo;
 
     return (
         <div className="settlement-spots">

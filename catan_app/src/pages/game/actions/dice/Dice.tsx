@@ -1,5 +1,5 @@
 import React from "react";
-
+import "./dice.css"
 interface DotPosition {
     x: number;
     y: number;

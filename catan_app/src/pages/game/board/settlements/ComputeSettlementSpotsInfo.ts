@@ -67,4 +67,4 @@ function ComputeSettlementSpotsInfo(){
     return settlements
 }
 
-export {ComputeSettlementSpotRow, ComputeSettlementSpotsInfo};
+export {ComputeSettlementSpotsInfo};

@@ -1,7 +1,7 @@
-import {GameSession} from "../interfaces/GameSession";
+import {GameSessionDto} from "../interfaces/GameSessionDto";
 
 export interface GameSessionResponse {
-    gameSession: GameSession;
+    gameSession: GameSessionDto;
     success: boolean;
     message: string;
     validationErrors: any | null;

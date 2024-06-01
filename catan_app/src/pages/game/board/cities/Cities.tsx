@@ -1,4 +1,4 @@
-import {getPlayerColor, Player, PlayerColor} from "../../../../interfaces/Player";
+import {getPlayerColor, PlayerDto, PlayerColor} from "../../../../interfaces/PlayerDto";
 import {SettlementSpotInfo} from "../settlements/ComputeSettlementSpotsInfo";
 import {CityDto} from "../../../../interfaces/CityDto";
 import "./city.css"
@@ -6,7 +6,7 @@ import {City} from "./City";
 interface CitiesProps{
     settlementSpotInfo : SettlementSpotInfo[],
     cities : CityDto[],
-    players: Player[]
+    players: PlayerDto[]
 }
 export function Cities({settlementSpotInfo, cities, players} : CitiesProps){
     const cityIds = cities.map(city=> city.position);

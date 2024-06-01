@@ -1,5 +1,5 @@
 import {useState} from "react";
-import {ButtonActions} from "../../actions/actionButton/ActionBar";
+import {ButtonActions} from "../../actions/buttons/ActionBar";
 
 interface SettlementSpotProps {
     left: number,

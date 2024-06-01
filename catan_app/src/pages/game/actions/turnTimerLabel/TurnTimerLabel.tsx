@@ -1,6 +1,6 @@
 import React from "react";
 import {EndTurnButton} from "./EndTurnButton";
-
+import "./turn-timer-label.css"
 export function TurnTimerLabel({playerName, time} : {playerName:string, time:string}){
     const turnEndTime = new Date(time);
     const timeDifference = turnEndTime.getTime() - Date.now();

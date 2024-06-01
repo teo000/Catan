@@ -1,8 +1,7 @@
-import {Lobby} from "../interfaces/Lobby";
-import {DiceRoll} from "../interfaces/DiceRoll";
+import {DiceRollDto} from "../interfaces/DiceRollDto";
 
 export interface DiceRollResponse {
-    diceRoll: DiceRoll;
+    diceRoll: DiceRollDto;
     success: boolean;
     message: string;
     validationErrors: any | null;

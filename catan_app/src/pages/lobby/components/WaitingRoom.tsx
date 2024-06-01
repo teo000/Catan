@@ -1,10 +1,10 @@
 import React, {useState} from "react";
-import {Lobby} from "../../../interfaces/Lobby";
-import {Player} from "../../../interfaces/Player";
+import {LobbyDto} from "../../../interfaces/LobbyDto";
+import {PlayerDto} from "../../../interfaces/PlayerDto";
 import "./lobby.css"
 
 interface WaitingRoomProps{
-    players : Player[],
+    players : PlayerDto[],
     onClick : () => void
 }
 
@@ -30,7 +30,7 @@ interface WaitingRoomProps{
 // }
 
 interface Props {
-    players: Player[];
+    players: PlayerDto[];
     onClick: () => void;
 }
 

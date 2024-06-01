@@ -1,4 +1,4 @@
-export interface ResourceCount {
+export interface ResourceCountDto {
     Brick: number;
     Sheep: number;
     Ore: number;
@@ -6,7 +6,7 @@ export interface ResourceCount {
     Wood: number;
 }
 
-export const getEmptyResourceCount = (): ResourceCount => ({
+export const getEmptyResourceCount = (): ResourceCountDto => ({
     Brick: 0,
     Sheep: 0,
     Ore: 0,

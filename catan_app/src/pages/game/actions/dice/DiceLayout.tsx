@@ -1,16 +1,15 @@
 import {Dice} from "./Dice";
 import {useCallback, useEffect, useState} from "react";
 import useFetch from "../../../../hooks/useFetch";
-import {LobbyResponse} from "../../../../responses/LobbyResponse";
 import {usePlayer} from "../../../../context/PlayerProvider";
 import {DiceRollResponse} from "../../../../responses/DiceRollResponse";
-import {DiceRoll} from "../../../../interfaces/DiceRoll";
-import {Player} from "../../../../interfaces/Player";
+import {DiceRollDto} from "../../../../interfaces/DiceRollDto";
+import {PlayerDto} from "../../../../interfaces/PlayerDto";
 
 interface DiceLayoutProps {
     gameSessionId: string;
-    diceRoll: DiceRoll;
-    turnPlayer: Player;
+    diceRoll: DiceRollDto;
+    turnPlayer: PlayerDto;
 }
 
 

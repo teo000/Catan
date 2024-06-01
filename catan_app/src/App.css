@@ -61,17 +61,6 @@
   margin-bottom: 5%;
 }
 
-.actions-div{
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 90%;
-  width: 25%;
-  /*background-color: #fce6d2;*/
-  border-radius: 20px;
-
-}
-
 
 .chat-div{
   width: 60%;

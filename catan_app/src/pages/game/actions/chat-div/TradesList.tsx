@@ -1,14 +1,13 @@
-import {useState} from "react";
 import {TradeDto} from "../../../../interfaces/TradeDto";
-import "./pending-trades.css"
+import "./chat.css"
 import {usePlayer} from "../../../../context/PlayerProvider";
-import {Player} from "../../../../interfaces/Player";
+import {PlayerDto} from "../../../../interfaces/PlayerDto";
 import useFetch from "../../../../hooks/useFetch";
 import {LobbyResponse} from "../../../../responses/LobbyResponse";
 
 interface TradeListProps{
     trades: TradeDto[];
-    players: Player[];
+    players: PlayerDto[];
 }
 //     { id: '1',
 //         playerToGiveId: "abcd",
@@ -53,6 +52,10 @@ export const TradeList: React.FC<TradeListProps> = ({trades, players}) => {
 
     const tradesToMe = trades.filter(t => t.playerToReceiveId === player?.id);
     const pendingTradesToMe = tradesToMe.filter(t=> t.status === "Pending")
+
+    {/*<div className="chat-div">*/}
+    {/*    Trades will appear here...*/}
+    {/*</div>*/}
 
     return (
         <div className="trade-list">

@@ -1,4 +1,4 @@
-export interface DiceRoll{
+export interface DiceRollDto {
     values: number[]
     rolledThisTurn: boolean;
 }

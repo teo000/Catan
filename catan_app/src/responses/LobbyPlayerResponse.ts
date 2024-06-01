@@ -1,7 +1,7 @@
-import {Lobby} from "../interfaces/Lobby";
+import {LobbyDto} from "../interfaces/LobbyDto";
 
 export interface LobbyPlayerResponse {
-    lobby : Lobby;
+    lobby : LobbyDto;
     playerId: string;
     success: boolean;
     message: string;

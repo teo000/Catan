@@ -1,8 +1,8 @@
 import React from "react";
-import {ResourceCount} from "../../../../interfaces/ResourceCount";
+import {ResourceCountDto} from "../../../../interfaces/ResourceCountDto";
 import "./resourcesDiv.css"
 
-export function ResourcesDiv({resourceCount} : {resourceCount : ResourceCount}){
+export function ResourcesDiv({resourceCount} : {resourceCount : ResourceCountDto}){
     // console.log(resourceCount);
     return <div className="resources-div">
         <div className="resources-container">

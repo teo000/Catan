@@ -7,12 +7,57 @@
 /*    background-color: #f9f9f9;*/
 /*}*/
 
-.trade-list {
+.chat-div {
+    display: flex;
     width: 60%;
     height: 90%;
     background-color: #fffdfd;
     border-radius: 20px;
     font-family: Verdana, sans-serif;
+    padding: 20px
+}
+
+.player-info-div{
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    height: 100%;
+    background-color: #cccccc;
+    /*justify-content: space-between;*/
+    /*border-radius: 20px;*/
+}
+
+.player{
+    /*aspect-ratio: 1 / 1;*/
+}
+
+.avatar-name{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.avatar{
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+}
+
+.player-info{
+    font-weight: bold;
+    font-size: 12px;
+    /*margin: 5px 0 5px 0;*/
+}
+
+.player-name{
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.trade-list{
+    width: 80%;
+    height: 100%;
     padding: 20px
 }
 

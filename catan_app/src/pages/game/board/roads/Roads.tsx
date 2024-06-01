@@ -1,13 +1,13 @@
 import {RoadSpotInfo} from "./ComputeRoadSpotsInfo";
-import {RoadSpot} from "./RoadSpot";
 import {Road} from "./Road";
 import {RoadDto} from "../../../../interfaces/RoadDto";
-import {getPlayerColor, Player, PlayerColor} from "../../../../interfaces/Player";
+import {getPlayerColor, PlayerDto, PlayerColor} from "../../../../interfaces/PlayerDto";
+import "./roads.css";
 
 interface RoadsProps {
     roadSpotInfo: RoadSpotInfo[];
     roads: RoadDto[];
-    players: Player[]
+    players: PlayerDto[]
 }
 
 export const Roads: React.FC<RoadsProps> = ({roadSpotInfo, roads, players }) => {

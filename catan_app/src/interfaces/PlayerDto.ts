@@ -1,12 +1,12 @@
-import {ResourceCount} from "./ResourceCount";
+import {ResourceCountDto} from "./ResourceCountDto";
 import {SettlementDto} from "./SettlementDto";
 import {RoadDto} from "./RoadDto";
 
-export interface Player {
+export interface PlayerDto {
     id: string;
     name: string;
     isActive: boolean;
-    resourceCount: ResourceCount;
+    resourceCount: ResourceCountDto;
     settlements: SettlementDto[];
     roads: RoadDto[];
     color: string;

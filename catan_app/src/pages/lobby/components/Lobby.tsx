@@ -4,7 +4,7 @@ import {LobbyResponse} from "../../../responses/LobbyResponse";
 import {useLocation} from "react-router-dom";
 import {GameLayout} from "../../game/GameLayout";
 import {WaitingRoom} from "./WaitingRoom";
-import {Player} from "../../../interfaces/Player";
+import {PlayerDto} from "../../../interfaces/PlayerDto";
 import {useDeepCompareState} from "../../../hooks/useDeepCompareEffect";
 import {LobbyPlayerResponse} from "../../../responses/LobbyPlayerResponse";
 import {usePlayer} from "../../../context/PlayerProvider";
@@ -16,7 +16,7 @@ export const Lobby = React.memo(() => {
     const currentPath = location.pathname;
     const joinCode = currentPath.substring(currentPath.lastIndexOf('/') + 1);
 
-    const [players, setPlayers] = useDeepCompareState<Player[]>([]);
+    const [players, setPlayers] = useDeepCompareState<PlayerDto[]>([]);
     const { player, setPlayer, gameId, setGameId } = usePlayer();
     const [loaded, setLoaded] = useState(false);
 

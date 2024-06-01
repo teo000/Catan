@@ -3,7 +3,7 @@ import {SettlementDto} from "./SettlementDto";
 import {RoadDto} from "./RoadDto";
 import {CityDto} from "./CityDto";
 
-export interface Map {
+export interface MapDto {
     hexTiles: HexTileDto[];
     thiefPosition: number;
     settlements: SettlementDto[];
