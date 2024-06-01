@@ -412,7 +412,7 @@ namespace Catan.Domain.Entities
 			//adauga caz special broken road
 			foreach (var player in Players) {
 				var roadEnds = GameMap.Roads
-					.Where(r => r.BelongsTo(player))
+					.Where(r => r is not null && r.BelongsTo(player))
 					.Select(r => GameMapData.RoadEnds[r.Position]).ToList();
 
 				var (longestRoadLength, longestRoad) = GraphFunctions.FindLongestRoad(roadEnds);
