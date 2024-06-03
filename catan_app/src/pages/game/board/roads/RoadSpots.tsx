@@ -1,6 +1,6 @@
 import {RoadSpot} from "./RoadSpot";
 import {RoadSpotInfo} from "./ComputeRoadSpotsInfo";
-import {SpotsInfo} from "../../utils/SpotsInfo";
+import {MapInfo} from "../../utils/MapInfo";
 
 interface RoadSpotsProps {
     visibleRoadSpots: number[];
@@ -9,7 +9,7 @@ interface RoadSpotsProps {
 
 const RoadSpots: React.FC<RoadSpotsProps> = ({visibleRoadSpots, onRoadClick }) => {
 
-    const roadSpotInfo = SpotsInfo.RoadSpotInfo;
+    const roadSpotInfo = MapInfo.RoadSpotInfo;
 
     return (
         <div className="road-spots">

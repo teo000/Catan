@@ -1,6 +1,7 @@
 import {ResourceCountDto} from "./ResourceCountDto";
 import {SettlementDto} from "./SettlementDto";
 import {RoadDto} from "./RoadDto";
+import {CityDto} from "./CityDto";
 
 export interface PlayerDto {
     id: string;
@@ -9,6 +10,7 @@ export interface PlayerDto {
     resourceCount: ResourceCountDto;
     settlements: SettlementDto[];
     roads: RoadDto[];
+    cities: CityDto[];
     color: string;
     winningPoints: number;
 }

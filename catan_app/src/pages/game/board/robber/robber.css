@@ -1,0 +1,38 @@
+.robber-div{
+    position:absolute;
+    width: 720px;
+    height: 665px;
+}
+
+.robber{
+    position: absolute;
+    border-radius: 50%;
+    background-color: #333333;
+    height: 40px;
+    width: 40px;
+}
+
+.robber-spot{
+    position:absolute;
+    width: 40px;
+    height: 40px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 1;
+    animation: pulse 3s infinite;
+}
+
+.clickable-robber {
+    box-shadow: 0 0 20px 10px rgba(248, 172, 87, 0.2);
+    cursor: pointer;
+}
+
+.clickable-robber:hover {
+    background-color: #555555;
+    box-shadow: 0 0 20px 10px rgba(248, 172, 87, 0.4);
+}
+
+.clickable-robber:active {
+    transform: scale(0.95);
+}

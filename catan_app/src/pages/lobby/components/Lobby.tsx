@@ -6,7 +6,6 @@ import {GameLayout} from "../../game/GameLayout";
 import {WaitingRoom} from "./WaitingRoom";
 import {PlayerDto} from "../../../interfaces/PlayerDto";
 import {useDeepCompareState} from "../../../hooks/useDeepCompareEffect";
-import {LobbyPlayerResponse} from "../../../responses/LobbyPlayerResponse";
 import {usePlayer} from "../../../context/PlayerProvider";
 
 export const Lobby = React.memo(() => {

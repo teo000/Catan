@@ -30,4 +30,20 @@ function HexTileRow({rowNumber, hexTileData} : {rowNumber: number, hexTileData: 
     return <div className="hexTileRow" style={{ marginLeft: `${marginLeft}px` }}>{hexagons}</div>;
 }
 
-export {HexTileRow};
+function ComputeHexTilesInfo(){
+    const hexagons = [];
+    let index = 0;
+    for (let rowNumber = 1; rowNumber <= 5; rowNumber++) {
+        const {marginLeft, top, count} = HexagonLayoutByRowNumber[rowNumber];
+        let left = marginLeft;
+
+        for (let i = 0; i < count; i++) {
+            hexagons.push({id: index, top: top, left: left});
+            left += MapConstants.HEX_WIDTH;
+            index++;
+        }
+    }
+    return hexagons;
+}
+
+export {HexTileRow, ComputeHexTilesInfo};

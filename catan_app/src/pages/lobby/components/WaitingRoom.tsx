@@ -1,33 +1,6 @@
 import React, {useState} from "react";
-import {LobbyDto} from "../../../interfaces/LobbyDto";
 import {PlayerDto} from "../../../interfaces/PlayerDto";
 import "./lobby.css"
-
-interface WaitingRoomProps{
-    players : PlayerDto[],
-    onClick : () => void
-}
-
-// export const WaitingRoom : React.FC<WaitingRoomProps> = ({players, onClick}) =>{
-//
-//     return(
-//         <div className = "waiting-room">
-//             <div className="players-list">
-//                 {players.map((player) => (
-//                     <div key={player.id} className="player">
-//                         {player.name}
-//                     </div>
-//                 ))}
-//             </div>
-//             <button
-//                 className="start-game-button"
-//                 onClick={onClick}
-//             >
-//                 Start Game
-//             </button>
-//         </div>
-//     );
-// }
 
 interface Props {
     players: PlayerDto[];

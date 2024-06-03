@@ -48,7 +48,8 @@ namespace Catan.Application.Mapper
 
 			CreateMap<Player, PlayerDto>()
 					.ForMember(dest => dest.ResourceCount, opt => opt.MapFrom(src => src.ResourceCount))
-					//.ForMember(dest => dest.Settlements, opt => opt.MapFrom(src => src.Settlements))
+					.ForMember(dest => dest.Settlements, opt => opt.MapFrom(src => src.Settlements))
+					.ForMember(dest => dest.Cities, opt => opt.MapFrom(src => src.Cities))
 					.ForMember(dest => dest.Roads, opt => opt.MapFrom(src => src.Roads))
 					.ForMember(dest => dest.Color, opt => opt.MapFrom(src => src.Color.ToString().ToLower()));
 

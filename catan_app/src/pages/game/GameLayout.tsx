@@ -20,7 +20,11 @@ import {TradeBank} from "./actions/tradeModal/TradeBank";
 import {TradePlayer} from "./actions/tradeModal/TradePlayer";
 import {Cities} from "./board/cities/Cities";
 import {ChatDiv} from "./actions/chat-div/ChatDiv";
-
+import "./game-layout.css"
+import {Robber} from "./board/robber/Robber";
+import {RobberSpots} from "./board/robber/RobberSpots";
+import {useMessage} from "./hooks/useMessage";
+import {MessageLabel} from "./actions/messageLabel/MessageLabel";
 
 interface GameLayoutProps {
     gameSession : GameSessionDto
@@ -40,11 +44,10 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
 
     const {player} = usePlayer();
 
-    const isAbandoned = (gameSession.gameStatus === 'Abandoned')
-    const isWon = (gameSession.gameStatus === 'Finished')
-
     const [isTradeBankOpen, setIsTradeBankOpen] = useState(false);
     const [isTradePlayerOpen, setIsTradePlayerOpen] = useState(false);
+
+    const message = useMessage(gameSession);
 
     useEffect(() => {
         if (player?.id !== gameSession.turnPlayer.id) {
@@ -192,48 +195,85 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
 
     };
 
-    if (!player)
+    const onRobberSpotClick = async (position:number) => {
+        const requestData = {gameId: gameSession.id, playerId: player?.id, position};
+
+        try {
+            const response = await request('/thief', 'post', requestData);
+            if (response === null || !response.success){
+                console.error('Failed to move thief: Invalid response format', response);
+            }
+            console.log(response);
+        } catch (err) {
+            console.error('Failed to move thief', err);
+        }
+
+    };
+
+    if (!player) {
         return <p> Something went wrong ... </p>
+    }
 
     console.log(gameSession);
 
-    let playerState = gameSession.players.find(p => p.id === player.id);
-    let resourceCount = playerState ? playerState.resourceCount : getEmptyResourceCount()
+    const isAbandoned = (gameSession.gameStatus === 'Abandoned')
+    const isWon = (gameSession.gameStatus === 'Finished')
+
+
+    const playerState = gameSession.players.find(p => p.id === player.id);
+    const resourceCount = playerState ? playerState.resourceCount : getEmptyResourceCount()
+    const lastDiceRoll = gameSession.dice.values[0] + gameSession.dice.values[1];
+
 
     return (
         <div className="gameLayout">
             <div className='board-div'>
                 <TurnTimerLabel playerName={gameSession.turnPlayer.name} time={gameSession?.turnEndTime}/>
+                <DiceLayout
+                    gameSessionId={gameSession.id}
+                    diceRoll={gameSession.dice}
+                    turnPlayer={gameSession.turnPlayer}
+                />
+                <MessageLabel message={message}/>
+
                 <img
                     className='board-background'
                     src='/images/water_background.png'
                     alt='background'
                 />
-                <GameMap hexTiles={gameSession.map.hexTiles}/>
-                <DiceLayout gameSessionId={gameSession.id} diceRoll={gameSession.dice} turnPlayer={gameSession.turnPlayer}></DiceLayout>
-                <div className='spots'>
-                    <SettlementSpots
-                        visibleSettlementSpots={visibleSettlementSpots}
-                        onSettlementClick={handleSettlementClick}
-                    />
-                    <SettlementSpots
-                        visibleSettlementSpots={visibleCitySpots}
-                        onSettlementClick={handleCityClick}
-                    />
-                    <RoadSpots
-                        visibleRoadSpots={visibleRoadSpots}
-                        onRoadClick={handleRoadClick}
-                    />
+                <div className="board">
+                    <GameMap hexTiles={gameSession.map.hexTiles} />
+                    <Robber hexTile={gameSession.map.thiefPosition}/>
+
+                    <div className='spots'>
+                        <SettlementSpots
+                            visibleSettlementSpots={visibleSettlementSpots}
+                            onSettlementClick={handleSettlementClick}
+                        />
+                        <SettlementSpots
+                            visibleSettlementSpots={visibleCitySpots}
+                            onSettlementClick={handleCityClick}
+                        />
+                        <RoadSpots
+                            visibleRoadSpots={visibleRoadSpots}
+                            onRoadClick={handleRoadClick}
+                        />
+                        <RobberSpots
+                            visible={lastDiceRoll === 7}
+                            onRobberSpotClick={onRobberSpotClick}
+                            currentSpot={gameSession.map.thiefPosition}
+                        />
+                    </div>
+                    <Settlements settlementSpotInfo={settlementSpotInfo}
+                                 settlements={gameSession.map.settlements}
+                                 players={gameSession.players}/>
+                    <Roads roadSpotInfo={roadSpotInfo}
+                           roads={gameSession.map.roads}
+                           players={gameSession.players}/>
+                    <Cities settlementSpotInfo={settlementSpotInfo}
+                            cities={gameSession.map.cities}
+                            players={gameSession.players}/>
                 </div>
-                <Settlements settlementSpotInfo={settlementSpotInfo}
-                             settlements={gameSession.map.settlements}
-                             players={gameSession.players}/>
-                <Roads roadSpotInfo={roadSpotInfo}
-                       roads={gameSession.map.roads}
-                       players={gameSession.players}/>
-                <Cities settlementSpotInfo={settlementSpotInfo}
-                        cities={gameSession.map.cities}
-                        players={gameSession.players}/>
             </div>
             <div className="gameplay-div">
                 <div className="actions-chat-container">

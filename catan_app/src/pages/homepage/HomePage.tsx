@@ -16,6 +16,8 @@ const HomePage = () => {
 
     const createLobby = async () => {
         const requestData = { playerName };
+        console.log("Create lobby");
+
 
         try {
             const response = await request('/create', 'post', requestData);

@@ -3,8 +3,8 @@
     display: flex;
     flex-direction: column;
     width: 100px;
-    margin: auto 0 60px 30px;
-
+    margin: auto 0 0 auto;
+    align-items: center;
 }
 
 .dice-container{
