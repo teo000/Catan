@@ -197,7 +197,8 @@ namespace Catan.Domain.Data
 		public static Dictionary<(int, int), int> RoadByRoadEnds = new Dictionary<(int, int), int>();
 
 		public static Dictionary<int, List<int>> AdjacentSettlements = new Dictionary<int, List<int>>();
-
+		public static readonly List<int> NumberTokenList 
+			= [2, 3, 3, 4, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 11, 12];
 		public static List<Resource> getBeginningResourceList()
 		{
 			List<Resource> resources = new List<Resource>();

@@ -5,15 +5,10 @@ namespace Catan.Domain.Entities
 {
 	public class HexTile : Tile
 	{
-		public HexTile(Resource resource)
+		public HexTile(Resource resource, int number)
 		{
 			Resource = resource;
-
-			var random = new Random();
-			do
-			{
-				Number = random.Next(2, 13);
-			} while (Number == 7);
+			Number = number;
 		}
 
 		[JsonConverter(typeof(JsonStringEnumConverter))]

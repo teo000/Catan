@@ -13,11 +13,21 @@ namespace Catan.Domain.Entities
 			var resourceList = GameMapData.getBeginningResourceList();
 			ListExtensions.Shuffle(resourceList);
 
+			var numberTokenList = new List<int>(GameMapData.NumberTokenList);
+			ListExtensions.Shuffle(numberTokenList);
+			var index = 0;
+
 			for (int i = 0; i < GameMapData.HEX_TILE_NO; i++) {
 				var resource = resourceList[i];
-				HexTiles[i] = new HexTile(resource);
 				if (resource == Resource.Desert)
+				{
 					ThiefPosition = i;
+					HexTiles[i] = new HexTile(resource, 0);
+				}
+				else
+				{
+					HexTiles[i] = new HexTile(resource, numberTokenList[index++]);
+				}
 			}
 
 		}

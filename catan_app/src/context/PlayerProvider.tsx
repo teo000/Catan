@@ -28,7 +28,6 @@ export const PlayerProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     }, []);
 
     useEffect(() => {
-        // Save player to sessionStorage whenever it changes
         if (player) {
             sessionStorage.setItem('player', JSON.stringify(player));
         } else {
@@ -37,7 +36,6 @@ export const PlayerProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     }, [player]);
 
     useEffect(() => {
-        // Save gameId to sessionStorage whenever it changes
         if (gameId) {
             sessionStorage.setItem('gameId', gameId);
         } else {

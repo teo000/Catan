@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import "./message-label.css"
+
 export const MessageLabel = ({ message } : {message : string}) => {
     const [currentMessage, setCurrentMessage] = useState(message);
     const [key, setKey] = useState(0);
@@ -11,9 +12,10 @@ export const MessageLabel = ({ message } : {message : string}) => {
 
     return (
         <div className = "message-label-container">
+            { message !== "" &&
             <p key={key} className="message-label">
                 {currentMessage}
-            </p>
+            </p>}
         </div>
     );
 }
