@@ -1,6 +1,6 @@
 import Modal from "react-modal";
 import React, {useEffect, useState} from "react";
-import "./tradeWindow.css"
+import "./trade-window.css"
 import useFetch from "../../../../hooks/useFetch";
 import {usePlayer} from "../../../../context/PlayerProvider";
 import {BaseResponse} from "../../../../responses/BaseResponse";
@@ -69,6 +69,8 @@ export const TradePlayer: React.FC<TradeBankProps> = ({ players, isOpen, setIsOp
             onRequestClose={handleCancel}
             contentLabel="Trade with a player"
             ariaHideApp={false}
+            className="trade-modal"
+            style={{ overlay: { backgroundColor: "rgba(1, 1, 1, 0.5)", zIndex: 3} }}
         >
             <h2>Trade with a player</h2>
             <div className="trade-resource">

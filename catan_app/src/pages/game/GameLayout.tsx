@@ -25,6 +25,7 @@ import {Robber} from "./board/robber/Robber";
 import {RobberSpots} from "./board/robber/RobberSpots";
 import {useMessage} from "./hooks/useMessage";
 import {MessageLabel} from "./actions/messageLabel/MessageLabel";
+import {Harbors} from "./board/harbors/Harbors";
 
 interface GameLayoutProps {
     gameSession : GameSessionDto
@@ -224,6 +225,9 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
     const resourceCount = playerState ? playerState.resourceCount : getEmptyResourceCount()
     const lastDiceRoll = gameSession.dice.values[0] + gameSession.dice.values[1];
 
+    if (!playerState){
+        return <p> Something went wrong ... </p>
+    }
 
     return (
         <div className="gameLayout">
@@ -273,6 +277,7 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
                     <Cities settlementSpotInfo={settlementSpotInfo}
                             cities={gameSession.map.cities}
                             players={gameSession.players}/>
+                    <Harbors harbors={gameSession.map.specialHarbors}/>
                 </div>
             </div>
             <div className="gameplay-div">
@@ -298,7 +303,7 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
 
                 />
             }
-            <TradeBank isOpen={isTradeBankOpen} setIsOpen={setIsTradeBankOpen}/>
+            <TradeBank isOpen={isTradeBankOpen} setIsOpen={setIsTradeBankOpen} tradeCount={playerState.tradeCount} />
             <TradePlayer players={gameSession.players} isOpen={isTradePlayerOpen} setIsOpen={setIsTradePlayerOpen}/>
         </div>
     );

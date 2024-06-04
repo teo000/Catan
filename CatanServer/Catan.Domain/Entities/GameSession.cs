@@ -126,15 +126,12 @@ namespace Catan.Domain.Entities
 			if (GameMapData.HarbourNextToSettlement.TryGetValue(position, out var harborPosition))
 			{
 				var harbor = GameMap.Harbors[harborPosition];
-				if (harbor is SpecialHarbor)
+				if (harbor is SpecialHarbor specialHarbor)
 				{
-					var specialHarbor = (SpecialHarbor)harbor;
-					player.SetResourceCountSpecialPort(specialHarbor.Resource, 2);
+					player.SetTradeCountSpecialPort(specialHarbor.Resource);
 				}
-
-
+				else player.SetTradeCountGeneralPort();
 			}
-
 
 			foreach (var hexTilePos in GameMapData.SettlementAdjacentTiles[position])
 			{

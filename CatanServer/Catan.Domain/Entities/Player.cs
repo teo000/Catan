@@ -51,7 +51,12 @@ namespace Catan.Domain.Entities
 			TradeCount[resource] = 2;
 		}
 
-		public void SetResourceCount
+		public void SetTradeCountGeneralPort()
+		{
+			foreach (var (resource, count) in TradeCount) 
+				if (count > 3)
+					TradeCount[resource] = 3;
+		}
 
 
 		public bool HasResources(Buyable buyable)

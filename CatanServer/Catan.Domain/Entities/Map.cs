@@ -56,6 +56,7 @@ namespace Catan.Domain.Entities
 			ThiefPosition = position;
 		}
 
+		
 
 
 	}

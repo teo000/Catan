@@ -1,19 +1,21 @@
 import Modal from "react-modal";
 import React, {useEffect, useState} from "react";
-import "./tradeWindow.css"
+import "./trade-window.css"
 import useFetch from "../../../../hooks/useFetch";
 import {LobbyResponse} from "../../../../responses/LobbyResponse";
 import {usePlayer} from "../../../../context/PlayerProvider";
 import {BaseResponse} from "../../../../responses/BaseResponse";
+import {ResourceCountDto} from "../../../../interfaces/ResourceCountDto";
 
 interface TradeBankProps {
     isOpen: boolean;
     setIsOpen: (isOpen: boolean) => void;
+    tradeCount: ResourceCountDto;
 }
 
 const resourceOptions = ['Brick', 'Wood', 'Sheep', 'Wheat', 'Ore'];
 
-export const TradeBank: React.FC<TradeBankProps> = ({ isOpen, setIsOpen }) => {
+export const TradeBank: React.FC<TradeBankProps> = ({ isOpen, setIsOpen, tradeCount }) => {
     const {request } = useFetch<BaseResponse>('/api/v1/Trade');
 
     const [giveResource, setGiveResource] = useState(resourceOptions[0]);
@@ -24,10 +26,12 @@ export const TradeBank: React.FC<TradeBankProps> = ({ isOpen, setIsOpen }) => {
 
     const {player, gameId} = usePlayer();
 
+    const resourceCountToTrade = Object.fromEntries(Object.entries(tradeCount));
+    console.log(resourceCountToTrade);
 
     useEffect(() => {
-        setGiveCount(receiveCount * 4);
-    }, [receiveCount]);
+        setGiveCount(receiveCount * resourceCountToTrade[giveResource]);
+    }, [giveResource, receiveCount, resourceCountToTrade]);
 
     const handleConfirm = async () => {
         const requestData = {
@@ -67,6 +71,8 @@ export const TradeBank: React.FC<TradeBankProps> = ({ isOpen, setIsOpen }) => {
             onRequestClose={handleCancel}
             contentLabel="Trade with Bank"
             ariaHideApp={false}
+            className="trade-modal"
+            style={{ overlay: { backgroundColor: "rgba(1, 1, 1, 0.5)", zIndex: 3} }}
         >
             <h2>Trade with Bank</h2>
             <div className="trade-resource">

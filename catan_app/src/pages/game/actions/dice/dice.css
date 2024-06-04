@@ -1,18 +1,18 @@
 
 .dice-layout{
+    position: relative;
     display: flex;
     flex-direction: column;
     width: 100px;
     margin: auto 0 0 auto;
     align-items: center;
-    z-index:2;
+    z-index: 1
 }
 
 .dice-container{
     display: flex;
     flex-direction: column;
 }
-
 
 .dice{
     width: 80px;

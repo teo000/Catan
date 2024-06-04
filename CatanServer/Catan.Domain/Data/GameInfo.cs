@@ -4,7 +4,7 @@ namespace Catan.Domain.Data
 {
 	public static class GameInfo
 	{
-		public const int TURN_DURATION = 300;
+		public const int TURN_DURATION = 3000;
 		public const int SETTLEMENTS_PER_PLAYER = 5;
 		public const int CITIES_PER_PLAYER = 4;
 		public const int WINNING_POINTS = 10;

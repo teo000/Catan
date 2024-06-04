@@ -71,7 +71,7 @@ namespace Catan.Application.Features.Trade.Commands.TradeBank
 			var resourceToGive = (Resource)Enum.Parse(typeof(Resource), request.ResourceToGive, true);
 			var resourceToReceive = (Resource)Enum.Parse(typeof(Resource), request.ResourceToReceive, true);
 
-			var result = gameSession.TradeBank(player, resourceToReceive, request.Count, resourceToGive);
+			var result = gameSession.TradeBank(player, resourceToGive, request.Count,  resourceToReceive);
 			if (!result.IsSuccess) {
 				return new BaseResponse()
 				{

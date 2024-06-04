@@ -104,9 +104,7 @@ namespace Catan.Domain.Data
 					SettlementAdjacentTiles.Add(adjacentTiles);
 				}
 
-				List<int> lastAdjacentTiles = new List<int>();
-
-				lastAdjacentTiles.Add(HexTileRowLayout[row][HexTileRowLayout[row].Count - 1]);
+				List<int> lastAdjacentTiles = [HexTileRowLayout[row][HexTileRowLayout[row].Count - 1]];
 				SettlementAdjacentTiles.Add(lastAdjacentTiles);
 
 
@@ -189,6 +187,14 @@ namespace Catan.Domain.Data
 				else
 					AdjacentSettlements.Add(settlement2, new List<int>() { settlement1 });
 			}
+
+			for (var harbor = 0; harbor < SettlementsNextToHarbor.Count; harbor ++)
+			{
+				var (settlement1, settlement2) = SettlementsNextToHarbor[harbor];
+				HarbourNextToSettlement.Add(settlement1, harbor);
+				HarbourNextToSettlement.Add(settlement2, harbor);
+			}
+
 		}
 
 		public static List<List<int>> SettlementAdjacentTiles = new List<List<int>>();
@@ -213,6 +219,8 @@ namespace Catan.Domain.Data
 			(33, 38),
 			(11, 16),
 		];
+
+		public static Dictionary<int, int> HarbourNextToSettlement = new Dictionary<int, int>();
 
 		public static List<Resource> getBeginningResourceList()
 		{

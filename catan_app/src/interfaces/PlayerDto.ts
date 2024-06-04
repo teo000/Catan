@@ -8,7 +8,7 @@ export interface PlayerDto {
     name: string;
     isActive: boolean;
     resourceCount: ResourceCountDto;
-    resourceCountToTrade: ResourceCountDto;
+    tradeCount: ResourceCountDto;
     settlements: SettlementDto[];
     roads: RoadDto[];
     cities: CityDto[];
