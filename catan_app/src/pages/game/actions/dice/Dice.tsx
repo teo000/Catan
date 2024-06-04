@@ -40,4 +40,4 @@ function Dice({number}: {number: number | null}){
 
 export {Dice};
 
-// (<div className="dice-dot"></div>)
+

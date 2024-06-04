@@ -4,10 +4,11 @@ using Catan.Application.Mapper;
 using Catan.Domain.Entities;
 using Catan.Domain.Data;
 using System.Numerics;
+using Catan.Application.Dtos.GamePieces;
 
 namespace Catan.Application.Tests
 {
-	public class MappingTests
+    public class MappingTests
 	{
 		private readonly IConfigurationProvider _configuration;
 		private readonly IMapper _mapper;

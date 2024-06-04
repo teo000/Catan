@@ -1,4 +1,5 @@
 ﻿using Catan.Application.Dtos;
+using Catan.Application.Dtos.GamePieces;
 using Catan.Application.Responses;
 using Catan.Domain.Common;
 using Catan.Domain.Entities;

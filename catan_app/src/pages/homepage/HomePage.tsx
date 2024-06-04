@@ -22,7 +22,7 @@ const HomePage = () => {
         try {
             const response = await request('/create', 'post', requestData);
             if (response && response.lobby && response.lobby.joinCode) {
-                if( !player && response.playerId && response.lobby.players){
+                if( response.playerId && response.lobby.players){
                     const foundPlayer = response.lobby.players.find(player => player.id === response.playerId);
                     if (foundPlayer)
                         setPlayer(foundPlayer)

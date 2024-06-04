@@ -7,5 +7,11 @@ export const PlaceSettlementButton: React.FC<CustomButtonProps> = ({ isActive, o
         onClick();
     };
 
-    return <ActionButton text="Place settlement" isActive={isActive} onClick={handleClick} className="settlement-button" />;
+    return (
+        <ActionButton
+            text="Place settlement"
+            isActive={isActive}
+            onClick={handleClick}
+            className="settlement-button"
+        />);
 };

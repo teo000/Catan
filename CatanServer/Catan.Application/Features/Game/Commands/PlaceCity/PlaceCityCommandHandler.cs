@@ -1,9 +1,8 @@
 ﻿using MediatR;
 using Catan.Application.Responses;
 using AutoMapper;
-using Catan.Application.Dtos;
-using Catan.Application.Features.Game.Commands.PlaceSettlement;
 using Catan.Domain.Entities;
+using Catan.Application.Dtos.GamePieces;
 
 namespace Catan.Application.Features.Game.Commands.PlaceCity
 {

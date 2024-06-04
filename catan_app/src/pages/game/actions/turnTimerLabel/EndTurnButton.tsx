@@ -1,10 +1,9 @@
 import useFetch from "../../../../hooks/useFetch";
-import {LobbyResponse} from "../../../../responses/LobbyResponse";
 import {usePlayer} from "../../../../context/PlayerProvider";
 import {GameSessionResponse} from "../../../../responses/GameSessionResponse";
 
 export function EndTurnButton(){
-    const { data, error, loading, request } = useFetch<GameSessionResponse>('/api/v1/Game');
+    const { request } = useFetch<GameSessionResponse>('/api/v1/Game');
     const {player, gameId} = usePlayer();
 
 

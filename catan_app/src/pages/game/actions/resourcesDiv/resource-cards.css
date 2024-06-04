@@ -1,0 +1,25 @@
+.resource-cards{
+    height: 20%;
+    width: 90%;
+    background-color: #fffdfd;
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.resource-group {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+}
+
+.resource-card {
+    width: 80px;
+    height: auto;
+    margin: -50px 0;
+}
+

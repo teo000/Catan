@@ -15,7 +15,7 @@ interface TradeBankProps {
 const resourceOptions = ['Brick', 'Wood', 'Sheep', 'Wheat', 'Ore'];
 
 export const TradePlayer: React.FC<TradeBankProps> = ({ players, isOpen, setIsOpen }) => {
-    const { data, error, loading, request } = useFetch<BaseResponse>('/api/v1/Trade');
+    const { request } = useFetch<BaseResponse>('/api/v1/Trade');
 
     const {player, gameId} = usePlayer();
     const otherPlayers = players.filter(p => p.id !== player?.id);

@@ -9,17 +9,9 @@ interface TradeListProps{
     trades: TradeDto[];
     players: PlayerDto[];
 }
-//     { id: '1',
-//         playerToGiveId: "abcd",
-//         resourceToGive: "Ore",
-//         countToGive: 2,
-//         playerToReceiveId: "xyz",
-//         resourceToReceive: "Sheep",
-//         countToReceive: 5,
-//         status: "Pending",
-//    }
+
 export const TradeList: React.FC<TradeListProps> = ({trades, players}) => {
-    const { data, error, loading, request } = useFetch<LobbyResponse>('/api/v1/Trade');
+    const { request } = useFetch<LobbyResponse>('/api/v1/Trade');
 
 
     const { player, gameId} = usePlayer();
@@ -61,7 +53,10 @@ export const TradeList: React.FC<TradeListProps> = ({trades, players}) => {
         <div className="trade-list">
             {pendingTradesToMe.map(trade => (
                 <div key={trade.id} className="trade-item">
-                    <span>Player {getPlayerName(trade.playerToGiveId)} wants to exchange {trade.countToGive} {trade.resourceToGive} for {trade.countToReceive} {trade.resourceToReceive}</span>
+                    <span>
+                        Player {getPlayerName(trade.playerToGiveId)} wants to exchange {trade.countToGive}
+                        {trade.resourceToGive} for {trade.countToReceive} {trade.resourceToReceive}
+                    </span>
                     <button className="accept-button" onClick={() => handleAccept(trade.id)}>✔</button>
                     <button className="reject-button" onClick={() => handleReject(trade.id)}>✘</button>
                 </div>

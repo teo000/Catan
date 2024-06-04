@@ -14,8 +14,9 @@ interface DiceLayoutProps {
 
 
 const DiceLayout: React.FC<DiceLayoutProps> = ({ gameSessionId, diceRoll , turnPlayer}) => {
-    const { data, error, loading, request } = useFetch<DiceRollResponse>('/api/v1/Game/roll-dice');
-    const [diceNumbers, setDiceNumbers] = useState<(number | null)[]>([null, null]);
+    const { request } = useFetch<DiceRollResponse>('/api/v1/Game/roll-dice');
+    const [diceNumbers, setDiceNumbers]
+        = useState<(number | null)[]>([null, null]);
     const { player} = usePlayer();
     const [isRolling, setIsRolling] = useState(false);
     const firstDiceValue = diceRoll.values[0];
@@ -84,7 +85,12 @@ const DiceLayout: React.FC<DiceLayoutProps> = ({ gameSessionId, diceRoll , turnP
                 <Dice number={diceNumbers[0]} />
                 <Dice number={diceNumbers[1]} />
             </div>
-            <button type="button" className="btn-roll-dice" onClick={randomizeDice} disabled={isRolling || !isMyTurn || diceRoll.rolledThisTurn}>
+            <button
+                type="button"
+                className="btn-roll-dice"
+                onClick={randomizeDice}
+                disabled={isRolling || !isMyTurn || diceRoll.rolledThisTurn}
+            >
                 Roll dice
             </button>
         </div>

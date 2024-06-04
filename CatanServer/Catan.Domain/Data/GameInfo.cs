@@ -7,7 +7,7 @@ namespace Catan.Domain.Data
 		public const int TURN_DURATION = 300;
 		public const int SETTLEMENTS_PER_PLAYER = 5;
 		public const int CITIES_PER_PLAYER = 4;
-		public const int WINNING_POINTS = 3;
+		public const int WINNING_POINTS = 10;
 		public static ReadOnlyDictionary<Buyable, Dictionary<Resource, int>> Costs;
 
 		static GameInfo() 

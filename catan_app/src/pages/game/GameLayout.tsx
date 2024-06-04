@@ -13,7 +13,7 @@ import useFetch from "../../hooks/useFetch";
 import {LobbyResponse} from "../../responses/LobbyResponse";
 import {usePlayer} from "../../context/PlayerProvider";
 import DiceLayout from "./actions/dice/DiceLayout";
-import {ResourcesDiv} from "./actions/resourcesDiv/ResourcesDiv";
+import ResourceCards from "./actions/resourcesDiv/ResourceCards";
 import {getEmptyResourceCount} from "../../interfaces/ResourceCountDto";
 import Overlay from "./misc/overlay/Overlay";
 import {TradeBank} from "./actions/tradeModal/TradeBank";
@@ -287,7 +287,7 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
 
                     <ChatDiv trades={gameSession.trades} players={gameSession.players}/>
                 </div>
-                <ResourcesDiv resourceCount={resourceCount}/>
+                <ResourceCards resourceCount={resourceCount}/>
             </div>
             {isAbandoned && <Overlay winner={null} message="Game has been abandoned" />}
             {isWon && gameSession.winner &&

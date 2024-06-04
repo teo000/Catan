@@ -45,7 +45,7 @@ export const Lobby = React.memo(() => {
 
     useEffect(() => {
         if (!isOver) {
-            const intervalId = setInterval(fetchGameState, 500);
+            const intervalId = setInterval(fetchGameState, 333);
             return () => clearInterval(intervalId);
         }
     }, [fetchGameState, isOver]);

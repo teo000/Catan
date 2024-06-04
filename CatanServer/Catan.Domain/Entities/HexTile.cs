@@ -1,9 +1,10 @@
 ﻿using Catan.Domain.Data;
+using Catan.Domain.Entities.GamePieces;
 using System.Text.Json.Serialization;
 
 namespace Catan.Domain.Entities
 {
-	public class HexTile : Tile
+    public class HexTile
 	{
 		public HexTile(Resource resource, int number)
 		{

@@ -18,7 +18,8 @@ export interface CustomButtonProps {
     onClick: () => void;
 }
 
-const ActionButton: React.FC<ActionButtonProps> = ({ text, isActive, onClick, className }) => {
+const ActionButton: React.FC<ActionButtonProps> =
+    ({ text, isActive, onClick, className }) => {
     return (
         <button
             className={`action-button ${className} ${isActive ? 'clicked' : ''}`}

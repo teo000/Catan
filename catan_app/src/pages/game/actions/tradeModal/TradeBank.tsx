@@ -14,7 +14,7 @@ interface TradeBankProps {
 const resourceOptions = ['Brick', 'Wood', 'Sheep', 'Wheat', 'Ore'];
 
 export const TradeBank: React.FC<TradeBankProps> = ({ isOpen, setIsOpen }) => {
-    const { data, error, loading, request } = useFetch<BaseResponse>('/api/v1/Trade');
+    const {request } = useFetch<BaseResponse>('/api/v1/Trade');
 
     const [giveResource, setGiveResource] = useState(resourceOptions[0]);
     const [receiveResource, setReceiveResource] = useState(resourceOptions[0]);

@@ -1,9 +1,12 @@
 ﻿using Catan.Domain.Common;
 using Catan.Domain.Data;
+using Catan.Domain.Entities.GamePieces;
+using Catan.Domain.Entities.Harbors;
+using Catan.Domain.Entities.Trades;
 
 namespace Catan.Domain.Entities
 {
-	public class GameSession
+    public class GameSession
 	{
 		public GameSession(List<Player> players) {
 			Id = Guid.NewGuid();
@@ -30,7 +33,7 @@ namespace Catan.Domain.Entities
 		public DateTime TurnEndTime { get; private set; }
 		public int Round { get; private set; } = 1;
 		public DiceRoll Dice { get; private set; }
-		public List<Trade> Trades { get; private set; } = new List<Trade>();
+		public List<PlayerTrade> Trades { get; private set; } = new List<PlayerTrade>();
 		public Player? Winner { get; private set; }
 		public LongestRoad LongestRoad { get; private set; }
 
@@ -80,7 +83,7 @@ namespace Catan.Domain.Entities
 			if (GameMap.Buildings[position] != null)
 				return Result<Settlement>.Failure("Game piece already placed here");
 
-			if (!isInitialPhase) //netestat
+			if (!isInitialPhase) 
 			{
 				var playerRoads = player.Roads;
 				bool settlementIsConnected = false;
@@ -115,10 +118,23 @@ namespace Catan.Domain.Entities
 
 			var newSettlement = new Settlement(player, position);
 
+
 			GameMap.Buildings[position] = newSettlement;
 			player.AddSettlement(newSettlement);
 			if (!isInitialPhase)
 				player.SubtractResources(Buyable.SETTLEMENT);
+			if (GameMapData.HarbourNextToSettlement.TryGetValue(position, out var harborPosition))
+			{
+				var harbor = GameMap.Harbors[harborPosition];
+				if (harbor is SpecialHarbor)
+				{
+					var specialHarbor = (SpecialHarbor)harbor;
+					player.SetResourceCountSpecialPort(specialHarbor.Resource, 2);
+				}
+
+
+			}
+
 
 			foreach (var hexTilePos in GameMapData.SettlementAdjacentTiles[position])
 			{
@@ -325,9 +341,9 @@ namespace Catan.Domain.Entities
 			return players;
 		}
 
-		public Result<Trade> AddNewPendingTrade(Player playerToGive, Resource resourceToGive, int countToGive, Player playerToReceive, Resource resourceToReceive, int countToReceive)
+		public Result<PlayerTrade> AddNewPendingTrade(Player playerToGive, Resource resourceToGive, int countToGive, Player playerToReceive, Resource resourceToReceive, int countToReceive)	
 		{
-			var tradeResult = Trade.Create(playerToGive, resourceToGive, countToGive, playerToReceive, resourceToReceive, countToReceive);	
+			var tradeResult = PlayerTrade.Create(playerToGive, resourceToGive, countToGive, playerToReceive, resourceToReceive, countToReceive);	
 
 			if (!tradeResult.IsSuccess) 
 				return tradeResult;
@@ -338,34 +354,25 @@ namespace Catan.Domain.Entities
 			return tradeResult;
 		}
 		
-		private Trade getTrade (Guid id)
-		{
-			foreach (var trade in Trades)
-			{
-				if (trade.Id == id) return trade;
-			}
-			return null;
-		}
-
-		public Result<Trade> GetTrade(Guid TradeId)
+		public Result<PlayerTrade> GetTrade(Guid TradeId)
 		{
 			var trade = getTrade(TradeId);
 			if (trade is not null)
-				return Result<Trade>.Success(trade);
-			return Result<Trade>.Failure("Trade does not exist in current context.");
+				return Result<PlayerTrade>.Success(trade);
+			return Result<PlayerTrade>.Failure("Trade does not exist in current context.");
 		}
 
-		public Result<Trade> AcceptTrade(Guid TradeId)
+		public Result<PlayerTrade> AcceptTrade(Guid TradeId)
 		{
 			var trade = getTrade(TradeId);
 			if (trade is null)
-				return Result<Trade>.Failure("Trade does not exist in current context.");
+				return Result<PlayerTrade>.Failure("Trade does not exist in current context.");
 
 			if (!trade.PlayerToReceive.HasResource(trade.ResourceToReceive, trade.CountToReceive))
-				return Result<Trade>.Failure("You do not have enough resources");
+				return Result<PlayerTrade>.Failure("You do not have enough resources");
 
 			if (!trade.PlayerToReceive.HasResource(trade.ResourceToGive, trade.CountToGive))
-				return Result<Trade>.Failure("Trade could not be completed");
+				return Result<PlayerTrade>.Failure("Trade could not be completed");
 
 
 			trade.PlayerToReceive.SubtractResource(trade.ResourceToReceive, trade.CountToReceive);
@@ -376,8 +383,24 @@ namespace Catan.Domain.Entities
 
 			trade.SetAccepted();
 
-			return Result<Trade>.Success(trade);
+			return Result<PlayerTrade>.Success(trade);
 		}
+
+		public Result<GameSession> TradeBank(Player player, Resource resourceToGive, int count, Resource resourceToReceive)
+		{
+			var countToTrade = count * player.TradeCount[resourceToGive];
+
+			if (player != GetTurnPlayer())
+				return Result<GameSession>.Failure("It is not your turn.");
+			if (!player.HasResource(resourceToGive, countToTrade))
+				return Result<GameSession>.Failure("You do not have enough resources");
+
+			player.SubtractResource(resourceToGive, countToTrade);
+			player.AssignResource(resourceToReceive, count);
+
+			return Result<GameSession>.Success(this);
+		}
+
 
 		public Result<Map> MoveThief(Player player, int position)
 		{
@@ -394,19 +417,7 @@ namespace Catan.Domain.Entities
 			return Result<Map>.Success(GameMap);
 		}
 
-		public Result<GameSession> TradeBank(Player player, Resource resourceToGive, int count, Resource resourceToReceive)
-		{
-			if (player != GetTurnPlayer())
-				return Result<GameSession>.Failure("It is not your turn.");
-			if (!player.HasResource(resourceToGive, count * 4))
-				return Result<GameSession>.Failure("You do not have enough resources");
-
-			player.SubtractResource(resourceToGive, count * 4);
-			player.AssignResource(resourceToReceive, count);
-
-			return Result<GameSession>.Success(this);
-		}
-
+		
 		private void CalculateNewLongestRoad()
 		{
 			//adauga caz special broken road
@@ -426,6 +437,16 @@ namespace Catan.Domain.Entities
 			}
 
 		}
+
+		private PlayerTrade getTrade(Guid id)
+		{
+			foreach (var trade in Trades)
+			{
+				if (trade.Id == id) return trade;
+			}
+			return null;
+		}
+
 
 	}
 }

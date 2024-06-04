@@ -8,6 +8,7 @@ namespace Catan.Domain.Data
 		public const int ROWS_NO = 5;
 		public const int SETTLEMENTS_NO = 54;
 		public const int ROADS_NO = 72;
+		public const int HARBORS_NO = 9;
 
 		public static Dictionary<int, List<int>> HexTileRowLayout = new Dictionary<int, List<int>>() {
 			{0, new List<int>() {      0,  1,  2      } },
@@ -199,6 +200,20 @@ namespace Catan.Domain.Data
 		public static Dictionary<int, List<int>> AdjacentSettlements = new Dictionary<int, List<int>>();
 		public static readonly List<int> NumberTokenList 
 			= [2, 3, 3, 4, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 11, 12];
+
+		public static List<(int, int)> SettlementsNextToHarbor =
+		[
+			(0, 3),
+			(1, 5),
+			(10, 15),
+			(26, 32),
+			(42, 46),
+			(49, 52),
+			(47, 51),
+			(33, 38),
+			(11, 16),
+		];
+
 		public static List<Resource> getBeginningResourceList()
 		{
 			List<Resource> resources = new List<Resource>();
