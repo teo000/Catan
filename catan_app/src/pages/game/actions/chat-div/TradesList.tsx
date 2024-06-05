@@ -54,8 +54,8 @@ export const TradeList: React.FC<TradeListProps> = ({trades, players}) => {
             {pendingTradesToMe.map(trade => (
                 <div key={trade.id} className="trade-item">
                     <span>
-                        Player {getPlayerName(trade.playerToGiveId)} wants to exchange {trade.countToGive}
-                        {trade.resourceToGive} for {trade.countToReceive} {trade.resourceToReceive}
+                        Player {getPlayerName(trade.playerToGiveId)} wants to give you {trade.countToGive}
+                        {trade.resourceToGive} in exchange for {trade.countToReceive} {trade.resourceToReceive}
                     </span>
                     <button className="accept-button" onClick={() => handleAccept(trade.id)}>✔</button>
                     <button className="reject-button" onClick={() => handleReject(trade.id)}>✘</button>

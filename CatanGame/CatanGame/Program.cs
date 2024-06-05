@@ -161,12 +161,19 @@ static void PrintDictionaryOfLists(Dictionary<int, List<int>> dictOfLists)
 	}
 }
 
+
 //PrintListofLists(GameMapData.SettlementAdjacentTiles);
 //Console.WriteLine(GameMapData.SettlementAdjacentTiles.Count);
 //Console.WriteLine();
 
-PrintListOfTuples(GameMapData.RoadEnds);
+//PrintListOfTuples(GameMapData.RoadEnds);
 //Console.WriteLine();
 
 //PrintDictionaryOfLists(GameMapData.AdjacentSettlements);
+
+
+foreach (var (key, value) in GameMapData.RoadByRoadEnds)
+{
+	Console.WriteLine($"\"{key.Item1},{key.Item2}\": {value},");
+}
 

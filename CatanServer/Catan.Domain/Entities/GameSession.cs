@@ -64,10 +64,10 @@ namespace Catan.Domain.Entities
 
 			if (TurnPlayerIndex == 0)
 			{
-				Round++;
-
 				if (IsInBeginningPhase())
 					Players.Reverse();
+
+				Round++;
 
 				if (Round == 3)
 					AssignBeginningResources();

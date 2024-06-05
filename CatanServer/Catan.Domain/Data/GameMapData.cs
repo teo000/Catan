@@ -110,10 +110,7 @@ namespace Catan.Domain.Data
 
 				for (int pos = 0; pos < HexTileRowLayout[row].Count; pos++)
 				{
-					List<int> adjacentTiles = new List<int>();
-
-
-					adjacentTiles.Add(HexTileRowLayout[row][pos]);
+					List<int> adjacentTiles = [HexTileRowLayout[row][pos]];
 
 					if (row < ROWS_NO - 1)
 					{

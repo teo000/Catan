@@ -51,7 +51,7 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
 
     const message = useMessage(gameSession);
 
-    const {getVisibleSettlementSpots} = useVisibleSpots(gameSession);
+    const {getVisibleSettlementSpots, getVisibleRoadSpots} = useVisibleSpots(gameSession);
 
     useEffect(() => {
         if (player?.id !== gameSession.turnPlayer.id) {
@@ -171,7 +171,7 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
             if (activeButton === ButtonActions.PlaceRoad)
                 setVisibleRoadSpots([])
             else {
-                const newVisibleRoads = determineVisibleRoads();
+                const newVisibleRoads = getVisibleRoadSpots();
                 setVisibleRoadSpots(newVisibleRoads);
             }
             setVisibleSettlementSpots([]);

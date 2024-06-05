@@ -26,12 +26,13 @@ const useVisibleSpots = (gameSession: GameSessionDto) => {
 
     const adjacentSettlements = MapLogicInfo.getAdjacentSettlements();
     const roadEnds = MapLogicInfo.getRoadEnds();
+    const roadByRoadEnds = MapLogicInfo.getRoadByRoadEnds();
     const {player} = usePlayer();
 
     const getVisibleSettlementSpots = (): number[] => {
-        if (gameSession.round === 1 || gameSession.round === 2){
+        if (gameSession.round === 1 || gameSession.round === 2)
             return getBeginningSettlementSpots();
-        }
+
 
         const settlementPositions = gameSession.map.settlements.map(s => s.position);
         const playerRoadPosition = gameSession.map.roads
@@ -65,8 +66,49 @@ const useVisibleSpots = (gameSession: GameSessionDto) => {
         return Array.from(settlementPositionsSet);
     };
 
+    const getVisibleRoadSpots = () : number[]=>{
+        if (gameSession.round === 1 || gameSession.round === 2)
+            return getBeginningRoadSpots();
+
+        const visibleRoadSpots = [];
+
+        const allRoads = gameSession.map.roads.map(r => r.position);
+
+        const playerRoads = gameSession.map.roads
+            .filter(r => r.playerId === player?.id)
+            .map(r => r.position);
+
+        for (const road of playerRoads){
+            const ends = roadEnds[road];
+            for (const end of ends) {
+                for (const settlement of adjacentSettlements[end]) {
+                    let key: [number, number] = [-1, -1];
+
+                    if (end < settlement)
+                        key = [end, settlement]
+                    else key = [settlement, end]
+
+                    const roadPosition = roadByRoadEnds.get(JSON.stringify(key));
+                    if (roadPosition && !allRoads.includes(roadPosition))
+                        visibleRoadSpots.push(roadPosition);
+                }
+            }
+        }
+
+        return visibleRoadSpots;
+
+    };
+
+    const getBeginningRoadSpots = () : number[] =>{
+        const roadPositionsSet = new Set<number>(Array.from({ length: 73 }, (_, index) => index));
+        const roadPositions = gameSession.map.roads.map(r => r.position);
+        for (const pos of roadPositions) roadPositionsSet.delete(pos);
+        return Array.from(roadPositionsSet);
+    }
+
     return {
-        getVisibleSettlementSpots
+        getVisibleSettlementSpots,
+        getVisibleRoadSpots
     };
 };
 

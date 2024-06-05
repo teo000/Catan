@@ -130,35 +130,51 @@ namespace CatanGame.Data
 			}
 
 
-			for(int row=0; row < SettlementLayout.Count - 1; row++)
+			int index = 0;
+			for (int row = 0; row < SettlementLayout.Count - 1; row++)
 			{
 				if (SettlementLayout[row].Count < SettlementLayout[row + 1].Count)
 				{
-					for(int pos = 0; pos < SettlementLayout[row].Count; pos++)
+					for (int pos = 0; pos < SettlementLayout[row].Count; pos++)
 					{
-						RoadEnds.Add((SettlementLayout[row + 1][pos], SettlementLayout[row][pos]));
-						RoadEnds.Add((SettlementLayout[row][pos], SettlementLayout[row + 1][pos + 1]));
+						var roadEnd1 = (SettlementLayout[row + 1][pos], SettlementLayout[row][pos]);
+						var roadEnd2 = (SettlementLayout[row][pos], SettlementLayout[row + 1][pos + 1]);
+
+						RoadEnds.Add(roadEnd1);
+						RoadByRoadEnds.Add(roadEnd1, index++);
+
+						RoadEnds.Add(roadEnd2);
+						RoadByRoadEnds.Add(roadEnd2, index++);
+
 					}
 				}
 				else if (SettlementLayout[row].Count == SettlementLayout[row + 1].Count)
 				{
 					for (int pos = 0; pos < SettlementLayout[row].Count; pos++)
 					{
-						RoadEnds.Add((SettlementLayout[row][pos], SettlementLayout[row + 1][pos]));
+						var roadEnd = (SettlementLayout[row][pos], SettlementLayout[row + 1][pos]);
+						RoadEnds.Add(roadEnd);
+						RoadByRoadEnds.Add(roadEnd, index++);
 					}
 				}
 				else
 				{
-					for (int pos = 0; pos < SettlementLayout[row+1].Count; pos++)
+					for (int pos = 0; pos < SettlementLayout[row + 1].Count; pos++)
 					{
-						RoadEnds.Add((SettlementLayout[row][pos], SettlementLayout[row + 1][pos]));
-						RoadEnds.Add((SettlementLayout[row + 1][pos], SettlementLayout[row][pos + 1]));
+						var roadEnd1 = (SettlementLayout[row][pos], SettlementLayout[row + 1][pos]);
+						var roadEnd2 = (SettlementLayout[row + 1][pos], SettlementLayout[row][pos + 1]);
+
+						RoadEnds.Add(roadEnd1);
+						RoadByRoadEnds.Add(roadEnd1, index++);
+
+						RoadEnds.Add(roadEnd2);
+						RoadByRoadEnds.Add(roadEnd2, index++);
 					}
 				}
 			}
 
 
-			foreach((int, int) road in RoadEnds)
+			foreach ((int, int) road in RoadEnds)
 			{
 				int settlement1 = road.Item1;
 				int settlement2 = road.Item2;
@@ -180,43 +196,7 @@ namespace CatanGame.Data
 		public static List<(int, int)> RoadEnds = new List<(int, int)>();
 
 		public static Dictionary<int, List<int>> AdjacentSettlements = new Dictionary<int, List<int>>();
-
-		//public static Dictionary<int, List<int>> SettlementAdjacentTiles = new Dictionary<int, List<int>>()
-		//{
-		//	{0, new List<int> {0}},
-		//	{1, new List<int> {1}},
-		//	{2, new List<int> {2}},
-		//	{3, new List<int> {0}},
-
-		//	{4, new List<int> {0}},
-		//	{5, new List<int> {0, 1}},
-		//	{6, new List<int> {1, 2}},
-		//	{7, new List<int> {2 }},
-
-		//	{8, new List<int> {0, 3}},
-		//	{9, new List<int> {0, 1, 4}},
-		//	{10, new List<int> {1, 2, 5 } },
-		//	{11, new List<int> {2, 6 } },
-
-		//	{12, new List<int> {3 } },
-		//	{13, new List<int> {0, 3, 4 } },
-		//	{14, new List<int> {1, 4, 5 } },
-		//	{15, new List<int> {2, 5, 6 } },
-		//	{16, new List<int> {2, 6}},
-
-		//	{17, new List<int> {3, 7 } },
-		//	{18, new List<int> {3, 4, 8} },
-		//	{19, new List<int> {4, 5, 9 } },
-		//	{20, new List<int> {6, 7, 11} },
-		//	{21, new List<int> {7, 12} },
-
-		//	{22, new List<int> {8 } },
-		//	{23, new List<int> {4, 8, 9} },
-		//	{24, new List<int> {} }
-
-
-		//};
-
+		public static Dictionary<(int, int), int> RoadByRoadEnds = new Dictionary<(int, int), int>();
 
 	}
 }
