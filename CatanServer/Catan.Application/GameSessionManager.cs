@@ -1,6 +1,7 @@
 ﻿using Catan.Domain.Common;
 using Catan.Domain.Data;
 using Catan.Domain.Entities;
+using Catan.Domain.Entities.GamePieces;
 
 namespace Catan.Application
 {
@@ -86,6 +87,17 @@ namespace Catan.Application
 				session.EndPlayerTurn();
 				StartTurnTimer(session.Id);
 			}
+		}
+
+		public Result<Road> PlaceRoad(GameSession session, Player player, int position)
+		{
+			var result = session.PlaceRoad(player, position);
+
+			if (!result.IsSuccess || !session.IsInBeginningPhase())
+				return result;
+
+			EndPlayerTurn(session);
+			return result;
 		}
 
 		private void OnTurnTimeout(object? state)

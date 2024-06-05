@@ -70,8 +70,8 @@ namespace Catan.Application.Features.Game.Commands.PlaceRoad
 				};
 			}
 
-			
-			var result = gameSession.PlaceRoad(player, request.Position);
+		
+			var result = _gameSessionManager.PlaceRoad(gameSession, player, request.Position);
 
 			if (!result.IsSuccess)
 			{

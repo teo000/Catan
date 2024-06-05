@@ -3,6 +3,7 @@ using Catan.Domain.Data;
 using Catan.Domain.Entities.GamePieces;
 using Catan.Domain.Entities.Harbors;
 using Catan.Domain.Entities.Trades;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Catan.Domain.Entities
 {
@@ -60,9 +61,21 @@ namespace Catan.Domain.Entities
 		public void EndPlayerTurn()
 		{
 			TurnPlayerIndex = (TurnPlayerIndex + 1) % Players.Count;
+
 			if (TurnPlayerIndex == 0)
+			{
 				Round++;
+
+				if (IsInBeginningPhase())
+					Players.Reverse();
+
+				if (Round == 3)
+					AssignBeginningResources();
+			}
+
+
 			Dice.Reset();
+
 			TurnEndTime = DateTime.Now.AddSeconds(GameInfo.TURN_DURATION);
 		}
 
@@ -311,6 +324,34 @@ namespace Catan.Domain.Entities
 			return resourcesToAdd;
 		}
 
+		private void AssignBeginningResources()
+		{
+			var hexTiles = GameMap.HexTiles;
+			Dictionary<Player, Dictionary<Resource, int>> resourcesToAdd = new Dictionary<Player, Dictionary<Resource, int>>();
+
+			foreach (var player in Players)
+			{
+				resourcesToAdd.Add(player, new Dictionary<Resource, int>());
+			}
+
+			foreach (var hexTile in hexTiles)
+				foreach (var building in hexTile.Buildings)
+					{
+						var player = building.Player;
+						var resource = hexTile.Resource;
+						var count = building.Points;
+
+						if (!resourcesToAdd[player].ContainsKey(resource))
+							resourcesToAdd[player].Add(resource, count);
+						else resourcesToAdd[player][resource] += count;
+					}
+
+			foreach (var player in Players)
+				player.AssignResources(resourcesToAdd[player]);
+
+
+		}
+
 		public void MarkAbandoned()
 		{
 			GameStatus = GameStatus.Abandoned;
@@ -443,7 +484,6 @@ namespace Catan.Domain.Entities
 			}
 			return null;
 		}
-
 
 	}
 }

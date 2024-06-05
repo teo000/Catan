@@ -11,7 +11,7 @@ export const PlayerInfoDiv: React.FC<PlayerInfoDivProps> = ({players}) => {
         <div className="player-info-div">
             {
                 players.map(player =>
-                    <PlayerInfo playerInfo={player}/>
+                    <PlayerInfo key={player.id} playerInfo={player}/>
                 )
             }
         </div>

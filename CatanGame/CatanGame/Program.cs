@@ -148,7 +148,7 @@ static void PrintListOfTuples(List<(int, int)> listOfTuples)
 	int index = 0;
 	foreach ((int, int) tuple in listOfTuples)
 	{
-		Console.WriteLine($"{index}: ({tuple.Item1}, {tuple.Item2})");
+		Console.WriteLine($"[{tuple.Item1}, {tuple.Item2}],");
 		index++;
 	}
 }
@@ -161,11 +161,11 @@ static void PrintDictionaryOfLists(Dictionary<int, List<int>> dictOfLists)
 	}
 }
 
-PrintListofLists(GameMapData.SettlementAdjacentTiles);
+//PrintListofLists(GameMapData.SettlementAdjacentTiles);
 //Console.WriteLine(GameMapData.SettlementAdjacentTiles.Count);
 //Console.WriteLine();
 
-//PrintListOfTuples(GameMapData.RoadEnds);
+PrintListOfTuples(GameMapData.RoadEnds);
 //Console.WriteLine();
 
 //PrintDictionaryOfLists(GameMapData.AdjacentSettlements);

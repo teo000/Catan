@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import useFetch from "../../hooks/useFetch";
 import {LobbyPlayerResponse} from "../../responses/LobbyPlayerResponse";
 import './homepage.css';
 import {usePlayer} from "../../context/PlayerProvider";
+import {MapLogicInfo} from "../game/utils/MapLogicInfo";
 
 const HomePage = () => {
     const { data, error, loading, request } = useFetch<LobbyPlayerResponse>('/api/v1/Lobby');
@@ -13,6 +14,14 @@ const HomePage = () => {
     const [playerName, setPlayerName] = useState('');
 
     const { player, setPlayer } = usePlayer();
+
+    useEffect(() =>{
+            const loadMapLogicInfo = async () => {
+                await MapLogicInfo.load();
+            };
+            loadMapLogicInfo();
+        }
+    )
 
     const createLobby = async () => {
         const requestData = { playerName };

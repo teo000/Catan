@@ -7,6 +7,7 @@ import {WaitingRoom} from "./WaitingRoom";
 import {PlayerDto} from "../../../interfaces/PlayerDto";
 import {useDeepCompareState} from "../../../hooks/useDeepCompareEffect";
 import {usePlayer} from "../../../context/PlayerProvider";
+import {MapLogicInfo} from "../../game/utils/MapLogicInfo";
 
 export const Lobby = React.memo(() => {
     const { data, error, loading, request } = useFetch<LobbyResponse>('/api/v1/Lobby');
@@ -16,7 +17,7 @@ export const Lobby = React.memo(() => {
     const joinCode = currentPath.substring(currentPath.lastIndexOf('/') + 1);
 
     const [players, setPlayers] = useDeepCompareState<PlayerDto[]>([]);
-    const { player, setPlayer, gameId, setGameId } = usePlayer();
+    const {setGameId } = usePlayer();
     const [loaded, setLoaded] = useState(false);
 
     const requestData = {joinCode};
@@ -31,7 +32,6 @@ export const Lobby = React.memo(() => {
             if (response === null || !response.success){
                 console.error('Failed to create lobby: Invalid response format', response);
             }
-
         } catch (err) {
             console.error('Failed to create lobby', err);
         }
@@ -49,6 +49,8 @@ export const Lobby = React.memo(() => {
             return () => clearInterval(intervalId);
         }
     }, [fetchGameState, isOver]);
+
+
 
     useEffect(() => {
         if (data?.lobby?.players) {

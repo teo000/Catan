@@ -26,6 +26,7 @@ import {RobberSpots} from "./board/robber/RobberSpots";
 import {useMessage} from "./hooks/useMessage";
 import {MessageLabel} from "./actions/messageLabel/MessageLabel";
 import {Harbors} from "./board/harbors/Harbors";
+import useVisibleSpots from "./hooks/useVisibleSpots";
 
 interface GameLayoutProps {
     gameSession : GameSessionDto
@@ -49,6 +50,8 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
     const [isTradePlayerOpen, setIsTradePlayerOpen] = useState(false);
 
     const message = useMessage(gameSession);
+
+    const {getVisibleSettlementSpots} = useVisibleSpots(gameSession);
 
     useEffect(() => {
         if (player?.id !== gameSession.turnPlayer.id) {
@@ -78,6 +81,8 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
         } catch (err) {
             console.error('Failed to place settlement', err);
         }
+        setVisibleSettlementSpots([]);
+        setActiveButton(ButtonActions.None);
     };
 
     const handlePlaceSettlementButtonClick = (action: ButtonActions) => {
@@ -85,7 +90,7 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
             if (activeButton === ButtonActions.PlaceSettlement)
                 setVisibleSettlementSpots([])
             else {
-                const newVisibleSettlements = determineVisibleSettlementSpots();
+                const newVisibleSettlements = getVisibleSettlementSpots();
                 setVisibleSettlementSpots(newVisibleSettlements);
             }
             setVisibleRoadSpots([]);
@@ -95,19 +100,6 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
         }
         setActiveButton(action === activeButton ? ButtonActions.None : action);
     };
-
-    const determineVisibleSettlementSpots = (): number[] => {
-        // aici vom face ca doar settlement-urile conectate la vreun drum sa fie vizibile
-
-        const settlementPositionsSet = new Set<number>(  Array.from({ length: 55 }, (_, index) => index));
-        const settlementPositions = gameSession.map.settlements.map(s => s.position);
-        console.log("settlements: " + settlementPositions)
-        for (const pos of settlementPositions)
-            settlementPositionsSet.delete(pos);
-
-        return Array.from(settlementPositionsSet);
-    };
-
     const handleCityClick = async (id: number) => {
         const requestData = {gameId: gameSession.id, playerId: player?.id, position: id};
 
@@ -126,7 +118,7 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
                 return newState;
             });
         } catch (err) {
-            console.error('Failed to place settlement', err);
+            console.error('Failed to place city', err);
         }
     };
 
@@ -170,7 +162,8 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
         } catch (err) {
             console.error('Failed to place road', err);
         }
-
+        setVisibleRoadSpots([]);
+        setActiveButton(ButtonActions.None);
     };
 
     const handlePlaceRoadButtonClick = (action: ButtonActions) => {

@@ -1,6 +1,6 @@
 import {SettlementSpotInfo} from "./ComputeSettlementSpotsInfo";
 import {SettlementSpot} from "./SettlementSpot";
-import {MapInfo} from "../../utils/MapInfo";
+import {MapDrawInfo} from "../../utils/MapDrawInfo";
 
 interface SettlementSpotsProps {
     visibleSettlementSpots: number[];
@@ -9,7 +9,7 @@ interface SettlementSpotsProps {
 
 
 function SettlementSpots({visibleSettlementSpots , onSettlementClick }: SettlementSpotsProps) {
-    const settlementSpotInfo = MapInfo.SettlementSpotInfo;
+    const settlementSpotInfo = MapDrawInfo.SettlementSpotInfo;
 
     return (
         <div className="settlement-spots">

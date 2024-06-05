@@ -1,6 +1,3 @@
-import {useState} from "react";
-import {ButtonActions} from "../../actions/buttons/ActionBar";
-
 interface SettlementSpotProps {
     left: number,
     top: number,
@@ -17,7 +14,7 @@ function SettlementSpot({left, top, index, onClick} : SettlementSpotProps){
                     left: `${left}px`,
                     top: `${top}px`
                 }}>
-            {index}
+            {/*{index}*/}
         </div>
     )
 }

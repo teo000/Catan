@@ -1,10 +1,10 @@
-import {MapInfo} from "../../utils/MapInfo";
+import {MapDrawInfo} from "../../utils/MapDrawInfo";
 import {MapConstants} from "../../utils/MapConstants";
 import {RobberSpot} from "./RobberSpot";
 
 function RobberSpots({visible, onRobberSpotClick, currentSpot} :
                          {visible:boolean, onRobberSpotClick : (position:number) => void , currentSpot:number}) {
-    const hexTileInfo = MapInfo.HexTileInfo;
+    const hexTileInfo = MapDrawInfo.HexTileInfo;
 
     if (!visible)
         return <></>

@@ -1,4 +1,4 @@
-import {MapInfo} from "../../utils/MapInfo";
+import {MapDrawInfo} from "../../utils/MapDrawInfo";
 import "./robber.css"
 import {MapConstants} from "../../utils/MapConstants";
 
@@ -24,8 +24,8 @@ export function Robber({hexTile} : {hexTile:number}){
     return (
         <div className="robber"
              style={{
-                 top: `${MapInfo.HexTileInfo[hexTile].top + MapConstants.HEX_HEIGHT*3/5}px`,
-                 left: `${MapInfo.HexTileInfo[hexTile].left + MapConstants.HEX_WIDTH*3/5}px`,
+                 top: `${MapDrawInfo.HexTileInfo[hexTile].top + MapConstants.HEX_HEIGHT*3/5}px`,
+                 left: `${MapDrawInfo.HexTileInfo[hexTile].left + MapConstants.HEX_WIDTH*3/5}px`,
              }}
         ></div>
     )
