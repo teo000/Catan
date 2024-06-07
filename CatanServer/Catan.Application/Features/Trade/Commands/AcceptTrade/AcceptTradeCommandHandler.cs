@@ -1,12 +1,13 @@
 ﻿using AutoMapper;
 using Catan.Application.Dtos;
+using Catan.Application.GameManagement;
 using Catan.Application.Responses;
 using Catan.Domain.Data;
 using MediatR;
 
 namespace Catan.Application.Features.Trade.Commands.AcceptTrade
 {
-	public class AcceptTradeCommandHandler : IRequestHandler<AcceptTradeCommand, TradeResponse>
+    public class AcceptTradeCommandHandler : IRequestHandler<AcceptTradeCommand, TradeResponse>
 	{
 		private GameSessionManager _gameSessionManager;
 		private IMapper _mapper;

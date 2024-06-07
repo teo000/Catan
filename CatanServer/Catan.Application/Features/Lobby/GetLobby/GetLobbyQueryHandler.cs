@@ -2,10 +2,11 @@
 using Catan.Application.Responses;
 using AutoMapper;
 using Catan.Application.Dtos;
+using Catan.Application.GameManagement;
 
 namespace Catan.Application.Features.Lobby.GetLobby
 {
-	public class GetLobbyQueryHandler : IRequestHandler<GetLobbyQuery, LobbyResponse>
+    public class GetLobbyQueryHandler : IRequestHandler<GetLobbyQuery, LobbyResponse>
 	{
 		private LobbyManager _lobbyManager;
 		private IMapper _mapper;

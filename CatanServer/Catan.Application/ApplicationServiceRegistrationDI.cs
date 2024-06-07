@@ -1,10 +1,11 @@
-﻿using Catan.Application.Mapper;
+﻿using Catan.Application.GameManagement;
+using Catan.Application.Mapper;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
 namespace Catan.Application
 {
-	public static class ApplicationServiceRegistrationDI
+    public static class ApplicationServiceRegistrationDI
 	{
 		public static void AddApplicationServices(this IServiceCollection services)
 		{

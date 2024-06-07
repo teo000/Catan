@@ -1,9 +1,10 @@
-﻿using Catan.Application.Dtos;
+﻿using Catan.Application.Contracts;
+using Catan.Application.Dtos;
 using System.Net.Http.Json;
 
 namespace Catan.Infrastructure.Services
 {
-	public class AIService 
+	public class AIService : IAIService
 	{
 		private readonly HttpClient _httpClient;
 

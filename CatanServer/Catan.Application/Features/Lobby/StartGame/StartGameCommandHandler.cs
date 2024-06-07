@@ -1,11 +1,12 @@
 ﻿using AutoMapper;
 using Catan.Application.Dtos;
+using Catan.Application.GameManagement;
 using Catan.Application.Responses;
 using MediatR;
 
 namespace Catan.Application.Features.Lobby.StartGame
 {
-	public class StartGameCommandHandler : IRequestHandler<StartGameCommand, LobbyResponse>
+    public class StartGameCommandHandler : IRequestHandler<StartGameCommand, LobbyResponse>
 	{
 		private LobbyManager _lobbyManager;
 		private IMapper _mapper;

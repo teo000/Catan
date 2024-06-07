@@ -1,11 +1,12 @@
 ﻿using Catan.Application.Dtos.GamePieces;
+using Catan.Application.GameManagement;
 using Catan.Application.Responses;
 using Catan.Domain.Entities;
 using MediatR;
 
 namespace Catan.Application.Features.Game.Commands.PlaceRoad
 {
-	public class PlaceRoadCommandHandler : IRequestHandler<PlaceRoadCommand, RoadResponse>
+    public class PlaceRoadCommandHandler : IRequestHandler<PlaceRoadCommand, RoadResponse>
 	{
 		private readonly GameSessionManager _gameSessionManager;
 

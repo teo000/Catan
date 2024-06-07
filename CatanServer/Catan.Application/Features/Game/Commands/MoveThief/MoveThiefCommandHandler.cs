@@ -3,10 +3,11 @@ using Catan.Application.Responses;
 using AutoMapper;
 using Catan.Domain.Entities;
 using Catan.Application.Dtos;
+using Catan.Application.GameManagement;
 
 namespace Catan.Application.Features.Game.Commands.MoveThief
 {
-	public class MoveThiefCommandHandler : IRequestHandler<MoveThiefCommand, MapResponse>
+    public class MoveThiefCommandHandler : IRequestHandler<MoveThiefCommand, MapResponse>
 	{
 		private GameSessionManager _gameSessionManager;
 		private IMapper _mapper;

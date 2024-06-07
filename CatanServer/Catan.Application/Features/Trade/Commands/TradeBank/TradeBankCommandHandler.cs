@@ -1,4 +1,5 @@
 ﻿using Catan.Application.Features.Trade.Commands.InitiateTrade;
+using Catan.Application.GameManagement;
 using Catan.Application.Responses;
 using Catan.Domain.Data;
 using Catan.Domain.Entities;
@@ -6,7 +7,7 @@ using MediatR;
 
 namespace Catan.Application.Features.Trade.Commands.TradeBank
 {
-	public class TradeBankCommandHandler : IRequestHandler<TradeBankCommand, BaseResponse>
+    public class TradeBankCommandHandler : IRequestHandler<TradeBankCommand, BaseResponse>
 	{
 		private GameSessionManager _gameSessionManager;
 

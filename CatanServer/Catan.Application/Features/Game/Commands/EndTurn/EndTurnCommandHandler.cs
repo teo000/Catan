@@ -1,12 +1,13 @@
 ﻿using AutoMapper;
 using Catan.Application.Dtos;
+using Catan.Application.GameManagement;
 using Catan.Application.Responses;
 using Catan.Domain.Entities;
 using MediatR;
 
 namespace Catan.Application.Features.Game.Commands.EndTurn
 {
-	public class EndTurnCommandHandler : IRequestHandler<EndTurnCommand, GameSessionResponse>
+    public class EndTurnCommandHandler : IRequestHandler<EndTurnCommand, GameSessionResponse>
 	{
 		private GameSessionManager _gameSessionManager;
 		private IMapper _mapper;

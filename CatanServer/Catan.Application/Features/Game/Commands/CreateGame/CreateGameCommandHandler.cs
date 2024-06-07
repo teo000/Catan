@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Catan.Application.Dtos;
+using Catan.Application.GameManagement;
 using Catan.Application.Responses;
 using Catan.Domain.Entities;
 using MediatR;

@@ -3,10 +3,11 @@ using Catan.Application.Responses;
 using AutoMapper;
 using Catan.Domain.Entities;
 using Catan.Application.Dtos;
+using Catan.Application.GameManagement;
 
 namespace Catan.Application.Features.Lobby.CreateLobby
 {
-	public class CreateLobbyCommandHandler : IRequestHandler<CreateLobbyCommand, LobbyPlayerResponse>
+    public class CreateLobbyCommandHandler : IRequestHandler<CreateLobbyCommand, LobbyPlayerResponse>
 	{
 		private LobbyManager _lobbyManager;
 		private IMapper _mapper;

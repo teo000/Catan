@@ -3,6 +3,7 @@ using Catan.Application.Dtos;
 using Catan.Domain.Entities;
 using Catan.Application.Responses;
 using Catan.Application.Dtos.GamePieces;
+using Catan.Application.GameManagement;
 
 namespace Catan.Application.Features.Game.Commands.PlaceSettlement
 {

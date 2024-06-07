@@ -1,12 +1,13 @@
 ﻿using AutoMapper;
 using Catan.Application.Dtos;
+using Catan.Application.GameManagement;
 using Catan.Application.Responses;
 using Catan.Domain.Entities;
 using MediatR;
 
 namespace Catan.Application.Features.Lobby.JoinLobby
 {
-	public class JoinLobbyCommandHandler : IRequestHandler<JoinLobbyCommand, LobbyPlayerResponse>
+    public class JoinLobbyCommandHandler : IRequestHandler<JoinLobbyCommand, LobbyPlayerResponse>
 	{
 		private LobbyManager _lobbyManager;
 		private IMapper _mapper;
