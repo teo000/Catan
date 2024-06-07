@@ -1,6 +1,6 @@
 import React from "react";
 import {ActionButton, CustomButtonProps} from "./ActionButton";
-export const PlaceSettlementButton: React.FC<CustomButtonProps> = ({ isActive, onClick }) => {
+export const PlaceSettlementButton: React.FC<CustomButtonProps> = ({ disabled, isActive, onClick }) => {
 
     const handleClick = () => {
         console.log('Place Settlement button clicked');
@@ -10,6 +10,7 @@ export const PlaceSettlementButton: React.FC<CustomButtonProps> = ({ isActive, o
     return (
         <ActionButton
             text="Place settlement"
+            disabled={disabled}
             isActive={isActive}
             onClick={handleClick}
             className="settlement-button"

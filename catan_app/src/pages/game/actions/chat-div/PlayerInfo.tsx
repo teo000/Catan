@@ -9,6 +9,7 @@ const AVATAR_PATH = "/images/avatars/"
 
 export const PlayerInfo: React.FC<PlayerProps> = ({playerInfo}) =>{
     const {player} = usePlayer();
+    const cardsCount = Object.values(playerInfo.resourceCount).reduce((sum, value) => sum + value, 0);
 
     return (
         <div className="player">
@@ -17,8 +18,7 @@ export const PlayerInfo: React.FC<PlayerProps> = ({playerInfo}) =>{
                 <div className="player-name"> {playerInfo.name} {player?.id === playerInfo.id && "(you)"} </div>
             </div>
             <div className="player-info"> VP: {playerInfo.winningPoints} </div>
-            <div className="player-info"> cards: 7 </div>
-            {/*<h6> </h6>*/}
+            <div className="player-info"> cards: {cardsCount} </div>
         </div>
     )
 }

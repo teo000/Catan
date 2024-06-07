@@ -12,6 +12,7 @@ export enum ButtonActions {
 }
 
 interface ActionBarProps {
+    disabled: boolean
     activeButton: ButtonActions;
     handlePlaceSettlementButtonClick: (action: ButtonActions) => void;
     handlePlaceRoadButtonClick: (action: ButtonActions) => void;
@@ -20,7 +21,8 @@ interface ActionBarProps {
     handleTradePlayerButtonClick : () => void;
 }
 
-function ActionBar({ activeButton,
+function ActionBar({ disabled,
+                       activeButton,
                        handlePlaceSettlementButtonClick ,
                        handlePlaceRoadButtonClick,
                        handlePlaceCityButtonClick,
@@ -29,17 +31,20 @@ function ActionBar({ activeButton,
 }: ActionBarProps) {
     return (
         <div className="actions-div">
-            <TradeButton onClick = {handleTradeBankButtonClick} who='bank'/>
-            <TradeButton onClick = {handleTradePlayerButtonClick} who='player'/>
+            <TradeButton disabled={disabled} onClick = {handleTradeBankButtonClick} who='bank'/>
+            <TradeButton disabled={disabled} onClick = {handleTradePlayerButtonClick} who='player'/>
             <PlaceSettlementButton
+                disabled={disabled}
                 isActive={activeButton === ButtonActions.PlaceSettlement}
                 onClick={() => handlePlaceSettlementButtonClick(ButtonActions.PlaceSettlement)}
             />
             <PlaceCityButton
+                disabled={disabled}
                 isActive={activeButton === ButtonActions.PlaceCity}
                 onClick={() => handlePlaceCityButtonClick(ButtonActions.PlaceCity)}
             />
             <PlaceRoadButton
+                disabled={disabled}
                 isActive={activeButton === ButtonActions.PlaceRoad}
                 onClick={() => handlePlaceRoadButtonClick(ButtonActions.PlaceRoad)}
             />

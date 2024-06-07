@@ -40,7 +40,7 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
     const [visibleCitySpots, setVisibleCitySpots] = useState<number[]>([]);
 
     const [activeButton, setActiveButton] = useState<ButtonActions>(ButtonActions.None);
-
+    const [buttonsDisabled, setButtonsDisabled] = useState(false);
     const settlementSpotInfo = ComputeSettlementSpotsInfo();
     const roadSpotInfo = ComputeRoadSpotsInfo();
 
@@ -52,14 +52,29 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
     const message = useMessage(gameSession);
 
     const {getVisibleSettlementSpots, getVisibleRoadSpots} = useVisibleSpots(gameSession);
-
-    useEffect(() => {
-        if (player?.id !== gameSession.turnPlayer.id) {
-            setActiveButton(ButtonActions.None)
+    
+    useEffect(() =>{
+        if((gameSession.round === 1 || gameSession.round ===2 ) && player?.id === gameSession.turnPlayer.id) {
+            setButtonsDisabled(true);
+            if (gameSession.map.settlements > gameSession.map.roads){
+                setVisibleSettlementSpots([]);
+                setVisibleRoadSpots(getVisibleRoadSpots());
+            }
+            else{
+                setVisibleRoadSpots([]);
+                setVisibleSettlementSpots(getVisibleSettlementSpots());
+            }
+        }
+        else if (player?.id !== gameSession.turnPlayer.id || !gameSession.dice.rolledThisTurn) {
+            setButtonsDisabled(true);
             setVisibleRoadSpots([]);
             setVisibleSettlementSpots([]);
         }
-    }, [gameSession.turnPlayer.id, player?.id]);
+        else {
+            setButtonsDisabled(false);
+
+        }
+    }, [gameSession.round, gameSession.turnPlayer.id, gameSession.dice.rolledThisTurn, gameSession.map.settlements, gameSession.map.roads, player?.id, getVisibleRoadSpots, getVisibleSettlementSpots], );
 
     const handleOpenTradeBank = () => {
         setIsTradeBankOpen(true);
@@ -218,6 +233,7 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
     const resourceCount = playerState ? playerState.resourceCount : getEmptyResourceCount()
     const lastDiceRoll = gameSession.dice.values[0] + gameSession.dice.values[1];
 
+
     if (!playerState){
         return <p> Something went wrong ... </p>
     }
@@ -225,7 +241,11 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
     return (
         <div className="gameLayout">
             <div className='board-div'>
-                <TurnTimerLabel playerName={gameSession.turnPlayer.name} time={gameSession?.turnEndTime}/>
+                <TurnTimerLabel
+                    playerName={gameSession.turnPlayer.name}
+                    time={gameSession?.turnEndTime}
+                    disabled={buttonsDisabled}
+                />
                 <DiceLayout
                     gameSessionId={gameSession.id}
                     diceRoll={gameSession.dice}
@@ -275,7 +295,8 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
             </div>
             <div className="gameplay-div">
                 <div className="actions-chat-container">
-                    <ActionBar activeButton={activeButton}
+                    <ActionBar disabled={buttonsDisabled}
+                               activeButton={activeButton}
                                handlePlaceSettlementButtonClick={handlePlaceSettlementButtonClick}
                                handlePlaceRoadButtonClick={handlePlaceRoadButtonClick}
                                handlePlaceCityButtonClick={handlePlaceCityButtonClick}

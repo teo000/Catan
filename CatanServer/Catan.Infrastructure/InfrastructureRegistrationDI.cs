@@ -1,6 +1,4 @@
-﻿using Catan.Application;
-using Catan.Application.Persistence;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Catan.Infrastructure

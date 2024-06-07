@@ -336,15 +336,16 @@ namespace Catan.Domain.Entities
 
 			foreach (var hexTile in hexTiles)
 				foreach (var building in hexTile.Buildings)
-					{
-						var player = building.Player;
-						var resource = hexTile.Resource;
-						var count = building.Points;
+				{
+					var player = building.Player;
+					var resource = hexTile.Resource;
+					var count = building.Points;
 
-						if (!resourcesToAdd[player].ContainsKey(resource))
-							resourcesToAdd[player].Add(resource, count);
-						else resourcesToAdd[player][resource] += count;
-					}
+					if (!resourcesToAdd[player].ContainsKey(resource))
+						resourcesToAdd[player].Add(resource, count);
+					else 
+						resourcesToAdd[player][resource] += count;
+				}
 
 			foreach (var player in Players)
 				player.AssignResources(resourcesToAdd[player]);
@@ -409,7 +410,7 @@ namespace Catan.Domain.Entities
 			if (!trade.PlayerToReceive.HasResource(trade.ResourceToReceive, trade.CountToReceive))
 				return Result<PlayerTrade>.Failure("You do not have enough resources");
 
-			if (!trade.PlayerToReceive.HasResource(trade.ResourceToGive, trade.CountToGive))
+			if (!trade.PlayerToGive.HasResource(trade.ResourceToGive, trade.CountToGive))
 				return Result<PlayerTrade>.Failure("Trade could not be completed");
 
 

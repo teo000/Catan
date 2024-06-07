@@ -2,7 +2,7 @@ import useFetch from "../../../../hooks/useFetch";
 import {usePlayer} from "../../../../context/PlayerProvider";
 import {GameSessionResponse} from "../../../../responses/GameSessionResponse";
 
-export function EndTurnButton(){
+export function EndTurnButton({disabled} : {disabled:boolean}){
     const { request } = useFetch<GameSessionResponse>('/api/v1/Game');
     const {player, gameId} = usePlayer();
 
@@ -25,7 +25,7 @@ export function EndTurnButton(){
 
     return (
         <button
-            className="end-turn-button"
+            className={`end-turn-button ${disabled ? 'disabled' : ''} `}
             onClick={onClick}
         >
             End Turn

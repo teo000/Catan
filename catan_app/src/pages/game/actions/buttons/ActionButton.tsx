@@ -7,6 +7,7 @@ const GamePiecePaths : Record<string, string>={
 }
 
 interface ActionButtonProps {
+    disabled: boolean;
     text: string;
     isActive?: boolean;
     onClick: () => void;
@@ -14,15 +15,16 @@ interface ActionButtonProps {
 }
 
 export interface CustomButtonProps {
+    disabled: boolean;
     isActive: boolean;
     onClick: () => void;
 }
 
 const ActionButton: React.FC<ActionButtonProps> =
-    ({ text, isActive, onClick, className }) => {
+    ({disabled,  text, isActive, onClick, className }) => {
     return (
         <button
-            className={`action-button ${className} ${isActive ? 'clicked' : ''}`}
+            className={` ${disabled? 'disabled' : (isActive ? 'clicked' : '')} action-button ${className} `}
             onClick={onClick}
         >
             {text}

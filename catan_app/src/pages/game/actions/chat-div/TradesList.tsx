@@ -13,7 +13,6 @@ interface TradeListProps{
 export const TradeList: React.FC<TradeListProps> = ({trades, players}) => {
     const { request } = useFetch<LobbyResponse>('/api/v1/Trade');
 
-
     const { player, gameId} = usePlayer();
 
     const getPlayerName = (playerId: string) => {

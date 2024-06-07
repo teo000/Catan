@@ -1,7 +1,7 @@
 import React from "react";
 import {EndTurnButton} from "./EndTurnButton";
 import "./turn-timer-label.css"
-export function TurnTimerLabel({playerName, time} : {playerName:string, time:string}){
+export function TurnTimerLabel({playerName, time, disabled} : {playerName:string, time:string, disabled:boolean}){
     const turnEndTime = new Date(time);
     const timeDifference = turnEndTime.getTime() - Date.now();
     const secondsDifference = Math.floor(timeDifference / 1000);
@@ -15,7 +15,7 @@ export function TurnTimerLabel({playerName, time} : {playerName:string, time:str
         <div className="turn-label-div">
             <label> It's {playerName}'s turn </label>
             <label> {minutesLeft}:{secondsLeftString} </label>
-            <EndTurnButton/>
+            <EndTurnButton disabled={disabled}/>
         </div>
     )
 }

@@ -5,7 +5,7 @@ using Catan.Domain.Entities.GamePieces;
 
 namespace Catan.Application
 {
-	public class GameSessionManager : IGameSessionManager
+	public class GameSessionManager
 	{
 		private Dictionary<Guid, GameSession> gameSessions = new Dictionary<Guid, GameSession>();
 		private readonly Dictionary<Guid, Timer> sessionTimers = new Dictionary<Guid, Timer>();
