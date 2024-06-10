@@ -37,6 +37,7 @@ namespace Catan.Domain.Entities
 		public List<PlayerTrade> Trades { get; private set; } = new List<PlayerTrade>();
 		public Player? Winner { get; private set; }
 		public LongestRoad LongestRoad { get; private set; }
+		public bool ThiefMovedThisTurn { get; private set; } = false;
 
 
 		public static Result<GameSession> Create (List<Player> players)
@@ -75,6 +76,7 @@ namespace Catan.Domain.Entities
 
 
 			Dice.Reset();
+			ThiefMovedThisTurn = false;
 
 			TurnEndTime = DateTime.Now.AddSeconds(GameInfo.TURN_DURATION);
 		}
@@ -452,7 +454,11 @@ namespace Catan.Domain.Entities
 			if (GameMap.ThiefPosition == position)
 				return Result<Map>.Failure("Move the thief to a different position.");
 
+			if (ThiefMovedThisTurn == true)
+				return Result<Map>.Failure("Thief already moved this turn");
+
 			GameMap.MoveThief(position);
+			ThiefMovedThisTurn = true;
 			return Result<Map>.Success(GameMap);
 		}
 
