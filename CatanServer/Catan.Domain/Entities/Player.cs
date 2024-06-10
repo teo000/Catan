@@ -23,7 +23,7 @@ namespace Catan.Domain.Entities
 					ResourceCount.Add(resource, 0);
 					TradeCount.Add(resource, 4);
 				}
-			
+			IsAI = false;
 		}
 
 		public Guid Id { get; private set; }
@@ -37,6 +37,7 @@ namespace Catan.Domain.Entities
 		public Color Color { get; set; }
 		public int LastPlacedSettlementPos = -1;
 		public int WinningPoints { get; set; }
+		public bool IsAI { get; set; }
 
 		//ar trebui poate sa notez undeva ce fel de trade-uri din astea mai favorabile pot sa fac
 		public static Result<Player> Create(string name) 

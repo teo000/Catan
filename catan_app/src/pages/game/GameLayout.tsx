@@ -196,15 +196,7 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
         }
         setActiveButton(action === activeButton ? ButtonActions.None : action);
     };
-
-    const determineVisibleRoads = (): number[] => {
-        // aici vom face ca doar road-urile conectate la vreun settlement sa fie vizibile
-
-        return Array.from({ length: 73 }, (_, index) => index);
-
-    };
-
-    const onRobberSpotClick = async (position:number) => {
+    const onRobberClick = async (position:number) => {
         const requestData = {gameId: gameSession.id, playerId: player?.id, position};
 
         try {
@@ -276,8 +268,8 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
                             onRoadClick={handleRoadClick}
                         />
                         <RobberSpots
-                            visible={lastDiceRoll === 7}
-                            onRobberSpotClick={onRobberSpotClick}
+                            visible={lastDiceRoll === 7 && !gameSession.thiefMovedThisTurn }
+                            onRobberSpotClick={onRobberClick}
                             currentSpot={gameSession.map.thiefPosition}
                         />
                     </div>

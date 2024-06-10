@@ -1,5 +1,6 @@
 ﻿using Catan.Application.Contracts;
 using Catan.Application.Dtos;
+using Catan.Domain.Common;
 using System.Net.Http.Json;
 
 namespace Catan.Infrastructure.Services
@@ -13,11 +14,12 @@ namespace Catan.Infrastructure.Services
 			_httpClient = httpClientFactory.CreateClient("aiClient");
 		}
 
-		//public async Task<Move> MakeAIMove(GameSessionDto gameSession)
-		//{
-		//	var response = await _httpClient.PostAsJsonAsync("move", gameSession);
-		//	response.EnsureSuccessStatusCode();
-		//	return await response.Content.ReadFromJsonAsync<Move>();
-		//}
+		public async Task<Result<bool>> MakeAIMove(GameSessionDto gameSession)
+		{
+			var response = await _httpClient.PostAsJsonAsync("move", gameSession);
+			response.EnsureSuccessStatusCode();
+
+			return await response.Content.ReadFromJsonAsync<Result<bool>>();
+		}
 	}
 }

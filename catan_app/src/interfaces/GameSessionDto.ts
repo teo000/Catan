@@ -16,4 +16,5 @@ export interface GameSessionDto {
     dice: DiceRollDto;
     winner: PlayerDto | null;
     longestRoad: LongestRoadDto;
+    thiefMovedThisTurn: boolean;
 }

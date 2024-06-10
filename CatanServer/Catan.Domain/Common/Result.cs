@@ -1,6 +1,6 @@
 ﻿namespace Catan.Domain.Common
 {
-	public class Result<T> where T : class
+	public class Result<T> 
 	{
 		private Result(bool isSuccess, T value, string error)
 		{
@@ -19,7 +19,7 @@
 		}
 		public static Result<T> Failure(string error)
 		{
-			return new Result<T>(false, null!, error);
+			return new Result<T>(false, default!, error);
 		}
 	}
 }
