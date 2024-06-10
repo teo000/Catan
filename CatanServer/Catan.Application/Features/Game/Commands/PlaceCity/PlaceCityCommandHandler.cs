@@ -7,7 +7,7 @@ using Catan.Application.GameManagement;
 
 namespace Catan.Application.Features.Game.Commands.PlaceCity
 {
-    public class PlaceCityCommandHandler : IRequestHandler<PlaceCityCommand, CityResponse>
+	public class PlaceCityCommandHandler : IRequestHandler<PlaceCityCommand, CityResponse>
 	{
 		private GameSessionManager _gameSessionManager;
 		private IMapper _mapper;

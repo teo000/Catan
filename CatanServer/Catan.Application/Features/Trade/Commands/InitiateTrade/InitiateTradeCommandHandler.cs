@@ -8,7 +8,7 @@ using MediatR;
 
 namespace Catan.Application.Features.Trade.Commands.InitiateTrade
 {
-    public class InitiateTradeCommandHandler : IRequestHandler<InitiateTradeCommand, TradeResponse>
+	public class InitiateTradeCommandHandler : IRequestHandler<InitiateTradeCommand, TradeResponse>
     {
         private GameSessionManager _gameSessionManager;
         private IMapper _mapper;

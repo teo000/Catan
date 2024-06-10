@@ -7,7 +7,7 @@ using MediatR;
 
 namespace Catan.Application.Features.Game.Commands.EndTurn
 {
-    public class EndTurnCommandHandler : IRequestHandler<EndTurnCommand, GameSessionResponse>
+	public class EndTurnCommandHandler : IRequestHandler<EndTurnCommand, GameSessionResponse>
 	{
 		private GameSessionManager _gameSessionManager;
 		private IMapper _mapper;

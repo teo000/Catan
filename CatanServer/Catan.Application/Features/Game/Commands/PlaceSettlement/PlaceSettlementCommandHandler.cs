@@ -7,7 +7,7 @@ using Catan.Application.GameManagement;
 
 namespace Catan.Application.Features.Game.Commands.PlaceSettlement
 {
-    public class PlaceSettlementCommandHandler : IRequestHandler<PlaceSettlementCommand, SettlementResponse>
+	public class PlaceSettlementCommandHandler : IRequestHandler<PlaceSettlementCommand, SettlementResponse>
 	{
 		private readonly GameSessionManager _gameSessionManager;
 

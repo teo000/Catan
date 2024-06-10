@@ -6,7 +6,7 @@ using MediatR;
 
 namespace Catan.Application.Features.Game.Queries.GetGameState
 {
-    public class GetGameStateHandler : IRequestHandler<GetGameState, GameSessionResponse>
+	public class GetGameStateHandler : IRequestHandler<GetGameState, GameSessionResponse>
 	{
 		private GameSessionManager _gameSessionManager;
 		private IMapper _mapper;

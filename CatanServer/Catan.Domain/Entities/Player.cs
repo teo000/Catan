@@ -2,6 +2,7 @@
 using Catan.Domain.Data;
 using Catan.Domain.Entities.GamePieces;
 using Catan.Domain.Entities.Trades;
+using System.Xml.Linq;
 
 namespace Catan.Domain.Entities
 {
@@ -9,7 +10,7 @@ namespace Catan.Domain.Entities
 	{
 		public const int TOTAL_SETTLEMENTS_NO = 5;
 		public static int TOTAL_CITIES_NO = 4;
-		public Player(string name)
+		public Player(string name, bool isAI)
 		{
 			Id = Guid.NewGuid();
 			Name = name;
@@ -23,7 +24,7 @@ namespace Catan.Domain.Entities
 					ResourceCount.Add(resource, 0);
 					TradeCount.Add(resource, 4);
 				}
-			IsAI = false;
+			IsAI = isAI;
 		}
 
 		public Guid Id { get; private set; }
@@ -44,7 +45,12 @@ namespace Catan.Domain.Entities
 		{
 			if (string.IsNullOrWhiteSpace(name))
 				return Result<Player>.Failure("Player name cannot be empty.");
-			return Result<Player>.Success(new Player(name));
+			return Result<Player>.Success(new Player(name, false));
+		}
+
+		public static Result<Player> CreateAI(int no)
+		{
+			return Result<Player>.Success(new Player($"Bot #{no}", true));
 		}
 
 		public void SetTradeCountSpecialPort(Resource resource)

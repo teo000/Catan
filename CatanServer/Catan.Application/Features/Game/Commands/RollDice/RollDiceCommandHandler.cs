@@ -7,7 +7,7 @@ using Catan.Application.GameManagement;
 
 namespace Catan.Application.Features.Game.Commands.RollDice
 {
-    public class RollDiceCommandHandler : IRequestHandler<RollDiceCommand, DiceRollResponse>
+	public class RollDiceCommandHandler : IRequestHandler<RollDiceCommand, DiceRollResponse>
 	{
 		private GameSessionManager _gameSessionManager;
 		private IMapper _mapper;

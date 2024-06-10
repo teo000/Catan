@@ -7,7 +7,7 @@ using MediatR;
 
 namespace Catan.Application.Features.Trade.Commands.TradeBank
 {
-    public class TradeBankCommandHandler : IRequestHandler<TradeBankCommand, BaseResponse>
+	public class TradeBankCommandHandler : IRequestHandler<TradeBankCommand, BaseResponse>
 	{
 		private GameSessionManager _gameSessionManager;
 

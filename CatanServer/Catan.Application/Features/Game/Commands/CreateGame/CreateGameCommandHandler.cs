@@ -7,7 +7,7 @@ using MediatR;
 
 namespace Catan.Application.Features.Game.Commands.CreateGame
 {
-    public class CreateGameCommandHandler : IRequestHandler<CreateGameCommand, GameSessionResponse>
+	public class CreateGameCommandHandler : IRequestHandler<CreateGameCommand, GameSessionResponse>
     {
         private readonly GameSessionManager _gameSessionManager;
         private readonly IMapper _mapper;

@@ -7,6 +7,8 @@ using Catan.Domain.Data;
 using Catan.Domain.Entities;
 using Catan.Domain.Entities.GamePieces;
 
+namespace Catan.Application.GameManagement;
+
 public class GameSessionManager
 {
 	private readonly Lazy<IAIService> _aIService;

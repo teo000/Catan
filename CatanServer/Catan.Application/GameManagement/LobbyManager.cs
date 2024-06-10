@@ -5,7 +5,7 @@ using System;
 
 namespace Catan.Application.GameManagement
 {
-    public class LobbyManager
+	public class LobbyManager
     {
         private Dictionary<string, Lobby> lobbies = new Dictionary<string, Lobby>();
         private GameSessionManager _gameSessionManager;
