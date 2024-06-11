@@ -18,5 +18,8 @@ export const useMessage = (gameSession : GameSessionDto) => {
     if (!gameSession.dice.rolledThisTurn)
         return "Roll the dice";
 
+    if (gameSession.dice.values[0] + gameSession.dice.values[1] === 7)
+        return "Move the thief";
+
     return "";
 }
