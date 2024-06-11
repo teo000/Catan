@@ -15,7 +15,6 @@ interface ResourceCardsProps {
 }
 
 const ResourceCards: React.FC<ResourceCardsProps> = ({ resourceCount }) => {
-    console.log(resourceCount);
     return (
         <div className="resource-cards">
             {Object.entries(resourceCount).map(([resource, count]) => (

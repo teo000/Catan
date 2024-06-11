@@ -26,8 +26,6 @@ function GameMap({hexTiles} : {hexTiles:HexTileDto[]}){
             setHexTileData(hexTiles);
     }, []);
 
-    // console.log(hexTileData)
-
     return (
         <div className='map'>
             {hexTileData.length > 0 ? (

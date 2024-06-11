@@ -273,14 +273,11 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
                             currentSpot={gameSession.map.thiefPosition}
                         />
                     </div>
-                    <Settlements settlementSpotInfo={settlementSpotInfo}
-                                 settlements={gameSession.map.settlements}
+                    <Settlements settlements={gameSession.map.settlements}
                                  players={gameSession.players}/>
-                    <Roads roadSpotInfo={roadSpotInfo}
-                           roads={gameSession.map.roads}
+                    <Roads roads={gameSession.map.roads}
                            players={gameSession.players}/>
-                    <Cities settlementSpotInfo={settlementSpotInfo}
-                            cities={gameSession.map.cities}
+                    <Cities cities={gameSession.map.cities}
                             players={gameSession.players}/>
                     <Harbors harbors={gameSession.map.specialHarbors}/>
                 </div>

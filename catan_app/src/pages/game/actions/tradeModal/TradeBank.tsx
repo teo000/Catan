@@ -27,7 +27,6 @@ export const TradeBank: React.FC<TradeBankProps> = ({ isOpen, setIsOpen, tradeCo
     const {player, gameId} = usePlayer();
 
     const resourceCountToTrade = Object.fromEntries(Object.entries(tradeCount));
-    console.log(resourceCountToTrade);
 
     useEffect(() => {
         setGiveCount(receiveCount * resourceCountToTrade[giveResource]);

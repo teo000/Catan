@@ -4,14 +4,14 @@ import {SettlementDto} from "../../../../interfaces/SettlementDto";
 import {getPlayerColor, PlayerDto, PlayerColor} from "../../../../interfaces/PlayerDto";
 
 import "./settlements.css";
+import {MapDrawInfo} from "../../utils/MapDrawInfo";
 
 interface SettlementsProps{
-    settlementSpotInfo : SettlementSpotInfo[],
     settlements : SettlementDto[],
     players: PlayerDto[]
 }
 
-export function Settlements({settlementSpotInfo, settlements, players} : SettlementsProps){
+export function Settlements({settlements, players} : SettlementsProps){
     const settlementIds = settlements.map(settlement=> settlement.position);
 
     const playerColorDict: { [id: number]: PlayerColor } = settlements.reduce((dict, settlement) => {
@@ -22,6 +22,7 @@ export function Settlements({settlementSpotInfo, settlements, players} : Settlem
         return dict;
     }, {} as { [id: number]: PlayerColor });
 
+    const settlementSpotInfo = MapDrawInfo.SettlementSpotInfo;
 
     return (
         <div className="settlements">

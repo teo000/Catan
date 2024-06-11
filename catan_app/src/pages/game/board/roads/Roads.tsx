@@ -3,14 +3,14 @@ import {Road} from "./Road";
 import {RoadDto} from "../../../../interfaces/RoadDto";
 import {getPlayerColor, PlayerDto, PlayerColor} from "../../../../interfaces/PlayerDto";
 import "./roads.css";
+import {MapDrawInfo} from "../../utils/MapDrawInfo";
 
 interface RoadsProps {
-    roadSpotInfo: RoadSpotInfo[];
     roads: RoadDto[];
     players: PlayerDto[]
 }
 
-export const Roads: React.FC<RoadsProps> = ({roadSpotInfo, roads, players }) => {
+export const Roads: React.FC<RoadsProps> = ({roads, players }) => {
 
     const roadIds = roads.map( road => road.position);
 
@@ -21,6 +21,8 @@ export const Roads: React.FC<RoadsProps> = ({roadSpotInfo, roads, players }) => 
         dict[road.position] = getPlayerColor(player.color);
         return dict;
     }, {} as { [id: number]: PlayerColor });
+
+    const roadSpotInfo = MapDrawInfo.RoadSpotInfo;
 
     return (
         <div className="roads">
