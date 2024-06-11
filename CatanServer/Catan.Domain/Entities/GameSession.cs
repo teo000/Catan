@@ -2,8 +2,9 @@
 using Catan.Domain.Data;
 using Catan.Domain.Entities.GamePieces;
 using Catan.Domain.Entities.Harbors;
+using Catan.Domain.Entities.Misc;
 using Catan.Domain.Entities.Trades;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+using Catan.Domain.Entities.GameMap;
 
 namespace Catan.Domain.Entities
 {
