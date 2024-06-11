@@ -6,6 +6,7 @@ using Catan.Application.Features.Game.Commands.PlaceRoad;
 using Catan.Application.Features.Game.Commands.PlaceSettlement;
 using Catan.Application.Features.Game.Commands.RollDice;
 using Catan.Application.Features.Game.Queries.GetGameState;
+using Catan.Application.GameManagement;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Catan.API.Controllers
@@ -14,10 +15,12 @@ namespace Catan.API.Controllers
 	{
 
 		private readonly ILogger<GameController> _logger;
+		private readonly GameSessionManager _gameSessionManager;
 
-		public GameController(ILogger<GameController> logger)
+		public GameController(ILogger<GameController> logger, GameSessionManager gameSessionManager)
 		{
 			_logger = logger;
+			_gameSessionManager = gameSessionManager;
 		}
 
 		[HttpPost]
@@ -105,6 +108,16 @@ namespace Catan.API.Controllers
 			if (!result.Success)
 				return BadRequest(result);
 			return Ok(result);
+		}
+
+		[HttpPost("notify-ai")]
+		[ProducesResponseType(StatusCodes.Status201Created)]
+		[ProducesResponseType(StatusCodes.Status400BadRequest)]
+		public async Task<IActionResult> NotifyAI(Guid gameId)
+		{
+			var gameSession = _gameSessionManager.GetGameSession(gameId);
+			await _gameSessionManager.HandleAIPlayer(gameSession.Value);
+			return Ok(gameSession);
 		}
 
 	}

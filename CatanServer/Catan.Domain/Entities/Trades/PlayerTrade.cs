@@ -5,7 +5,7 @@ namespace Catan.Domain.Entities.Trades
 {
 	public class PlayerTrade : Trade
 	{
-		public PlayerTrade(Player playerToGive, Resource resourceToGive, int countToGive, Player playerToReceive, Resource resourceToReceive, int countToReceive)
+		private PlayerTrade(Player playerToGive, Resource resourceToGive, int countToGive, Player playerToReceive, Resource resourceToReceive, int countToReceive)
 			: base(playerToGive, resourceToGive, countToGive, resourceToReceive, countToReceive)
 		{
 			PlayerToReceive = playerToReceive;	

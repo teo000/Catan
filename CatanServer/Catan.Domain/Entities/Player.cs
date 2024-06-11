@@ -36,7 +36,7 @@ namespace Catan.Domain.Entities
 		public List<City> Cities { get; private set; } = new List<City>();
 		public List<Road> Roads { get; private set; } = new List<Road>();
 		public Color Color { get; set; }
-		public int LastPlacedSettlementPos = -1;
+		public int LastPlacedSettlementPos { get; set; } = -1;
 		public int WinningPoints { get; set; }
 		public bool IsAI { get; set; }
 

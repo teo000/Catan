@@ -12,7 +12,8 @@
 		public List<TradeDto> Trades { get;  set; } 
         public DiceRollDto Dice {  get; set; }
 		public PlayerDto? Winner { get;  set; }
-        public LongestRoadDto LongestRoad { get; set; }
+        public LongestRoadDto? LongestRoad { get; set; }
+        public bool ThiefMovedThisTurn { get; set; }
 
 	}
 }

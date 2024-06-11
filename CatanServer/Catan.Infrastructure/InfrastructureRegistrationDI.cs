@@ -10,10 +10,10 @@ namespace Catan.Infrastructure
 		public static IServiceCollection AddInfrastructureToDI(
 			this IServiceCollection services, IConfiguration configuration)
 		{
-			services.AddHttpClient();
-
-			services.AddScoped<IAIService, AIService>();
-			services.AddSingleton(s => new Lazy<IAIService>(s.GetRequiredService<IAIService>));
+			services.AddHttpClient<IAIService, AIService>(client =>
+			{
+				client.BaseAddress = new Uri("https://localhost:7295/api/ai/");
+			});
 
 			return services;
 		}

@@ -21,9 +21,5 @@ namespace Catan.Domain.Entities.Trades
 		public int CountToGive { get; }
         public Resource ResourceToReceive { get; }
         public int CountToReceive { get; }
-
-
-
-        
     }
 }

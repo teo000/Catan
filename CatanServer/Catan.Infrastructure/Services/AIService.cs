@@ -9,14 +9,14 @@ namespace Catan.Infrastructure.Services
 	{
 		private readonly HttpClient _httpClient;
 
-		public AIService(IHttpClientFactory httpClientFactory)
+		public AIService(HttpClient httpClient)
 		{
-			_httpClient = httpClientFactory.CreateClient("aiClient");
+			_httpClient = httpClient;
 		}
 
 		public async Task<Result<bool>> MakeAIMove(GameSessionDto gameSession)
 		{
-			var response = await _httpClient.PostAsJsonAsync("move", gameSession);
+			var response = await _httpClient.PostAsJsonAsync("trigger-aimove", gameSession);
 			response.EnsureSuccessStatusCode();
 
 			return await response.Content.ReadFromJsonAsync<Result<bool>>();

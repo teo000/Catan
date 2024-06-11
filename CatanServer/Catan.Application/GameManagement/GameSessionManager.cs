@@ -11,13 +11,13 @@ namespace Catan.Application.GameManagement;
 
 public class GameSessionManager
 {
-	private readonly Lazy<IAIService> _aIService;
+	private readonly IAIService _aIService;
 	private readonly Lazy<IMapper> _mapper;
 
 	private ConcurrentDictionary<Guid, GameSession> gameSessions = new ConcurrentDictionary<Guid, GameSession>();
 	private ConcurrentDictionary<Guid, Timer> sessionTimers = new ConcurrentDictionary<Guid, Timer>();
 
-	public GameSessionManager(Lazy<IAIService> aIService, Lazy<IMapper> mapper)
+	public GameSessionManager(IAIService aIService, Lazy<IMapper> mapper)
 	{
 		_aIService = aIService;
 		_mapper = mapper;
@@ -116,9 +116,9 @@ public class GameSessionManager
 		}
 	}
 
-	private async Task HandleAIPlayer(GameSession session)
+	public async Task HandleAIPlayer(GameSession session)
 	{
-		var aIService = _aIService.Value;
+		var aIService = _aIService;
 		var mapper = _mapper.Value;
 
 		var aIMoveResult = await aIService.MakeAIMove(mapper.Map<GameSessionDto>(session));
