@@ -4,6 +4,8 @@ using Catan.Application.Dtos.GamePieces;
 using Catan.Domain.Entities;
 using Catan.Domain.Entities.GamePieces;
 using Catan.Domain.Entities.Harbors;
+using Catan.Domain.Entities.Map;
+using Catan.Domain.Entities.Misc;
 using Catan.Domain.Entities.Trades;
 
 namespace Catan.Application.Mapper
