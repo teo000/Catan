@@ -1,9 +1,9 @@
-﻿namespace AIService.Entities.Data
+﻿namespace Catan.Domain.Data
 {
 	public enum MoveType
 	{
 		PlaceSettlement,
 		PlaceRoad,
-		PlaceCity
+		PlaceCity,
 	}
 }

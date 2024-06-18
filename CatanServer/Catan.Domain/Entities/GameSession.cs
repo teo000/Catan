@@ -39,7 +39,7 @@ namespace Catan.Domain.Entities
 		public Player? Winner { get; private set; }
 		public LongestRoad LongestRoad { get; private set; }
 		public bool ThiefMovedThisTurn { get; private set; } = false;
-
+		public string Message { get; set; }
 
 		public static Result<GameSession> Create (List<Player> players)
 		{
@@ -407,6 +407,10 @@ namespace Catan.Domain.Entities
 		public Result<PlayerTrade> AcceptTrade(Guid TradeId)
 		{
 			var trade = getTrade(TradeId);
+
+			if (trade.Status != TradeStatus.Pending)
+				return Result<PlayerTrade>.Failure("Trade is no longer available.");
+
 			if (trade is null)
 				return Result<PlayerTrade>.Failure("Trade does not exist in current context.");
 
@@ -461,10 +465,8 @@ namespace Catan.Domain.Entities
 			GameMap.MoveThief(position);
 			ThiefMovedThisTurn = true;
 			return Result<Map>.Success(GameMap);
-		}
-
-		
-		private void CalculateNewLongestRoad()
+		}	
+		public void CalculateNewLongestRoad()
 		{
 			//adauga caz special broken road
 			foreach (var player in Players) {

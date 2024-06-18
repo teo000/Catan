@@ -14,7 +14,7 @@ function SettlementSpot({left, top, index, onClick} : SettlementSpotProps){
                     left: `${left}px`,
                     top: `${top}px`
                 }}>
-            {/*{index}*/}
+            {index}
         </div>
     )
 }
