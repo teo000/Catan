@@ -78,7 +78,8 @@ namespace Catan.Application.Features.Game.Commands.EndTurn
 			return new GameSessionResponse()
 			{
 				Success = true,
-				GameSession = _mapper.Map<GameSessionDto>(gameSession)
+				GameSession = _mapper.Map<GameSessionDto>(gameSession),
+				PlayerId = request.PlayerId,
 			};
 		}
 	}

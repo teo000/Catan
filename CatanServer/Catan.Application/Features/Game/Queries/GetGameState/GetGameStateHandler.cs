@@ -31,7 +31,8 @@ namespace Catan.Application.Features.Game.Queries.GetGameState
 			return new GameSessionResponse()
 			{
 				Success = true,
-				GameSession = _mapper.Map<GameSessionDto>(result.Value)
+				GameSession = _mapper.Map<GameSessionDto>(result.Value),
+				PlayerId = request.PlayerId
 			};
 		}
 	}

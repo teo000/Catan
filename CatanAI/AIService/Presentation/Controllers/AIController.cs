@@ -1,10 +1,10 @@
-﻿using AIService.Entities.Game;
+﻿using AIService.Presentation.Requests;
 using AIService.UseCases;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AIService.Presentation.Controllers
 {
-    [ApiController]
+	[ApiController]
 	[Route("api/ai")]
 	public class AIController : ControllerBase
 	{
@@ -16,9 +16,9 @@ namespace AIService.Presentation.Controllers
 		}
 
 		[HttpPost("trigger-aimove")]
-		public async Task<IActionResult> TriggerAIMove([FromBody] GameState gameState)
+		public async Task<IActionResult> TriggerAIMove([FromBody] MoveRequest request)
 		{
-			var moveResult = _aiDecisionService.DecideNextMove(gameState);
+			var moveResult = _aiDecisionService.DecideNextMove(request.GameState, request.PlayerId);
 
 			if(moveResult.IsSuccess)
 				return Ok(moveResult);

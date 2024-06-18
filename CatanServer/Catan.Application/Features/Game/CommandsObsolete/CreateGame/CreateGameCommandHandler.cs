@@ -48,8 +48,8 @@ namespace Catan.Application.Features.Game.CommandsObsolete.CreateGame
             return new GameSessionResponse()
             {
                 Success = true,
-                GameSession = _mapper.Map<GameSessionDto>(result.Value)
-
+                GameSession = _mapper.Map<GameSessionDto>(result.Value),
+                PlayerId = players[0].Id
                 //GameSession = new GameSessionDto()
                 //{
                 //    Id = result.Value.Id,

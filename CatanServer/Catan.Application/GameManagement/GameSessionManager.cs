@@ -14,15 +14,13 @@ namespace Catan.Application.GameManagement;
 public class GameSessionManager
 {
 	private readonly IAIService _aIService;
-	private readonly Lazy<IMapper> _mapper;
 
 	private ConcurrentDictionary<Guid, GameSession> gameSessions = new ConcurrentDictionary<Guid, GameSession>();
 	private ConcurrentDictionary<Guid, Timer> sessionTimers = new ConcurrentDictionary<Guid, Timer>();
 
-	public GameSessionManager(IAIService aIService, Lazy<IMapper> mapper)
+	public GameSessionManager(IAIService aIService)
 	{
 		_aIService = aIService;
-		_mapper = mapper;
 	}
 
 	public Result<GameSession> CreateGameSession(List<Player> players)
@@ -86,7 +84,10 @@ public class GameSessionManager
 
 		var currentPlayer = session.GetTurnPlayer();
 		if (currentPlayer.IsAI)
+		{
 			Task.Run(() => HandleAIPlayer(session, currentPlayer));
+			EndPlayerTurn(session);
+		}
 	}
 
 	private void OnTurnTimeout(object? state)
@@ -140,9 +141,7 @@ public class GameSessionManager
 
 	public async Task HandleAIPlayer(GameSession session, Player aIPlayer)
 	{
-		var mapper = _mapper.Value;
-
-		var aIMovesResult = await _aIService.MakeAIMove(mapper.Map<GameSessionDto>(session));
+		var aIMovesResult = await _aIService.MakeAIMove(session, aIPlayer.Id);
 
 		if (!aIMovesResult.IsSuccess) 
 		{

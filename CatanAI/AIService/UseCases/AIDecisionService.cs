@@ -1,5 +1,6 @@
 ﻿using AIService.Entities.Common;
 using AIService.Entities.Game;
+using AIService.Entities.Game.GameMap;
 using AIService.Entities.Game.GamePieces;
 using AIService.Entities.Moves;
 using Catan.Data;
@@ -10,16 +11,51 @@ namespace AIService.UseCases
 	{
 		private static Random rng = new Random();
 
-		public Result<List<Move>> DecideNextMove(GameState gameState)
+		public Result<List<Move>> DecideNextMove(GameState gameState, Guid playerId)
 		{
+			var player = gameState.Players.Where(p => p.Id == playerId).FirstOrDefault();
+
+			var moves = new List<Move>();
 			if (gameState.Round == 1 || gameState.Round == 2)
-				return HandleBeginning(gameState);
-
-
-			return Result<List<Move>>.Success([new PlaceSettlementMove(gameState.Id, 0)]);
+				moves = HandleBeginning(gameState);
+			else
+				moves = HandleGame(gameState, player);
+			return Result<List<Move>>.Success(moves);
 		}
 
-		private Result<List<Move>> HandleBeginning(GameState gameState)
+		private List<Move> HandleGame(GameState gameState, Player player)
+		{
+			var moves = new List<Move>();
+			var map = gameState.Map;
+
+
+			if (player.HasResources(Buyable.CITY)) {
+				var settlementToUpgrade = ListExtensions.GetRandomElement(player.Settlements);
+				moves.Add(new PlaceCityMove(gameState.Id, settlementToUpgrade.Position));
+				player.SubtractResources(Buyable.CITY);
+			}
+			
+			if (player.HasResources(Buyable.SETTLEMENT))
+			{
+				var viableSettlementPositions = Map.GetViableSettlementPositions(gameState, player);
+				var newSettlementPosition = ListExtensions.GetRandomElement(viableSettlementPositions);
+				moves.Add(new PlaceSettlementMove(gameState.Id, newSettlementPosition));
+				player.SubtractResources(Buyable.ROAD);
+			}
+
+			if (player.HasResources(Buyable.ROAD))
+			{
+				var viableRoadPositions = Map.GetViableRoadPositions(gameState, player);
+				var newRoadPosition = ListExtensions.GetRandomElement(viableRoadPositions);
+				moves.Add(new PlaceRoadMove(gameState.Id, newRoadPosition));
+				player.SubtractResources(Buyable.ROAD);
+			}
+
+
+			return moves;
+		}
+
+		private List<Move> HandleBeginning(GameState gameState)
 		{
 			var moves = new List<Move>();
 
@@ -41,7 +77,7 @@ namespace AIService.UseCases
 
 			moves.Add(new PlaceRoadMove(gameState.Id, roadPosition));
 
-			return Result<List<Move>>.Success(moves);
+			return moves;
 		}
 
 	}

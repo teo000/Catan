@@ -28,9 +28,9 @@ namespace Catan.API.Controllers
 		}
 
 		[HttpGet("{id}")]
-		public async Task<IActionResult> Get(Guid id)
+		public async Task<IActionResult> Get(Guid id, [FromQuery] Guid playerId)
 		{
-			var result = await Mediator.Send(new GetGameState(id));
+			var result = await Mediator.Send(new GetGameState(id, playerId));
 			if (!result.Success)
 				return BadRequest(result);
 			return Ok(result);

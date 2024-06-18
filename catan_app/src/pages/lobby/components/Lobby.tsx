@@ -17,7 +17,7 @@ export const Lobby = React.memo(() => {
     const joinCode = currentPath.substring(currentPath.lastIndexOf('/') + 1);
 
     const [players, setPlayers] = useDeepCompareState<PlayerDto[]>([]);
-    const {setGameId } = usePlayer();
+    const {player, setGameId } = usePlayer();
     const [loaded, setLoaded] = useState(false);
 
     const requestData = {joinCode};
@@ -40,7 +40,7 @@ export const Lobby = React.memo(() => {
     }, [request]);
 
     const fetchGameState = useCallback(async () => {
-        await request(`/${joinCode}`,'get');
+        await request(`/${joinCode}?playerId=${player?.id}`,'get');
     }, [request]);
 
     useEffect(() => {
