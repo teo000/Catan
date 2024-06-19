@@ -7,6 +7,7 @@ using Catan.Domain.Common;
 using Catan.Domain.Data;
 using Catan.Domain.Entities;
 using Catan.Domain.Entities.GamePieces;
+using Catan.Domain.Interfaces;
 using MediatR;
 
 namespace Catan.Application.GameManagement;
@@ -14,13 +15,14 @@ namespace Catan.Application.GameManagement;
 public class GameSessionManager
 {
 	private readonly IAIService _aIService;
-
+	private readonly ILogger _logger;
 	private ConcurrentDictionary<Guid, GameSession> gameSessions = new ConcurrentDictionary<Guid, GameSession>();
 	private ConcurrentDictionary<Guid, Timer> sessionTimers = new ConcurrentDictionary<Guid, Timer>();
 
-	public GameSessionManager(IAIService aIService)
+	public GameSessionManager(IAIService aIService, ILogger logger)
 	{
 		_aIService = aIService;
+		_logger = logger;
 	}
 
 	public Result<GameSession> CreateGameSession(List<Player> players)
@@ -86,7 +88,7 @@ public class GameSessionManager
 		if (currentPlayer.IsAI)
 		{
 			Task.Run(() => HandleAIPlayer(session, currentPlayer));
-			EndPlayerTurn(session);
+			
 		}
 	}
 
@@ -141,6 +143,10 @@ public class GameSessionManager
 
 	public async Task HandleAIPlayer(GameSession session, Player aIPlayer)
 	{
+
+		if (!session.IsInBeginningPhase())
+			session.RollDice(aIPlayer);
+
 		var aIMovesResult = await _aIService.MakeAIMove(session, aIPlayer.Id);
 
 		if (!aIMovesResult.IsSuccess) 
@@ -150,6 +156,9 @@ public class GameSessionManager
 				session.MarkAbandoned();
 
 			session.Message = $"{aIPlayer.Name} has been removed due to an internal error.";
+
+			_logger.Warn($"AI Service failed to return any moves with error {aIMovesResult.Error}");
+
 			return;
 		}
 
@@ -159,6 +168,8 @@ public class GameSessionManager
 			ParseMove(session, aIPlayer, move);
 		}
 
+		if (!session.IsInBeginningPhase())
+			EndPlayerTurn(session);
 
 		// handle AI move result here
 	}
@@ -169,16 +180,28 @@ public class GameSessionManager
 			throw new Exception("AI move caused interal server error.");
 
 		if (!IsMoveTypeDefined(move.MoveType))
-			throw new Exception("Move type not supported"); // cred ca ar fi bine sa fac niste logging aici sau ceva 
+			throw new Exception("Move type not supported");
 
 		var moveType = (MoveType)Enum.Parse(typeof(MoveType), move.MoveType, true);
 
 		if (moveType == MoveType.PlaceSettlement)
-			PlaceSettlement(session, aIPlayer, move.Position);
+		{
+			var result = PlaceSettlement(session, aIPlayer, move.Position);
+			if (!result.IsSuccess)
+				_logger.Warn($"AI Place Settlement error: {result.Error}");
+		}
 		else if (moveType == MoveType.PlaceRoad)
-			PlaceRoad(session, aIPlayer, move.Position);
+		{
+			var result = PlaceRoad(session, aIPlayer, move.Position);
+			if (!result.IsSuccess)
+				_logger.Warn($"AI Place Road error: {result.Error}");
+		}
 		else if (moveType == MoveType.PlaceCity)
-			PlaceCity(session, aIPlayer, move.Position);
+		{
+			var result = PlaceCity(session, aIPlayer, move.Position);
+			if (!result.IsSuccess)
+				_logger.Warn($"AI Place City error: {result.Error}");
+		}
 	}
 
 	public Result<Road> PlaceRoad(GameSession session, Player player, int? position)
@@ -187,6 +210,9 @@ public class GameSessionManager
 		{
 			return Result<Road>.Failure("Road position must be specified.");
 		}
+
+		if (player.IsAI)
+			_logger.Warn($"AI places road at position: {position}");
 
 		var result = session.PlaceRoad(player, position.Value);
 
@@ -203,6 +229,9 @@ public class GameSessionManager
 		{
 			return Result<Settlement>.Failure("Settlement position must be specified.");
 		}
+
+		if (player.IsAI)
+			_logger.Warn($"AI places settlement at position: {position}");
 
 		return session.PlaceSettlement(player, position.Value);
 	}

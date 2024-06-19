@@ -132,7 +132,8 @@ public static class GameMapData
 			{
 				for(int pos = 0; pos < SettlementLayout[row].Count; pos++)
 				{
-					var roadEnd1 = (SettlementLayout[row + 1][pos], SettlementLayout[row][pos]);
+
+					var roadEnd1 =  (SettlementLayout[row][pos], SettlementLayout[row + 1][pos]);
 					var roadEnd2 = (SettlementLayout[row][pos], SettlementLayout[row + 1][pos + 1]);
 
 					RoadEnds.Add(roadEnd1);
@@ -157,7 +158,7 @@ public static class GameMapData
 				for (int pos = 0; pos < SettlementLayout[row+1].Count; pos++)
 				{
 					var roadEnd1 = (SettlementLayout[row][pos], SettlementLayout[row + 1][pos]);
-					var roadEnd2 = (SettlementLayout[row + 1][pos], SettlementLayout[row][pos + 1]);
+					var roadEnd2 = (SettlementLayout[row][pos + 1], SettlementLayout[row + 1][pos]);
 
 					RoadEnds.Add(roadEnd1);
 					RoadByRoadEnds.Add(roadEnd1, index++);
