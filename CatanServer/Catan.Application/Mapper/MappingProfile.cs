@@ -24,6 +24,9 @@ namespace Catan.Application.Mapper
 			CreateMap<Road, RoadDto>()
 					.ForMember(dest => dest.PlayerId, opt => opt.MapFrom(src => src.Player.Id));
 
+			CreateMap<DevelopmentCard, DevelopmentCardDto>()
+				.ForMember(dest => dest.DevelopmentType, opt => opt.MapFrom(src => src.DevelopmentType.ToString()));
+
 			CreateMap<LongestRoad, LongestRoadDto>()
 				.ForMember(dest => dest.Roads, opt => opt.MapFrom(src => src.Roads))
 				.ForMember(dest => dest.Player, opt => opt.MapFrom(src => src.Player));
@@ -66,6 +69,7 @@ namespace Catan.Application.Mapper
 					.ForMember(dest => dest.Settlements, opt => opt.MapFrom(src => src.Settlements))
 					.ForMember(dest => dest.Cities, opt => opt.MapFrom(src => src.Cities))
 					.ForMember(dest => dest.Roads, opt => opt.MapFrom(src => src.Roads))
+					.ForMember(dest => dest.DevelopmentCards, opt => opt.MapFrom(src => src.DevelopmentCards))
 					.ForMember(dest => dest.Color, opt => opt.MapFrom(src => src.Color.ToString().ToLower()));
 
 			CreateMap<GameSession, GameSessionDto>()

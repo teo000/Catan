@@ -5,5 +5,6 @@
 		PlaceSettlement,
 		PlaceRoad,
 		PlaceCity,
+		BuyDevelopmentCard
 	}
 }

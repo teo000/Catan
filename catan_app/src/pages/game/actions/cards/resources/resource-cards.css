@@ -1,0 +1,77 @@
+.resource-cards{
+    height: 100%;
+    width: 70%;
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.resource-group {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+}
+
+.resource-card {
+    width: 80px;
+    height: auto;
+    margin: -50px 0;
+}
+
+.discard-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: auto;
+}
+
+.resource-arrow-button {
+    background-color: #f0f0f0;
+    border: none;
+    color: #333;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 5px;
+    margin: 0 5px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.resource-arrow-button:hover {
+    background-color: #e0e0e0;
+}
+
+.resource-arrow-button:disabled{
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+
+.discard-action-button {
+    background-color: #e5872d;
+    border: none;
+    color: white;
+    font-size: 16px;
+    padding: 10px;
+    margin-top: auto;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.discard-action-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.discard-action-button:hover:not(:disabled) {
+    background-color: #c27227;
+}
+
+.discard-action-button:active:not(:disabled) {
+    background-color: #8c531e;
+    transform: scale(0.9);
+}

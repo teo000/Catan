@@ -2,11 +2,13 @@
 using AutoMapper;
 using Catan.Application.Contracts;
 using Catan.Application.Dtos;
+using Catan.Application.GameManagement.Misc;
 using Catan.Application.Moves;
 using Catan.Domain.Common;
 using Catan.Domain.Data;
 using Catan.Domain.Entities;
 using Catan.Domain.Entities.GamePieces;
+using Catan.Domain.Entities.Misc;
 using Catan.Domain.Interfaces;
 using MediatR;
 
@@ -18,6 +20,8 @@ public class GameSessionManager
 	private readonly ILogger _logger;
 	private ConcurrentDictionary<Guid, GameSession> gameSessions = new ConcurrentDictionary<Guid, GameSession>();
 	private ConcurrentDictionary<Guid, Timer> sessionTimers = new ConcurrentDictionary<Guid, Timer>();
+	private ConcurrentDictionary<Guid, Timer> aITimers = new ConcurrentDictionary<Guid, Timer>();
+
 
 	public GameSessionManager(IAIService aIService, ILogger logger)
 	{
@@ -87,8 +91,11 @@ public class GameSessionManager
 		var currentPlayer = session.GetTurnPlayer();
 		if (currentPlayer.IsAI)
 		{
-			Task.Run(() => HandleAIPlayer(session, currentPlayer));
-			
+			var arguments = new AITimerArguments() { GameSessionId = session.Id, PlayerId = currentPlayer.Id };
+			var aItimer = new Timer(HandleAI, arguments, 1000, int.MaxValue);
+
+			//Task.Run(() => HandleAIPlayer(session, currentPlayer));
+
 		}
 	}
 
@@ -123,6 +130,14 @@ public class GameSessionManager
 			{
 				if (!session.Dice.RolledThisTurn)
 					player.Kick();
+
+				//if (session.Dice.GetSummedValue() == 7)
+				//{
+				//	foreach (var p in session.Players)
+				//		if (p.GetCardsNo() >= 7 && !p.DiscardedThisTurn)
+				//			player.Kick();
+				//}
+
 			}
 
 			if (session.GetActivePlayers().Count < 2)
@@ -141,11 +156,34 @@ public class GameSessionManager
 		}
 	}
 
+	private void HandleAI(object? state)
+	{
+		Console.WriteLine("gata");
+		var args = (AITimerArguments)state;
+
+		var sessionResult = GetGameSession(args.GameSessionId);
+
+		if (!sessionResult.IsSuccess)
+		{
+			return;
+		}
+
+		var session = sessionResult.Value;
+
+		var currentPlayer = session.GetTurnPlayer();
+		if (args.PlayerId != currentPlayer.Id)
+			return;
+
+		Task.Run(() => HandleAIPlayer(session, currentPlayer));
+
+	}
+
 	public async Task HandleAIPlayer(GameSession session, Player aIPlayer)
 	{
-
 		if (!session.IsInBeginningPhase())
-			session.RollDice(aIPlayer);
+		{
+			await RollDice(session, aIPlayer);
+		}
 
 		var aIMovesResult = await _aIService.MakeAIMove(session, aIPlayer.Id);
 
@@ -202,6 +240,50 @@ public class GameSessionManager
 			if (!result.IsSuccess)
 				_logger.Warn($"AI Place City error: {result.Error}");
 		}
+	}
+
+	public async Task<Result<DiceRoll>> RollDice (GameSession session, Player player) 
+	{ 
+		var diceRollResult = session.RollDice(player);
+		_logger.Warn($"Dice rolled: ${session.Dice.GetSummedValue()} ");
+
+		var aIPlayers = session.Players.Where(p => p.IsAI);
+
+		if (!diceRollResult.IsSuccess || !aIPlayers.Any())
+			return diceRollResult;
+		
+		var dice = diceRollResult.Value;
+		if (dice.GetSummedValue() == 7)
+			foreach (var aIPlayer in aIPlayers)
+				if (aIPlayer.GetCardsNo() >= 7)
+				{
+					var aIResult = await _aIService.DiscardHalfOfResources(session, aIPlayer.Id); // set timer for this
+					var aIDiceRollResult = session.DiscardHalf(aIPlayer, aIResult.Value);
+
+					if (!aIDiceRollResult.IsSuccess)
+					{
+						_logger.Warn($"AI failed to discard half of resources: {aIDiceRollResult.Error}");
+						LogResourceDictionary(aIResult.Value);
+					}
+				}
+
+		return diceRollResult;
+	
+	}
+
+	private void LogResourceDictionary(Dictionary<Resource, int> resourceDictionary)
+	{
+		
+		_logger.Warn("Logging Resource Dictionary:");
+		foreach (var kvp in resourceDictionary)
+		{
+			_logger.Warn($"{kvp.Key}: {kvp.Value}");
+		}
+	}
+
+	public Result<DevelopmentCard> BuyDevelopmentCard(GameSession session, Player player)
+	{
+		return session.BuyDevelopmentCard(player);
 	}
 
 	public Result<Road> PlaceRoad(GameSession session, Player player, int? position)

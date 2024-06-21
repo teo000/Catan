@@ -63,7 +63,7 @@ namespace Catan.Application.Features.Game.Commands.RollDice
 				};
 			}
 
-			var result = gameSession.RollDice(player);
+			var result = await _gameSessionManager.RollDice(gameSession, player);
 			if (!result.IsSuccess)
 			{
 				return new DiceRollResponse()

@@ -1,3 +1,4 @@
+using Catan.Application.Features.Game.Commands.DiscardHalf;
 using Catan.Application.Features.Game.Commands.EndTurn;
 using Catan.Application.Features.Game.Commands.MakeMove;
 using Catan.Application.Features.Game.Commands.MoveThief;
@@ -98,6 +99,17 @@ namespace Catan.API.Controllers
 		[ProducesResponseType(StatusCodes.Status201Created)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
 		public async Task<IActionResult> MakeMove(MakeMoveCommand command)
+		{
+			var result = await Mediator.Send(command);
+			if (!result.Success)
+				return BadRequest(result);
+			return Ok(result);
+		}
+
+		[HttpPost("discard-half")]
+		[ProducesResponseType(StatusCodes.Status201Created)]
+		[ProducesResponseType(StatusCodes.Status400BadRequest)]
+		public async Task<IActionResult> DiscardHalf(DiscardHalfCommand command)
 		{
 			var result = await Mediator.Send(command);
 			if (!result.Success)

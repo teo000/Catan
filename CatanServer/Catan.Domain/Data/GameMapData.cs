@@ -221,7 +221,7 @@ namespace Catan.Domain.Data
 
 		public static Dictionary<int, int> HarbourNextToSettlement = new Dictionary<int, int>();
 
-		public static List<Resource> getBeginningResourceList()
+		public static List<Resource> GetBeginningResourceList()
 		{
 			List<Resource> resources = new List<Resource>();
 

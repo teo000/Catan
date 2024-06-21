@@ -18,8 +18,16 @@ export const useMessage = (gameSession : GameSessionDto) => {
     if (!gameSession.dice.rolledThisTurn)
         return "Roll the dice";
 
-    if (gameSession.dice.values[0] + gameSession.dice.values[1] === 7)
-        return "Move the thief";
+    if (gameSession.dice.values[0] + gameSession.dice.values[1] === 7){
+        if(!gameSession.thiefMovedThisTurn)
+            return "Move the thief";
+
+        const cardsCount = Object.values(player.resourceCount).reduce((sum, value) => sum + value, 0);
+
+        if(!player.discardedThisTurn && cardsCount >= 7)
+            return "You must discard 7 cards!"
+
+    }
 
     return "";
 }

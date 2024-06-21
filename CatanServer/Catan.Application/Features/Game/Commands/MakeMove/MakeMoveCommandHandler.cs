@@ -2,11 +2,10 @@
 using Catan.Application.Responses;
 using Catan.Application.GameManagement;
 using Catan.Domain.Data;
-using System.ComponentModel.DataAnnotations;
-using Catan.Domain.Common;
 using Catan.Domain.Entities;
 using AutoMapper;
 using Catan.Application.Dtos.GamePieces;
+using Catan.Application.Dtos;
 
 namespace Catan.Application.Features.Game.Commands.MakeMove
 {
@@ -65,12 +64,21 @@ namespace Catan.Application.Features.Game.Commands.MakeMove
 				MoveType.PlaceRoad => HandlePlaceRoad(gameSession, player, request.Position),
 				MoveType.PlaceSettlement => HandlePlaceSettlement(gameSession, player, request.Position),
 				MoveType.PlaceCity => HandlePlaceCity(gameSession, player, request.Position),
-				//MoveType.MoveThief => HandleMoveThief(gameSession, player, request.Position),
+				MoveType.BuyDevelopmentCard => HandleBuyDevelopmentCard(gameSession, player),
 				_ => new MoveResponse(["Move is not available"]),
 			};
 		}
 
-		
+		private MoveResponse HandleBuyDevelopmentCard(GameSession gameSession, Player player)
+		{
+			var result = _gameSessionManager.BuyDevelopmentCard(gameSession, player);
+			if (!result.IsSuccess)
+			{
+				return new MoveResponse([result.Error]);
+			}
+			return new MoveResponse(_mapper.Map<DevelopmentCardDto>(result.Value));
+		}
+
 		private MoveResponse HandlePlaceRoad(GameSession gameSession, Player player, int? position)
 		{
 			var roadResult = _gameSessionManager.PlaceRoad(gameSession, player, position);

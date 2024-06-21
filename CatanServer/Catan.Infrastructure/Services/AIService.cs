@@ -3,11 +3,14 @@ using Catan.Application.Contracts;
 using Catan.Application.Dtos;
 using Catan.Application.Moves;
 using Catan.Domain.Common;
+using Catan.Domain.Data;
 using Catan.Domain.Entities;
+using Catan.Domain.Interfaces;
 using Catan.Infrastructure.JsonConverters;
 using Catan.Infrastructure.Requests;
 using System.Net.Http.Json;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Catan.Infrastructure.Services
 {
@@ -15,12 +18,15 @@ namespace Catan.Infrastructure.Services
 	{
 		private readonly HttpClient _httpClient;
 		private readonly IMapper _mapper;
+		private readonly ILogger _logger;
 
-		public AIService(HttpClient httpClient, IMapper mapper)
+		public AIService(HttpClient httpClient, IMapper mapper, ILogger logger)
 		{
 			_httpClient = httpClient;
 			_mapper = mapper;
+			_logger = logger;
 		}
+
 
 		public async Task<Result<List<Move>>> MakeAIMove(GameSession gameSession, Guid playerId)
 		{
@@ -63,5 +69,59 @@ namespace Catan.Infrastructure.Services
 				throw new Exception("AI service error: " + ex.Message);
 			}
 		}
+
+		public async Task<Result<Dictionary<Resource, int>>> DiscardHalfOfResources(GameSession gameSession, Guid playerId)
+		{
+			var jsonOptions = new JsonSerializerOptions
+			{
+				WriteIndented = true,
+				Converters = { new ResultJsonConverter<Dictionary<string, int>>()}
+			};
+
+			var request = new AIMoveRequest
+			{
+				GameState = _mapper.Map<GameSessionDto>(gameSession),
+				PlayerId = playerId
+			};
+
+			try
+			{
+				string requestContent = JsonSerializer.Serialize(request, jsonOptions);
+				_logger.Warn($"Sending discard-half request for player {playerId}. Request content: {requestContent}");
+
+				var response = await _httpClient.PostAsJsonAsync("discard-half", request, jsonOptions);
+				response.EnsureSuccessStatusCode();
+
+				var responseContent = await response.Content.ReadAsStringAsync();
+				_logger.Warn($"Received response: {responseContent}");
+
+				var result = JsonSerializer.Deserialize<Result<Dictionary<string, int>>>(responseContent, jsonOptions);
+				if (result == null)
+				{
+					_logger.Error($"Sending discard-half request for player {responseContent}");
+					return Result<Dictionary<Resource, int>>.Failure("Failed to deserialize response");
+				}
+
+				var resourceCount = GameUtils.ConvertToResourceDictionary(result.Value); // de facut custom exception
+
+				return Result<Dictionary<Resource, int>>.Success(resourceCount);
+			}
+			catch (HttpRequestException httpEx)
+			{
+				_logger.Error(httpEx, $"HTTP request failed for player {playerId}");
+				return Result<Dictionary<Resource, int>>.Failure("HTTP request failed");
+			}
+			catch (JsonException jsonEx)
+			{
+				_logger.Error(jsonEx, $"JSON deserialization failed for player {playerId}");
+				return Result<Dictionary<Resource, int>>.Failure("Failed to deserialize response");
+			}
+			catch (Exception ex)
+			{
+				_logger.Error(ex, $"Unexpected error occurred for player {playerId}");
+				return Result<Dictionary<Resource, int>>.Failure("An unexpected error occurred");
+			}
+		}
+
 	}
 }

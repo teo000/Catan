@@ -1,6 +1,7 @@
 ﻿using Catan.Application.Dtos;
 using Catan.Application.Dtos.GamePieces;
 using Catan.Domain.Data;
+using Catan.Domain.Entities;
 using Catan.Domain.Entities.GamePieces;
 
 namespace Catan.Application.Responses;
@@ -35,6 +36,14 @@ public class MoveResponse : BaseResponse
 		MoveType = "PlaceCity";
 	}
 
+	public MoveResponse(DevelopmentCardDto card)
+	{
+		Success = true;
+		DevelopmentCard = card;
+		MoveType = "BuyDevelopmentCard";
+	}
+
+
 	public MoveResponse(List<string> errors)
 	{
 		Success = false;
@@ -45,6 +54,7 @@ public class MoveResponse : BaseResponse
 	public SettlementDto? Settlement { get; }
 	public RoadDto? Road { get; }
 	public CityDto? City { get; }
+	public DevelopmentCardDto? DevelopmentCard { get; }
 	
 	//public static MoveResponse PlaceSettlement(SettlementDto settlement)
 	//{

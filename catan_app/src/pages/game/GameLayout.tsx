@@ -13,7 +13,7 @@ import useFetch from "../../hooks/useFetch";
 import {LobbyResponse} from "../../responses/LobbyResponse";
 import {usePlayer} from "../../context/PlayerProvider";
 import DiceLayout from "./actions/dice/DiceLayout";
-import ResourceCards from "./actions/resourcesDiv/ResourceCards";
+import ResourceCards from "./actions/cards/resources/ResourceCards";
 import {getEmptyResourceCount} from "../../interfaces/ResourceCountDto";
 import Overlay from "./misc/overlay/Overlay";
 import {TradeBank} from "./actions/tradeModal/TradeBank";
@@ -27,6 +27,7 @@ import {useMessage} from "./hooks/useMessage";
 import {MessageLabel} from "./actions/messageLabel/MessageLabel";
 import {Harbors} from "./board/harbors/Harbors";
 import useVisibleSpots from "./hooks/useVisibleSpots";
+import {Cards} from "./actions/cards/Cards";
 
 interface GameLayoutProps {
     gameSession : GameSessionDto
@@ -41,8 +42,6 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
 
     const [activeButton, setActiveButton] = useState<ButtonActions>(ButtonActions.None);
     const [buttonsDisabled, setButtonsDisabled] = useState(false);
-    const settlementSpotInfo = ComputeSettlementSpotsInfo();
-    const roadSpotInfo = ComputeRoadSpotsInfo();
 
     const {player} = usePlayer();
 
@@ -196,6 +195,29 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
         }
         setActiveButton(action === activeButton ? ButtonActions.None : action);
     };
+
+    const handleDevelopmentButtonClick = async () => {
+        console.log("BAAAAAI");
+        const requestData =
+            {
+                gameId: gameSession.id,
+                playerId: player?.id,
+                moveType:"BuyDevelopmentCard"
+            };
+        console.log("development button click")
+
+        try {
+            const response = await request('/make-move', 'post', requestData);
+            if (response === null || !response.success){
+                console.error('Failed to buy development card: Invalid response format', response);
+            }
+            console.log(response);
+        } catch (err) {
+            console.error('Failed to buy development card.', err);
+        }
+
+    };
+
     const onRobberClick = async (position:number) => {
         const requestData = {gameId: gameSession.id, playerId: player?.id, position};
 
@@ -211,6 +233,8 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
 
     };
 
+
+
     if (!player) {
         return <p> Something went wrong ... </p>
     }
@@ -225,10 +249,10 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
     const resourceCount = playerState ? playerState.resourceCount : getEmptyResourceCount()
     const lastDiceRoll = gameSession.dice.values[0] + gameSession.dice.values[1];
 
-
     if (!playerState){
         return <p> Something went wrong ... </p>
     }
+
 
     return (
         <div className="gameLayout">
@@ -291,11 +315,16 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
                                handlePlaceCityButtonClick={handlePlaceCityButtonClick}
                                handleTradeBankButtonClick={handleOpenTradeBank}
                                handleTradePlayerButtonClick={handleOpenTradePlayer}
+                               handleBuyDevelopmentButtonClick={handleDevelopmentButtonClick}
                     />
 
                     <ChatDiv trades={gameSession.trades} players={gameSession.players}/>
                 </div>
-                <ResourceCards resourceCount={resourceCount}/>
+                <Cards resourceCount={resourceCount}
+                       mustDiscard={lastDiceRoll === 7 && !playerState.discardedThisTurn}
+                       developmentCards={playerState.developmentCards}
+                />
+
             </div>
             {isAbandoned && <Overlay winner={null} message="Game has been abandoned" />}
             {isWon && gameSession.winner &&

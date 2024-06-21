@@ -1,8 +1,10 @@
 ﻿using AIService.Entities.Common;
+using AIService.Entities.Data;
 using AIService.Entities.Game;
 using AIService.Entities.Game.GameMap;
 using AIService.Entities.Game.GamePieces;
 using AIService.Entities.Moves;
+using AIService.Utils;
 using Catan.Data;
 
 namespace AIService.UseCases
@@ -23,6 +25,34 @@ namespace AIService.UseCases
 			return Result<List<Move>>.Success(moves);
 		}
 
+		public Result<Dictionary<Resource, int>> DiscardHalf(GameState gameState, Guid playerId) 
+		{
+			var player = gameState.Players.Where(p => p.Id == playerId).FirstOrDefault();
+
+			var resourceCount = player.ResourceCount;
+
+			int initialSum = resourceCount.Sum(kv => kv.Value);
+			int targetSum = initialSum / 2;
+
+			var sortedResources = resourceCount.OrderByDescending(kv => kv.Value).ToList();
+
+			var resourcesToDiscard = GameUtils.GetEmptyResourceDictionary();
+
+			int currentSum = initialSum;
+			foreach (var (resource, count) in sortedResources)
+			{
+				if (currentSum <= targetSum)
+					break;
+
+				int countToDiscard = Math.Min(currentSum - targetSum, resourceCount[resource]);
+				resourcesToDiscard[resource] = countToDiscard;
+				currentSum -= countToDiscard;
+			}
+			 
+			return Result<Dictionary<Resource, int>>.Success(resourcesToDiscard);
+
+		}
+
 		private List<Move> HandleGame(GameState gameState, Player player)
 		{
 			var moves = new List<Move>();
@@ -38,17 +68,23 @@ namespace AIService.UseCases
 			if (player.HasResources(Buyable.SETTLEMENT))
 			{
 				var viableSettlementPositions = Map.GetViableSettlementPositions(gameState, player);
-				var newSettlementPosition = ListExtensions.GetRandomElement(viableSettlementPositions);
-				moves.Add(new PlaceSettlementMove(gameState.Id, newSettlementPosition));
-				player.SubtractResources(Buyable.ROAD);
+				if (viableSettlementPositions.Count > 0)
+				{
+					var newSettlementPosition = ListExtensions.GetRandomElement(viableSettlementPositions);
+					moves.Add(new PlaceSettlementMove(gameState.Id, newSettlementPosition));
+					player.SubtractResources(Buyable.ROAD);
+				}
 			}
 
 			if (player.HasResources(Buyable.ROAD))
 			{
 				var viableRoadPositions = Map.GetViableRoadPositions(gameState, player);
-				var newRoadPosition = ListExtensions.GetRandomElement(viableRoadPositions);
-				moves.Add(new PlaceRoadMove(gameState.Id, newRoadPosition));
-				player.SubtractResources(Buyable.ROAD);
+				if (viableRoadPositions.Count > 0)
+				{
+					var newRoadPosition = ListExtensions.GetRandomElement(viableRoadPositions);
+					moves.Add(new PlaceRoadMove(gameState.Id, newRoadPosition));
+					player.SubtractResources(Buyable.ROAD);
+				}
 			}
 
 
@@ -67,7 +103,8 @@ namespace AIService.UseCases
 			do
 			{
 				newSettlementPosition = rng.Next(GameMapData.SETTLEMENTS_NO - 1);
-			} while (Settlement.HasAdjacentSettlements(settlementsPositions, newSettlementPosition));
+			} while (!settlementsPositions.Contains(newSettlementPosition) 
+					&& Settlement.HasAdjacentSettlements(settlementsPositions, newSettlementPosition));
 
 			moves.Add(new PlaceSettlementMove(gameState.Id, newSettlementPosition));
 

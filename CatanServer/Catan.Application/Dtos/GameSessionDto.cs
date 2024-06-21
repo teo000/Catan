@@ -14,6 +14,8 @@
 		public PlayerDto? Winner { get;  set; }
         public LongestRoadDto? LongestRoad { get; set; }
         public bool ThiefMovedThisTurn { get; set; }
+		public bool DiscardedThisTurn { get; set; } 
+
 
 	}
 }

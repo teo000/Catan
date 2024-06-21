@@ -5,6 +5,8 @@ using Catan.Domain.Entities.Harbors;
 using Catan.Domain.Entities.Misc;
 using Catan.Domain.Entities.Trades;
 using Catan.Domain.Entities.GameMap;
+using Catan.Domain.Interfaces;
+using System;
 
 namespace Catan.Domain.Entities
 {
@@ -26,6 +28,9 @@ namespace Catan.Domain.Entities
 			TurnPlayerIndex = 0;
 			TurnEndTime = DateTime.Now.AddSeconds(GameInfo.TURN_DURATION);
 			Dice = new DiceRoll();
+
+			developmentCardsLeft.Add(DevelopmentType.VICTORY_POINT, 5);
+			developmentCardsLeft.Add(DevelopmentType.KNIGHT, 14);
 		}
 		public Guid Id { get; private set; }
 		public Map GameMap { get; private set; }
@@ -40,6 +45,9 @@ namespace Catan.Domain.Entities
 		public LongestRoad LongestRoad { get; private set; }
 		public bool ThiefMovedThisTurn { get; private set; } = false;
 		public string Message { get; set; }
+
+		private Dictionary<DevelopmentType, int> developmentCardsLeft = new Dictionary<DevelopmentType, int>();
+		private static Random rng = new Random();
 
 		public static Result<GameSession> Create (List<Player> players)
 		{
@@ -78,6 +86,11 @@ namespace Catan.Domain.Entities
 
 			Dice.Reset();
 			ThiefMovedThisTurn = false;
+
+			foreach(Player player in Players)
+			{
+				player.SetDiscardedThisTurnFalse();
+			}
 
 			TurnEndTime = DateTime.Now.AddSeconds(GameInfo.TURN_DURATION);
 		}
@@ -277,25 +290,29 @@ namespace Catan.Domain.Entities
 
 				player.WinningPoints = points;
 
+				points += player.DevelopmentCards
+							.Where(c => c.DevelopmentType == DevelopmentType.VICTORY_POINT)
+							.Count();
+
 				if (points >= GameInfo.WINNING_POINTS)
 					return player;
 			}
 			return null;
 		}
 
-		public Result<Dictionary<Player, Dictionary<Resource, int>>> RollDice (Player player)
+		public Result<DiceRoll> RollDice (Player player)
 		{
 			if (player != GetTurnPlayer())
-				return Result<Dictionary<Player, Dictionary<Resource, int>>>.Failure("It is not your turn.");
+				return Result<DiceRoll>.Failure("It is not your turn.");
 			if (Dice.RolledThisTurn)
-				return Result<Dictionary<Player, Dictionary<Resource, int>>>.Failure("The dice can only be rolled once a turn.");
+				return Result<DiceRoll>.Failure("The dice can only be rolled once a turn.");
 			if (IsInBeginningPhase())
-				return Result<Dictionary<Player, Dictionary<Resource, int>>>.Failure("The dice can't be rolled right now.");
+				return Result<DiceRoll>.Failure("The dice can't be rolled right now.");
 
 			Dice.Roll();
 			var assignedResources = AssignResources(Dice.GetSummedValue());
 			
-			return Result<Dictionary<Player, Dictionary<Resource, int>>>.Success(assignedResources);
+			return Result<DiceRoll>.Success(Dice);
 		}
 
 		private Dictionary<Player, Dictionary<Resource, int>> AssignResources(int number)
@@ -465,7 +482,26 @@ namespace Catan.Domain.Entities
 			GameMap.MoveThief(position);
 			ThiefMovedThisTurn = true;
 			return Result<Map>.Success(GameMap);
-		}	
+		}
+
+		public Result<Dictionary<Resource, int>> DiscardHalf(Player player, Dictionary<Resource, int> toDiscard)
+		{
+			if (!Dice.RolledThisTurn || !(Dice.GetSummedValue() == 7))
+				return Result<Dictionary<Resource, int>>.Failure("Dice must land on a 7 to discard half of your cards.");
+
+			if (player.DiscardedThisTurn)
+				return Result<Dictionary<Resource, int>>.Failure("You have already discarded half of your cards this round.");
+
+			if (!player.HasResources(toDiscard))
+			{
+				return Result<Dictionary<Resource, int>>.Failure($"You do not have those resources: {GameUtils.PrintDictionary(player.ResourceCount)}");
+			}
+
+
+			player.DiscardHalf(toDiscard);
+			return Result<Dictionary<Resource, int>>.Success(player.ResourceCount);
+		}
+
 		public void CalculateNewLongestRoad()
 		{
 			//adauga caz special broken road
@@ -495,5 +531,25 @@ namespace Catan.Domain.Entities
 			return null;
 		}
 
+		public Result<DevelopmentCard> BuyDevelopmentCard(Player player)
+		{
+			var allCards = developmentCardsLeft.SelectMany(kvp => Enumerable.Repeat(kvp.Key, kvp.Value)).ToList();
+
+			if (allCards.Count == 0)
+			{
+				return Result<DevelopmentCard>.Failure("No development cards left to draw.");
+			}
+
+			int randomIndex = rng.Next(allCards.Count);
+
+			DevelopmentType selectedCard = allCards[randomIndex];
+			developmentCardsLeft[selectedCard]--;
+
+			var newDevelopmentCard = new DevelopmentCard(selectedCard, Round);
+
+			player.AddDevelopmentCard(newDevelopmentCard);
+
+			return Result<DevelopmentCard>.Success(newDevelopmentCard);
+		}
 	}
 }

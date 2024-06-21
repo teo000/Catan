@@ -9,7 +9,7 @@ namespace Catan.Application.Features.Game.Commands.MakeMove
 		{
 			RuleFor(x => x.MoveType)
 			   .Must(BeAValidMoveType)
-			   .WithMessage("Invalid resource value provided.");
+			   .WithMessage("Invalid move type provided.");
 		}
 		private bool BeAValidMoveType(string moveType)
 		{

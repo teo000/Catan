@@ -21,7 +21,7 @@ namespace Catan.Domain.Entities
 			foreach (Resource resource in Enum.GetValues(typeof(Resource)))
 				if (resource != Resource.Desert)
 				{
-					ResourceCount.Add(resource, 0);
+					ResourceCount.Add(resource, 2);
 					TradeCount.Add(resource, 4);
 				}
 			IsAI = isAI;
@@ -35,10 +35,13 @@ namespace Catan.Domain.Entities
 		public List<Settlement> Settlements { get; private set; } = new List<Settlement>();
 		public List<City> Cities { get; private set; } = new List<City>();
 		public List<Road> Roads { get; private set; } = new List<Road>();
+		public List<DevelopmentCard> DevelopmentCards { get; private set; } = new List<DevelopmentCard>();
 		public Color Color { get; set; }
 		public int LastPlacedSettlementPos { get; set; } = -1;
 		public int WinningPoints { get; set; }
 		public bool IsAI { get; set; }
+		public bool DiscardedThisTurn { get; private set; } = false;
+
 
 		//ar trebui poate sa notez undeva ce fel de trade-uri din astea mai favorabile pot sa fac
 		public static Result<Player> Create(string name) 
@@ -52,6 +55,8 @@ namespace Catan.Domain.Entities
 		{
 			return Result<Player>.Success(new Player($"Bot #{no}", true));
 		}
+
+		
 
 		public void SetTradeCountSpecialPort(Resource resource)
 		{
@@ -77,6 +82,16 @@ namespace Catan.Domain.Entities
 			return true;
 		}
 
+		public bool HasResources(Dictionary<Resource, int> toSubtract)
+		{
+			foreach (var (resource, count) in toSubtract)
+			{
+				if (ResourceCount[resource] < count)
+					return false;
+			}
+			return true;
+		}
+
 		public bool SubtractResources(Buyable buyable)
 		{
 			var costs = GameInfo.Costs[buyable];
@@ -90,6 +105,24 @@ namespace Catan.Domain.Entities
 			{
 				ResourceCount[resource] -= required;
 			}
+
+			return true;
+		}
+
+		public bool DiscardHalf (Dictionary<Resource, int> toSubtract)
+		{
+			foreach (var (resource, count) in toSubtract)
+			{
+				if (ResourceCount[resource] < count)
+					return false;
+			}
+
+			foreach (var (resource, count) in toSubtract)
+			{
+				ResourceCount[resource] -= count;
+			}
+
+			DiscardedThisTurn = true;
 
 			return true;
 		}
@@ -139,9 +172,26 @@ namespace Catan.Domain.Entities
 		{
 			Settlements.Add(settlement);
 			LastPlacedSettlementPos = settlement.Position;
-
-			
 		}
 
+		public int GetCardsNo()
+		{
+			int cardsNo = 0;
+			foreach (var (resource, count) in ResourceCount)
+			{
+				cardsNo += count;
+			}
+			return cardsNo;
+		}
+
+		public void SetDiscardedThisTurnFalse()
+		{
+			DiscardedThisTurn = false;
+		}
+
+		public void AddDevelopmentCard(DevelopmentCard newDevelopmentCard)
+		{
+			DevelopmentCards.Add(newDevelopmentCard);
+		}
 	}
 }

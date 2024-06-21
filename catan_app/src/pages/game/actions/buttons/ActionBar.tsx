@@ -3,6 +3,7 @@ import {PlaceRoadButton} from "./PlaceRoadButton";
 import {TradeButton} from "./TradeButton";
 import {PlaceCityButton} from "./PlaceCityButton";
 import "./action-button.css"
+import {BuyDevelopmentCardButton} from "./BuyDevelopmentCardButton";
 export enum ButtonActions {
     None = 'None',
     PlaceSettlement = 'PlaceSettlement',
@@ -19,6 +20,7 @@ interface ActionBarProps {
     handlePlaceCityButtonClick: (action: ButtonActions) => void;
     handleTradeBankButtonClick: () => void;
     handleTradePlayerButtonClick : () => void;
+    handleBuyDevelopmentButtonClick: () => void;
 }
 
 function ActionBar({ disabled,
@@ -27,7 +29,8 @@ function ActionBar({ disabled,
                        handlePlaceRoadButtonClick,
                        handlePlaceCityButtonClick,
                        handleTradeBankButtonClick,
-                       handleTradePlayerButtonClick
+                       handleTradePlayerButtonClick,
+                       handleBuyDevelopmentButtonClick
 }: ActionBarProps) {
     return (
         <div className="actions-div">
@@ -48,6 +51,12 @@ function ActionBar({ disabled,
                 isActive={activeButton === ButtonActions.PlaceRoad}
                 onClick={() => handlePlaceRoadButtonClick(ButtonActions.PlaceRoad)}
             />
+            <BuyDevelopmentCardButton
+                disabled={disabled}
+                isActive={false}
+                onClick={() => handleBuyDevelopmentButtonClick()}
+            />
+
         </div>
     );
 }
