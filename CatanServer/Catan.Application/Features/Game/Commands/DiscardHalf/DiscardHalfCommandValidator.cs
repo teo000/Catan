@@ -11,7 +11,7 @@ namespace Catan.Application.Features.Game.Commands.DiscardHalf
 				.Must(BeAValidResource)
 				.WithMessage("Invalid resource type: {PropertyValue}");
 			RuleForEach(x => x.ResourceCount.Values)
-				.GreaterThan(0)
+				.GreaterThanOrEqualTo(0)
 				.WithMessage("Cannot discard a negative number.");
 		}
 		private bool BeAValidResource(string resource)

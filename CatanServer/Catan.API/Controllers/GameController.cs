@@ -3,6 +3,7 @@ using Catan.Application.Features.Game.Commands.DiscardHalf;
 using Catan.Application.Features.Game.Commands.EndTurn;
 using Catan.Application.Features.Game.Commands.MakeMove;
 using Catan.Application.Features.Game.Commands.MoveThief;
+using Catan.Application.Features.Game.Commands.PlayDevelopmentCard;
 using Catan.Application.Features.Game.Commands.RollDice;
 using Catan.Application.Features.Game.CommandsObsolete.CreateGame;
 using Catan.Application.Features.Game.CommandsObsolete.PlaceCity;
@@ -89,6 +90,21 @@ namespace Catan.API.Controllers
 		[ProducesResponseType(StatusCodes.Status201Created)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
 		public async Task<IActionResult> MakeMove(MakeMoveCommand command)
+		{
+			var result = await Mediator.Send(command);
+			if (!result.Success)
+				return BadRequest(result);
+
+			_logger.Warn($"Make move: game session sent this to all clients: {result.GameSession}");
+			await _hubContext.Clients.Group(command.GameId.ToString()).SendAsync("ReceiveGame", result.GameSession);
+
+			return Ok(result);
+		}
+
+		[HttpPost("play-devcard")]
+		[ProducesResponseType(StatusCodes.Status201Created)]
+		[ProducesResponseType(StatusCodes.Status400BadRequest)]
+		public async Task<IActionResult> PlayDevelopmentCard(PlayDevelopmentCardCommand command)
 		{
 			var result = await Mediator.Send(command);
 			if (!result.Success)

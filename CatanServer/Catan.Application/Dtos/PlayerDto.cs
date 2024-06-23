@@ -17,6 +17,7 @@ namespace Catan.Application.Dtos
 		public string Color { get; set; }
 		public int WinningPoints { get; set; }
 		public bool DiscardedThisTurn {  get; set; }
+		public int KnightsPlayed { get; set; }
 
 		public override string ToString()
 		{

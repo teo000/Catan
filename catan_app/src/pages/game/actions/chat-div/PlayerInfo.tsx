@@ -19,6 +19,7 @@ export const PlayerInfo: React.FC<PlayerProps> = ({playerInfo}) =>{
             </div>
             <div className="player-info"> VP: {playerInfo.winningPoints} </div>
             <div className="player-info"> cards: {cardsCount} </div>
+            <div className="player-info"> knights: {playerInfo.knightsPlayed} </div>
         </div>
     )
 }

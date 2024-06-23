@@ -9,13 +9,14 @@ interface CardsProps{
     resourceCount: ResourceCountDto;
     developmentCards: DevelopmentCardDto[];
     mustDiscard: boolean;
+    knightOnClick: () => void;
 }
 
-export const Cards: React.FC<CardsProps> = ({ resourceCount, developmentCards, mustDiscard }) => {
+export const Cards: React.FC<CardsProps> = ({ resourceCount, developmentCards, mustDiscard, knightOnClick }) => {
     return (
         <div className="cards">
             <ResourceCards resourceCount={resourceCount} mustDiscard={mustDiscard}></ResourceCards>
-            <DevelopmentCards developmentCards={developmentCards}/>
+            <DevelopmentCards developmentCards={developmentCards} onClickKnight={knightOnClick}/>
         </div>
     );
 };

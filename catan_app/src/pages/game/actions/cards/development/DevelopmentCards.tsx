@@ -5,10 +5,15 @@ import {DevelopmentCard} from "./DevelopmentCard";
 
 interface DevelopmentProps{
     developmentCards : DevelopmentCardDto[];
+    onClickKnight: () => void
 }
-export const DevelopmentCards: React.FC<DevelopmentProps> = ({ developmentCards}) => {
+export const DevelopmentCards: React.FC<DevelopmentProps> = ({ developmentCards, onClickKnight}) => {
     const [currentIndex, setCurrentIndex] = useState(0);
 
+    const determineOnClick = (devType : string) =>{
+        if (devType === "KNIGHT")
+            return onClickKnight;
+    }
     const handlePrevious = () => {
         setCurrentIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : developmentCards.length - 1));
     };
@@ -24,7 +29,7 @@ export const DevelopmentCards: React.FC<DevelopmentProps> = ({ developmentCards}
         <div className="development-cards-carousel">
             <button onClick={handlePrevious} className="arrow-button left"> <i className="fas fa-arrow-left" /> </button>
             {developmentCards.map((devCard, index) => (
-                <DevelopmentCard key={index} devCard={devCard} isActive={index === currentIndex} />
+                <DevelopmentCard key={index} devCard={devCard} isActive={index === currentIndex} onClick={determineOnClick(devCard.developmentType)}/>
             ))}
                 <button onClick={handleNext} className="arrow-button right"> <i className="fas fa-arrow-right" />  </button>
 

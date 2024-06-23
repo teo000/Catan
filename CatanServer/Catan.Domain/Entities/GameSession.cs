@@ -283,11 +283,22 @@ namespace Catan.Domain.Entities
 
 		public Player? CheckIfIsWon()
 		{
+			Player? largestArmyPlayer = null;
+
+			var playersWithKnights = Players.Where(p => p.KnightsPlayed >= 3);
+			if (playersWithKnights.Any())
+			{
+				largestArmyPlayer = playersWithKnights.MaxBy(p => p.KnightsPlayed);
+			}
+
 			foreach (var player in Players)
 			{
 				var points = player.CalculatePoints();
 				if (LongestRoad is not null && LongestRoad.Player.Equals(player))
 					points += 2;
+
+				if (largestArmyPlayer != null && player == largestArmyPlayer)
+					player.WinningPoints += 2;
 
 				player.WinningPoints = points;
 
@@ -563,6 +574,22 @@ namespace Catan.Domain.Entities
 			player.AddDevelopmentCard(newDevelopmentCard);
 
 			return Result<DevelopmentCard>.Success(newDevelopmentCard);
+		}
+
+		public Result<GameSession> HandleKnight(Player player, int position)
+		{
+			if (player != GetTurnPlayer())
+				return Result<GameSession>.Failure("It is not your turn.");
+
+			if (!player.HasDevelopmentCard(DevelopmentType.KNIGHT))
+				return Result<GameSession>.Failure("You do not have a knight card.");
+
+			if (GameMap.ThiefPosition == position)
+				return Result<GameSession>.Failure("Move the thief to a different position.");
+
+			player.PlayKnight();
+			GameMap.MoveThief(position);
+			return Result<GameSession>.Success(this);
 		}
 	}
 }

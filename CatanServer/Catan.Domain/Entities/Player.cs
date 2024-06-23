@@ -39,8 +39,9 @@ namespace Catan.Domain.Entities
 		public Color Color { get; set; }
 		public int LastPlacedSettlementPos { get; set; } = -1;
 		public int WinningPoints { get; set; }
-		public bool IsAI { get; set; }
+		public bool IsAI { get; private set; }
 		public bool DiscardedThisTurn { get; private set; } = false;
+		public int KnightsPlayed { get; private set; }
 
 
 		//ar trebui poate sa notez undeva ce fel de trade-uri din astea mai favorabile pot sa fac
@@ -192,6 +193,24 @@ namespace Catan.Domain.Entities
 		public void AddDevelopmentCard(DevelopmentCard newDevelopmentCard)
 		{
 			DevelopmentCards.Add(newDevelopmentCard);
+		}
+
+		public bool HasDevelopmentCard(DevelopmentType type)
+		{
+			foreach(var card in  DevelopmentCards)
+			{
+				if (card.DevelopmentType == type)
+					return true;
+			}
+
+			return false;
+		}
+
+		public void PlayKnight()
+		{
+			var knightCard = DevelopmentCards.Where(c => c.DevelopmentType == DevelopmentType.KNIGHT).FirstOrDefault();
+			DevelopmentCards.Remove(knightCard);
+			KnightsPlayed++;
 		}
 	}
 }

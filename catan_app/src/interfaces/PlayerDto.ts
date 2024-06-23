@@ -17,6 +17,7 @@ export interface PlayerDto {
     color: string;
     winningPoints: number;
     discardedThisTurn: boolean;
+    knightsPlayed: number;
 }
 
 export enum PlayerColor {
