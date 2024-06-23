@@ -5,20 +5,20 @@ using Catan.Application.Responses;
 using Catan.Domain.Data;
 using MediatR;
 
-namespace Catan.Application.Features.Trade.Commands.AcceptTrade
+namespace Catan.Application.Features.Trade.Commands.RespondToTrade
 {
-	public class AcceptTradeCommandHandler : IRequestHandler<AcceptTradeCommand, TradeResponse>
+	public class RespondToTradeCommandHandler : IRequestHandler<RespondToTradeCommand, TradeResponse>
 	{
 		private GameSessionManager _gameSessionManager;
 		private IMapper _mapper;
 
-		public AcceptTradeCommandHandler(GameSessionManager gameSessionManager, IMapper mapper)
+		public RespondToTradeCommandHandler(GameSessionManager gameSessionManager, IMapper mapper)
 		{
 			_gameSessionManager = gameSessionManager;
 			_mapper = mapper;
 		}
 
-		public async Task<TradeResponse> Handle(AcceptTradeCommand request, CancellationToken cancellationToken)
+		public async Task<TradeResponse> Handle(RespondToTradeCommand request, CancellationToken cancellationToken)
 		{
 			var gameSessionResponse = _gameSessionManager.GetGameSession(request.GameId);
 
@@ -57,7 +57,7 @@ namespace Catan.Application.Features.Trade.Commands.AcceptTrade
 					ValidationErrors = new List<string>() { "You cannot respond to this trade" }
 				};
 
-			var result = gameSession.AcceptTrade(trade.Id);
+			var result = gameSession.RespondToTrade(trade.Id, request.IsAccepted);
 			if (!result.IsSuccess)
 			{
 				return new TradeResponse()

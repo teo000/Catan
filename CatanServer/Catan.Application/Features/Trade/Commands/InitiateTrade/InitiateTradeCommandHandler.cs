@@ -93,7 +93,7 @@ namespace Catan.Application.Features.Trade.Commands.InitiateTrade
             var resourceToReceive = (Resource)Enum.Parse(typeof(Resource), request.ResourceToReceive, true);
 
 
-            var result = gameSession.AddNewPendingTrade(playerToGive, resourceToGive, request.CountToGive,
+            var result = await _gameSessionManager.AddNewPendingTrade(gameSession, playerToGive, resourceToGive, request.CountToGive,
                 playerToReceive, resourceToReceive, request.CountToReceive);
 
             if (!result.IsSuccess)

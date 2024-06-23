@@ -9,8 +9,13 @@ interface DotPositionMatrix {
     [key: number]: DotPosition[];
 }
 
+interface DiceProps {
+    number : number | null,
+    isClickable : boolean,
+    onClick : () => void
+}
 
-function Dice({number}: {number: number | null}){
+const Dice : React.FC<DiceProps> = ({number, isClickable, onClick}) =>{
     const dotPositionMatrix : DotPositionMatrix = {
         0: [],
         1: [{ x: 50, y: 50 }],
@@ -22,10 +27,18 @@ function Dice({number}: {number: number | null}){
     };
 
     if (number === null)
-        return <div className="dice"></div>
+        return (
+            <div
+                className={`dice ${isClickable ? 'dice-pulsing' : ''}`}
+                onClick={isClickable ? onClick : undefined}
+            />
+        )
 
     return (
-        <div className="dice">
+        <div
+            className={`dice ${isClickable ? 'dice-pulsing' : ''}`}
+            onClick={isClickable ? onClick : undefined}
+        >
             {
                 dotPositionMatrix[number].map((dotPosition, index) => (
                 <div

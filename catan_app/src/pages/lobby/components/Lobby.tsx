@@ -72,7 +72,7 @@ export const Lobby = React.memo(() => {
     if (!loaded) return <p>Loading...</p>
 
     if (data === undefined || data === null)
-        return <p> ... </p>
+        return <div className="waiting-room-container"> <p> Loading... </p> </div>
 
     const gameSession = data.lobby.gameSession;
     if (gameSession !== undefined && gameSession !== null) {

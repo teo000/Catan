@@ -7,6 +7,7 @@ using Catan.Domain.Entities.Trades;
 using Catan.Domain.Entities.GameMap;
 using Catan.Domain.Interfaces;
 using System;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Catan.Domain.Entities
 {
@@ -421,7 +422,7 @@ namespace Catan.Domain.Entities
 			return Result<PlayerTrade>.Failure("Trade does not exist in current context.");
 		}
 
-		public Result<PlayerTrade> AcceptTrade(Guid TradeId)
+		public Result<PlayerTrade> RespondToTrade(Guid TradeId, bool accepted)
 		{
 			var trade = getTrade(TradeId);
 
@@ -431,12 +432,18 @@ namespace Catan.Domain.Entities
 			if (trade is null)
 				return Result<PlayerTrade>.Failure("Trade does not exist in current context.");
 
-			if (!trade.PlayerToReceive.HasResource(trade.ResourceToReceive, trade.CountToReceive))
+			if (accepted && !trade.PlayerToReceive.HasResource(trade.ResourceToReceive, trade.CountToReceive))
 				return Result<PlayerTrade>.Failure("You do not have enough resources");
 
-			if (!trade.PlayerToGive.HasResource(trade.ResourceToGive, trade.CountToGive))
+			if (accepted && !trade.PlayerToGive.HasResource(trade.ResourceToGive, trade.CountToGive))
 				return Result<PlayerTrade>.Failure("Trade could not be completed");
 
+			if (!accepted)
+			{
+				trade.SetRejected();
+				return Result<PlayerTrade>.Success(trade);
+				
+			}
 
 			trade.PlayerToReceive.SubtractResource(trade.ResourceToReceive, trade.CountToReceive);
 			trade.PlayerToGive.SubtractResource(trade.ResourceToGive, trade.CountToGive);
@@ -447,6 +454,7 @@ namespace Catan.Domain.Entities
 			trade.SetAccepted();
 
 			return Result<PlayerTrade>.Success(trade);
+
 		}
 
 		public Result<GameSession> TradeBank(Player player, Resource resourceToGive, int count, Resource resourceToReceive)
@@ -533,6 +541,11 @@ namespace Catan.Domain.Entities
 
 		public Result<DevelopmentCard> BuyDevelopmentCard(Player player)
 		{
+			if (!player.HasResources(Buyable.DEVELOPMENT))
+			{
+				return Result<DevelopmentCard>.Failure($"You do not have those resources: {GameUtils.PrintDictionary(player.ResourceCount)}");
+			}
+
 			var allCards = developmentCardsLeft.SelectMany(kvp => Enumerable.Repeat(kvp.Key, kvp.Value)).ToList();
 
 			if (allCards.Count == 0)

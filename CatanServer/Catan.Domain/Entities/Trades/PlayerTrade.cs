@@ -26,5 +26,10 @@ namespace Catan.Domain.Entities.Trades
 			Status = TradeStatus.Accepted;
 		}
 
+		public void SetRejected()
+		{
+			Status = TradeStatus.Rejected;
+		}
+
 	}
 }

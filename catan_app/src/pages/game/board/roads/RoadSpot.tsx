@@ -20,7 +20,7 @@ function RoadSpot({index, top, left, rotation, onClick} : RoadSpotProps){
                 left: `${left}px`
             }}
         >
-            {index}
+
         </div>
     );
 }

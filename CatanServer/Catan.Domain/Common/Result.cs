@@ -24,5 +24,6 @@ namespace Catan.Domain.Common
 		{
 			return new Result<T>(false, default!, error);
 		}
+
 	}
 }

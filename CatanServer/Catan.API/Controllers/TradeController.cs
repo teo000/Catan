@@ -1,11 +1,11 @@
-﻿using Catan.Application.Features.Trade.Commands.AcceptTrade;
-using Catan.Application.Features.Trade.Commands.InitiateTrade;
+﻿using Catan.Application.Features.Trade.Commands.InitiateTrade;
+using Catan.Application.Features.Trade.Commands.RespondToTrade;
 using Catan.Application.Features.Trade.Commands.TradeBank;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Catan.API.Controllers
 {
-    public class TradeController : ApiControllerBase
+	public class TradeController : ApiControllerBase
 	{
 		private readonly ILogger<GameController> _logger;
 
@@ -28,7 +28,7 @@ namespace Catan.API.Controllers
 		[HttpPost("accept")]
 		[ProducesResponseType(StatusCodes.Status201Created)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
-		public async Task<IActionResult> Accept(AcceptTradeCommand command)
+		public async Task<IActionResult> Accept(RespondToTradeCommand command)
 		{
 			var result = await Mediator.Send(command);
 			if (!result.Success)

@@ -1,12 +1,8 @@
-﻿using Catan.Application.Features.Game.Queries.GetGameState;
-using Catan.Application.Features.Lobby.AddAIPlayer;
+﻿using Catan.Application.Features.Lobby.AddAIPlayer;
 using Catan.Application.Features.Lobby.CreateLobby;
 using Catan.Application.Features.Lobby.GetLobby;
 using Catan.Application.Features.Lobby.JoinLobby;
 using Catan.Application.Features.Lobby.StartGame;
-using Catan.Application.Features.Trade.Commands.AcceptTrade;
-using Catan.Application.Features.Trade.Commands.InitiateTrade;
-using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Catan.API.Controllers

@@ -3,6 +3,7 @@ using AIService.Entities.Data;
 using AIService.Entities.Game;
 using AIService.Entities.Game.GameMap;
 using AIService.Entities.Game.GamePieces;
+using AIService.Entities.Game.Trades;
 using AIService.Entities.Moves;
 using AIService.Utils;
 using Catan.Data;
@@ -117,5 +118,9 @@ namespace AIService.UseCases
 			return moves;
 		}
 
+		public Result<bool> RespondToTrade (GameState gameState, Guid playerId, PlayerTrade trade)
+		{
+			return Result<bool>.Success(true);
+		}
 	}
 }

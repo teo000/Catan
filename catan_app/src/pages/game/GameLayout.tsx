@@ -73,7 +73,7 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
             setButtonsDisabled(false);
 
         }
-    }, [gameSession.round, gameSession.turnPlayer.id, gameSession.dice.rolledThisTurn, gameSession.map.settlements, gameSession.map.roads, player?.id, getVisibleRoadSpots, getVisibleSettlementSpots], );
+    }, [gameSession.round, gameSession.turnPlayer.id, gameSession.dice.rolledThisTurn, gameSession.map.settlements, gameSession.map.roads], );
 
     const handleOpenTradeBank = () => {
         setIsTradeBankOpen(true);
@@ -253,6 +253,11 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
         return <p> Something went wrong ... </p>
     }
 
+    const isMyTurn = (gameSession.turnPlayer.id === player?.id);
+
+    const diceIsClickable = isMyTurn && !gameSession.dice.rolledThisTurn &&
+        !(gameSession.round === 1  || gameSession.round === 2)
+
 
     return (
         <div className="gameLayout">
@@ -265,7 +270,7 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
                 <DiceLayout
                     gameSessionId={gameSession.id}
                     diceRoll={gameSession.dice}
-                    turnPlayer={gameSession.turnPlayer}
+                    isClickable={diceIsClickable}
                 />
                 <MessageLabel message={message}/>
 

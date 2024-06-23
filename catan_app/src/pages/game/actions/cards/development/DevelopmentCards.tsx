@@ -17,13 +17,17 @@ export const DevelopmentCards: React.FC<DevelopmentProps> = ({ developmentCards}
         setCurrentIndex((prevIndex) => (prevIndex < developmentCards.length - 1 ? prevIndex + 1 : 0));
     };
 
+    if (developmentCards.length === 0)
+        return <div className="development-cards-carousel"> </div>
+
     return (
         <div className="development-cards-carousel">
             <button onClick={handlePrevious} className="arrow-button left"> <i className="fas fa-arrow-left" /> </button>
             {developmentCards.map((devCard, index) => (
                 <DevelopmentCard key={index} devCard={devCard} isActive={index === currentIndex} />
             ))}
-            <button onClick={handleNext} className="arrow-button right"> <i className="fas fa-arrow-right" />  </button>
+                <button onClick={handleNext} className="arrow-button right"> <i className="fas fa-arrow-right" />  </button>
+
         </div>
     );
 

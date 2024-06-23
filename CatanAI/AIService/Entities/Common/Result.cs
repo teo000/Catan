@@ -1,6 +1,6 @@
 ﻿namespace AIService.Entities.Common
 {
-	public class Result<T> where T : class
+	public class Result<T> 
 	{
 		private Result(bool isSuccess, T value, string error)
 		{
@@ -15,11 +15,11 @@
 
 		public static Result<T> Success(T value)
 		{
-			return new Result<T>(true, value, null!);
+			return new Result<T>(true, value, default!);
 		}
 		public static Result<T> Failure(string error)
 		{
-			return new Result<T>(false, null!, error);
+			return new Result<T>(false, default!, error);
 		}
 	}
 }

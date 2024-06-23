@@ -60,42 +60,45 @@ const ResourceCards: React.FC<ResourceCardsProps> = ({ resourceCount, mustDiscar
     const halfOfTotalCards = Math.floor( Object.values(resourceCount).reduce((a, b) => a + b, 0) / 2 );
 
     return (
-        <div className="resource-cards">
-            {Object.entries(resourceCount).map(([resource, count]) => (
-                count >0 && <div key={resource} className="resource-group">
-                    {Array.from({ length: count }).map((_, index) => (
-                        <img
-                            key={index}
-                            src={resourceImages[resource as keyof ResourceCountDto]}
-                            alt={resource}
-                            className="resource-card"
-                        />
-                    ))}
-                    {mustDiscard && resourceCount[resource as keyof ResourceCountDto] > 0 && (
-                        <div className="discard-controls">
-                            <button
-                                className = "resource-arrow-button"
-                                onClick={() => handleIncrement(resource as keyof ResourceCountDto)}
-                            >
-                                <i className="fas fa-arrow-up"></i>
-                            </button>
-                            <span>{discardCounts[resource as keyof ResourceCountDto] || 0}</span>
-                            <button
-                                className = "resource-arrow-button"
-                                onClick={() => handleDecrement(resource as keyof ResourceCountDto)}>
-                                <i className="fas fa-arrow-down"></i>
-                            </button>
-                        </div>
-                    )}
-                </div>
-            ))}
+        <div className = "resource-container">
+            <div className="resource-cards">
+                {Object.entries(resourceCount).map(([resource, count]) => (
+                    count >0 && <div key={resource} className="resource-group">
+                        {Array.from({ length: count }).map((_, index) => (
+                            <img
+                                key={index}
+                                src={resourceImages[resource as keyof ResourceCountDto]}
+                                alt={resource}
+                                className="resource-card"
+                            />
+                        ))}
+                        {mustDiscard && resourceCount[resource as keyof ResourceCountDto] > 0 && (
+                            <div className="discard-controls">
+                                <button
+                                    className = "resource-arrow-button"
+                                    onClick={() => handleIncrement(resource as keyof ResourceCountDto)}
+                                >
+                                    <i className="fas fa-arrow-up"></i>
+                                </button>
+                                <span>{discardCounts[resource as keyof ResourceCountDto] || 0}</span>
+                                <button
+                                    className = "resource-arrow-button"
+                                    onClick={() => handleDecrement(resource as keyof ResourceCountDto)}>
+                                    <i className="fas fa-arrow-down"></i>
+                                </button>
+                            </div>
+                        )}
+                    </div>
+                ))}
+
+            </div>
             {mustDiscard && (
                 <button
                     className="discard-action-button"
                     onClick={() => handleDiscard()}
                     disabled={totalSelected < halfOfTotalCards}
                 >
-                    Discard <br/> {halfOfTotalCards} cards
+                    Discard {halfOfTotalCards} cards
                 </button>
             )}
         </div>

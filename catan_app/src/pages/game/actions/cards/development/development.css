@@ -4,8 +4,9 @@
     justify-content: center;
     position: relative;
     height: 100%;
-    width: 27%;
+    width: 30%;
     overflow: hidden;
+    margin-left: auto;
 }
 
 .arrow-button {
@@ -44,5 +45,5 @@
 }
 
 .development-card {
-    max-width: 100%;
+    width: 150px;
 }

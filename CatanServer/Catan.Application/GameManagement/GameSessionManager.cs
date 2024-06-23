@@ -9,6 +9,7 @@ using Catan.Domain.Data;
 using Catan.Domain.Entities;
 using Catan.Domain.Entities.GamePieces;
 using Catan.Domain.Entities.Misc;
+using Catan.Domain.Entities.Trades;
 using Catan.Domain.Interfaces;
 using MediatR;
 
@@ -326,6 +327,30 @@ public class GameSessionManager
 		}
 
 		return session.PlaceCity(player, position.Value);
+	}
+
+	public async Task<Result<PlayerTrade>> AddNewPendingTrade(GameSession session, Player playerToGive, Resource resourceToGive, int countToGive, Player playerToReceive, Resource resourceToReceive, int countToReceive)
+	{
+		var tradeResult = session.AddNewPendingTrade(playerToGive, resourceToGive, countToGive, playerToReceive, resourceToReceive, countToReceive);
+
+		if (!tradeResult.IsSuccess)
+			return tradeResult;
+
+		if (playerToReceive.IsAI)
+		{
+			var aIResult = await _aIService.RespondToTrade(session, playerToReceive.Id, tradeResult.Value);
+			if (!aIResult.IsSuccess)
+			{
+				_logger.Warn($"AI service failed to respond to trade offer: {aIResult.Error}");
+				return tradeResult;
+			}
+
+			var aITradeResult = session.RespondToTrade(tradeResult.Value.Id, aIResult.Value);
+			if (!aITradeResult.IsSuccess)
+				_logger.Warn($"AI failed to respond to trade: {aITradeResult.Error}");
+		}
+
+		return tradeResult;
 	}
 
 	private bool IsMoveTypeDefined(string moveType)

@@ -33,29 +33,20 @@ namespace AIService.Presentation.Controllers
 		public async Task<IActionResult> DiscardHalf([FromBody] MoveRequest request)
 		{
 			var discardResult = _aiDecisionService.DiscardHalf(request.GameState, request.PlayerId);
-
-			return Ok(discardResult);
-
-			//if (discardResult.IsSuccess)
-			//{
-			//	var jsonOptions = new JsonSerializerOptions
-			//	{
-			//		WriteIndented = true,
-			//		Converters =
-			//		{
-			//			new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
-			//		}
-			//	};
-
-			//	var responseContent = JsonSerializer.Serialize(discardResult, jsonOptions);
-			//	return new JsonResult(responseContent)
-			//	{
-			//		StatusCode = 200,
-			//		ContentType = "application/json"
-			//	};
-			//}
+			if (discardResult.IsSuccess)
+				return Ok(discardResult);
 
 			return BadRequest(discardResult.Error);
+		}
+
+		[HttpPost("respond-to-trade")]
+		public async Task<IActionResult> RespondToTrade([FromBody] TradeRequest request)
+		{
+			var result = _aiDecisionService.RespondToTrade(request.GameState, request.PlayerId, request.Trade);
+			if (result.IsSuccess)
+				return Ok(result);
+
+			return BadRequest(result.Error);
 		}
 	}
 }

@@ -75,6 +75,7 @@
     border-radius: 5px;
     padding: 5px 10px;
     cursor: pointer;
+    margin-left: 15px;
 }
 
 .reject-button {
@@ -84,6 +85,7 @@
     border-radius: 5px;
     padding: 5px 10px;
     cursor: pointer;
+    margin-left: 5px;
 }
 
 .accept-button:hover,

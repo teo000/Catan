@@ -22,6 +22,7 @@
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
     background-color: white;
+
 }
 
 .dice-dot{
@@ -41,4 +42,23 @@
 
 .btn-roll-dice{
     margin-top: 10px;
+}
+
+
+.dice-pulsing {
+    animation: dice-pulse 1s infinite;
+    cursor: pointer;
+
+}
+
+@keyframes dice-pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
 }
