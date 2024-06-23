@@ -1,4 +1,6 @@
-﻿using Catan.Application.Features.Trade.Commands.InitiateTrade;
+﻿using AutoMapper;
+using Catan.Application.Dtos;
+using Catan.Application.Features.Trade.Commands.InitiateTrade;
 using Catan.Application.GameManagement;
 using Catan.Application.Responses;
 using Catan.Domain.Data;
@@ -7,22 +9,24 @@ using MediatR;
 
 namespace Catan.Application.Features.Trade.Commands.TradeBank
 {
-	public class TradeBankCommandHandler : IRequestHandler<TradeBankCommand, BaseResponse>
+	public class TradeBankCommandHandler : IRequestHandler<TradeBankCommand, GameSessionResponse>
 	{
 		private GameSessionManager _gameSessionManager;
+		private IMapper _mapper;
 
-		public TradeBankCommandHandler(GameSessionManager gameSessionManager)
+		public TradeBankCommandHandler(GameSessionManager gameSessionManager, IMapper mapper)
 		{
 			_gameSessionManager = gameSessionManager;
+			_mapper = mapper;
 		}
 
-		public async Task<BaseResponse> Handle(TradeBankCommand request, CancellationToken cancellationToken)
+		public async Task<GameSessionResponse> Handle(TradeBankCommand request, CancellationToken cancellationToken)
 		{
 			var validator = new TradeBankCommandValidator();
 			var validatorResult = await validator.ValidateAsync(request, cancellationToken);
 
 			if (!validatorResult.IsValid)
-				return new BaseResponse
+				return new GameSessionResponse()
 				{
 					Success = false,
 					ValidationErrors = validatorResult.Errors.Select(e => e.ErrorMessage).ToList()
@@ -32,7 +36,7 @@ namespace Catan.Application.Features.Trade.Commands.TradeBank
 
 			if (!gameSessionResponse.IsSuccess)
 			{
-				return new BaseResponse()
+				return new GameSessionResponse()
 				{
 					Success = false,
 					ValidationErrors = new List<string>() { gameSessionResponse.Error }
@@ -53,7 +57,7 @@ namespace Catan.Application.Features.Trade.Commands.TradeBank
 
 			if (player == null)
 			{
-				return new BaseResponse()
+				return new GameSessionResponse()
 				{
 					Success = false,
 					ValidationErrors = new List<string>() { "Player does not exist." }
@@ -62,7 +66,7 @@ namespace Catan.Application.Features.Trade.Commands.TradeBank
 
 			if (!player.IsActive)
 			{
-				return new BaseResponse()
+				return new GameSessionResponse()
 				{
 					Success = false,
 					ValidationErrors = new List<string>() { "Player has been disconnected." }
@@ -74,15 +78,16 @@ namespace Catan.Application.Features.Trade.Commands.TradeBank
 
 			var result = gameSession.TradeBank(player, resourceToGive, request.Count,  resourceToReceive);
 			if (!result.IsSuccess) {
-				return new BaseResponse()
+				return new GameSessionResponse()
 				{
 					Success = false,
 					ValidationErrors = new List<string>() { result.Error }
 				};
 			}
-			return new BaseResponse()
+			return new GameSessionResponse()
 			{
 				Success = true,
+				GameSession = _mapper.Map<GameSessionDto>(gameSession)
 			};
 		}
 	}

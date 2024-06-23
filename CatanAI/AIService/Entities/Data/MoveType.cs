@@ -2,6 +2,8 @@
 {
 	public enum MoveType
 	{
-		PlaceSettlement
+		PlaceSettlement,
+		PlaceRoad,
+		PlaceCity
 	}
 }

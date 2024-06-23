@@ -1,17 +1,20 @@
-﻿namespace Catan.Domain.Common
+﻿using System.Text.Json.Serialization;
+
+namespace Catan.Domain.Common
 {
-	public class Result<T> 
+	public class Result<T>
 	{
-		private Result(bool isSuccess, T value, string error)
+		[JsonConstructor]
+		public Result(bool isSuccess, T value, string error)
 		{
 			IsSuccess = isSuccess;
-			Value = value;
 			Error = error;
+			Value = value;
 		}
 
-		public bool IsSuccess { get; }
-		public T Value { get; }
-		public string Error { get; }
+		public bool IsSuccess { get; private set; }
+		public T Value { get; private set; }
+		public string Error { get; private set; }
 
 		public static Result<T> Success(T value)
 		{
@@ -21,5 +24,6 @@
 		{
 			return new Result<T>(false, default!, error);
 		}
+
 	}
 }

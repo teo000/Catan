@@ -7,7 +7,7 @@ using AutoMapper;
 
 namespace Catan.Application.Features.Lobby.AddAIPlayer
 {
-	public class AddAIPlayerCommandHandler : IRequestHandler<AddAIPlayerCommand, PlayerResponse>
+	public class AddAIPlayerCommandHandler : IRequestHandler<AddAIPlayerCommand, LobbyResponse>
 	{
 		private readonly LobbyManager _lobbyManager;
 		private readonly IMapper _mapper;
@@ -18,12 +18,12 @@ namespace Catan.Application.Features.Lobby.AddAIPlayer
 			_mapper = mapper;
 		}
 
-		public async Task<PlayerResponse> Handle(AddAIPlayerCommand request, CancellationToken cancellationToken)
+		public async Task<LobbyResponse> Handle(AddAIPlayerCommand request, CancellationToken cancellationToken)
 		{
 			var getLobbyResult = _lobbyManager.Get(request.JoinCode);
 			if (!getLobbyResult.IsSuccess)
 			{
-				return new PlayerResponse()
+				return new LobbyResponse()
 				{
 					Success = false,
 					ValidationErrors = new List<string>() { getLobbyResult.Error }
@@ -35,7 +35,7 @@ namespace Catan.Application.Features.Lobby.AddAIPlayer
 			var playerResult = Player.CreateAI(aINo + 1);
 			if (!playerResult.IsSuccess)
 			{
-				return new PlayerResponse()
+				return new LobbyResponse()
 				{
 					Success = false,
 					ValidationErrors = new List<string>() { playerResult.Error }
@@ -47,17 +47,17 @@ namespace Catan.Application.Features.Lobby.AddAIPlayer
 
 			if (!lobbyResult.IsSuccess)
 			{
-				return new PlayerResponse()
+				return new LobbyResponse()
 				{
 					Success = false,
 					ValidationErrors = new List<string>() { lobbyResult.Error }
 				};
 			}
 
-			return new PlayerResponse()
+			return new LobbyResponse()
 			{
 				Success = true,
-				Player = _mapper.Map<PlayerDto>(player),
+				Lobby = _mapper.Map<LobbyDto>(lobby),
 			};
 		}
 	}

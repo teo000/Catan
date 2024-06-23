@@ -1,8 +1,7 @@
-using AIService.Infrastructure;
-using AIService.Interfaces;
 using AIService.UseCases;
 using System.Text.Json.Serialization;
 using System.Text.Json;
+using AIService.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,16 +11,18 @@ builder.Services.AddControllers()
 	 .AddJsonOptions(options =>
 	 {
 		 options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
+		 options.JsonSerializerOptions.Converters.Add(new MoveConverter());
 	 });
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddHttpClient<IGameBackendService, GameBackendService>(client =>
-{
-	client.BaseAddress = new Uri("https://localhost:7251/api/v1/");
-});
+//builder.Services.AddHttpClient<IGameBackendService, GameBackendService>(client =>
+//{
+//	client.BaseAddress = new Uri("https://localhost:7251/api/v1/");
+//});
+
 
 builder.Services.AddScoped<AIDecisionService>();
 

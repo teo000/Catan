@@ -1,22 +1,22 @@
-﻿using Catan.Application.Features.Game.Queries.GetGameState;
+﻿using Catan.API.Hubs;
 using Catan.Application.Features.Lobby.AddAIPlayer;
 using Catan.Application.Features.Lobby.CreateLobby;
 using Catan.Application.Features.Lobby.GetLobby;
 using Catan.Application.Features.Lobby.JoinLobby;
 using Catan.Application.Features.Lobby.StartGame;
-using Catan.Application.Features.Trade.Commands.AcceptTrade;
-using Catan.Application.Features.Trade.Commands.InitiateTrade;
-using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace Catan.API.Controllers
 {
 	public class LobbyController : ApiControllerBase
 	{
+		private readonly IHubContext<LobbyHub> _hubContext;
 		private readonly ILogger<GameController> _logger;
 
-		public LobbyController(ILogger<GameController> logger)
+		public LobbyController(IHubContext<LobbyHub> hubContext , ILogger<GameController> logger)
 		{
+			_hubContext = hubContext;
 			_logger = logger;
 		}
 
@@ -27,6 +27,7 @@ namespace Catan.API.Controllers
 			var result = await Mediator.Send(new GetLobbyQuery(joinCode));
 			if (!result.Success)
 				return BadRequest(result);
+
 			return Ok(result);
 		}
 
@@ -38,6 +39,7 @@ namespace Catan.API.Controllers
 			var result = await Mediator.Send(command);
 			if (!result.Success)
 				return BadRequest(result);
+
 			return Ok(result);
 		}
 
@@ -49,6 +51,9 @@ namespace Catan.API.Controllers
 			var result = await Mediator.Send(command);
 			if (!result.Success)
 				return BadRequest(result);
+
+			await _hubContext.Clients.Group(command.JoinCode.ToString()).SendAsync("ReceiveLobby", result.Lobby);
+
 			return Ok(result);
 		}
 
@@ -60,6 +65,9 @@ namespace Catan.API.Controllers
 			var result = await Mediator.Send(command);
 			if (!result.Success)
 				return BadRequest(result);
+
+			await _hubContext.Clients.Group(command.JoinCode.ToString()).SendAsync("ReceiveLobby", result.Lobby);
+
 			return Ok(result);
 		}
 
@@ -72,6 +80,9 @@ namespace Catan.API.Controllers
 			var result = await Mediator.Send(command);
 			if (!result.Success)
 				return BadRequest(result);
+
+			await _hubContext.Clients.Group(command.JoinCode.ToString()).SendAsync("ReceiveLobby", result.Lobby);
+
 			return Ok(result);
 		}
 

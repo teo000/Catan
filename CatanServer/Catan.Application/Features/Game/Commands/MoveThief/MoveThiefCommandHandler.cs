@@ -7,7 +7,7 @@ using Catan.Application.GameManagement;
 
 namespace Catan.Application.Features.Game.Commands.MoveThief
 {
-	public class MoveThiefCommandHandler : IRequestHandler<MoveThiefCommand, MapResponse>
+	public class MoveThiefCommandHandler : IRequestHandler<MoveThiefCommand, GameSessionResponse>
 	{
 		private GameSessionManager _gameSessionManager;
 		private IMapper _mapper;
@@ -18,13 +18,13 @@ namespace Catan.Application.Features.Game.Commands.MoveThief
 			_mapper = mapper;
 		}
 
-		public async Task<MapResponse> Handle(MoveThiefCommand request, CancellationToken cancellationToken)
+		public async Task<GameSessionResponse> Handle(MoveThiefCommand request, CancellationToken cancellationToken)
 		{
 			var gameSessionResponse = _gameSessionManager.GetGameSession(request.GameId);
 
 			if (!gameSessionResponse.IsSuccess)
 			{
-				return new MapResponse()
+				return new GameSessionResponse()
 				{
 					Success = false,
 					ValidationErrors = new List<string>() { gameSessionResponse.Error }
@@ -47,7 +47,7 @@ namespace Catan.Application.Features.Game.Commands.MoveThief
 
 			if (!playerExists)
 			{
-				return new MapResponse()
+				return new GameSessionResponse()
 				{
 					Success = false,
 					ValidationErrors = new List<string>() { "Player does not exist." }
@@ -56,7 +56,7 @@ namespace Catan.Application.Features.Game.Commands.MoveThief
 
 			if (!player.IsActive)
 			{
-				return new MapResponse()
+				return new GameSessionResponse()
 				{
 					Success = false,
 					ValidationErrors = new List<string>() { "Player has been disconnected." }
@@ -67,17 +67,17 @@ namespace Catan.Application.Features.Game.Commands.MoveThief
 
 			if (!result.IsSuccess)
 			{
-				return new MapResponse()
+				return new GameSessionResponse()
 				{
 					Success = false,
 					ValidationErrors = new List<string>() { result.Error }
 				};
 			}
 
-			return new MapResponse()
+			return new GameSessionResponse()
 			{
 				Success = true,
-				Map = _mapper.Map<MapDto>(result.Value)
+				GameSession = _mapper.Map<GameSessionDto>(gameSession)
 			};
 
 		}

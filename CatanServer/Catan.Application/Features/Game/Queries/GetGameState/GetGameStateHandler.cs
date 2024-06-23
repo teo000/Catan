@@ -28,22 +28,11 @@ namespace Catan.Application.Features.Game.Queries.GetGameState
 				};
 			}
 
-
-
 			return new GameSessionResponse()
 			{
 				Success = true,
-				GameSession = _mapper.Map<GameSessionDto>(result.Value)
-				
-				//GameSession = new GameSessionDto()
-				//{
-				//	Id = result.Value.Id,
-				//	Players = result.Value.Players,
-				//	GameStatus = result.Value.GameStatus.ToString(),
-				//	Map = result.Value.GameMap,
-				//	TurnPlayerIndex = result.Value.TurnPlayerIndex,
-				//	TurnEndTime = result.Value.TurnEndTime,
-				//}
+				GameSession = _mapper.Map<GameSessionDto>(result.Value),
+				PlayerId = request.PlayerId
 			};
 		}
 	}

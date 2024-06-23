@@ -2,6 +2,7 @@ import {ResourceCountDto} from "./ResourceCountDto";
 import {SettlementDto} from "./SettlementDto";
 import {RoadDto} from "./RoadDto";
 import {CityDto} from "./CityDto";
+import {DevelopmentCardDto} from "./DevelopmentCardDto";
 
 export interface PlayerDto {
     id: string;
@@ -12,8 +13,11 @@ export interface PlayerDto {
     settlements: SettlementDto[];
     roads: RoadDto[];
     cities: CityDto[];
+    developmentCards: DevelopmentCardDto[];
     color: string;
     winningPoints: number;
+    discardedThisTurn: boolean;
+    knightsPlayed: number;
 }
 
 export enum PlayerColor {

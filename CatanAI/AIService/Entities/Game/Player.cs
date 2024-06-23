@@ -1,5 +1,6 @@
 ﻿using AIService.Entities.Data;
 using AIService.Entities.Game.GamePieces;
+using Catan.Data;
 using Catan.Entities.Data;
 
 namespace AIService.Entities.Game
@@ -18,5 +19,32 @@ namespace AIService.Entities.Game
         public int LastPlacedSettlementPos { get; set; }
         public int WinningPoints { get; set; }
         public bool IsAI { get; set; }
-    }
+
+		public bool HasResources(Buyable buyable)
+		{
+			var costs = GameInfo.Costs[buyable];
+			foreach (var (resource, required) in costs)
+			{
+				if (ResourceCount[resource] < required)
+					return false;
+			}
+			return true;
+		}
+		public bool SubtractResources(Buyable buyable)
+		{
+			var costs = GameInfo.Costs[buyable];
+			foreach (var (resource, required) in costs)
+			{
+				if (ResourceCount[resource] < required)
+					return false;
+			}
+
+			foreach (var (resource, required) in costs)
+			{
+				ResourceCount[resource] -= required;
+			}
+
+			return true;
+		}
+	}
 }

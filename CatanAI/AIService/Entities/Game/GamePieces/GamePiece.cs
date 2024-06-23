@@ -3,11 +3,11 @@
 	public abstract class GamePiece
 	{
 		public int Position { get; set; }
-		public Player Player { get; set; }
+		public Guid PlayerId { get; set; }
 
-		public bool BelongsTo(Player player)
+		public bool BelongsTo(Guid playerId)
 		{
-			if (player == Player)
+			if (Equals(playerId, PlayerId))
 				return true;
 			return false;
 		}

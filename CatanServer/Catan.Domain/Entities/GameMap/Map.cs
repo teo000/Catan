@@ -12,7 +12,7 @@ public class Map
 		var valuesNo = Enum.GetValues(typeof(Resource)).Length;
 		var random = new Random();
 
-		var resourceList = GameMapData.getBeginningResourceList();
+		var resourceList = GameMapData.GetBeginningResourceList();
 		ListExtensions.Shuffle(resourceList);
 
 		var numberTokenList = new List<int>(GameMapData.NumberTokenList);

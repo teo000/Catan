@@ -1,4 +1,5 @@
 ﻿using Catan.Domain.Entities;
+using System;
 
 namespace Catan.Domain.Data
 {
@@ -125,14 +126,15 @@ namespace Catan.Domain.Data
 				}
 			}
 
-			int index = 0;
-			for(int row=0; row < SettlementLayout.Count - 1; row++)
+			var index = 0;
+			for (int row = 0; row < SettlementLayout.Count - 1; row++)
 			{
 				if (SettlementLayout[row].Count < SettlementLayout[row + 1].Count)
 				{
-					for(int pos = 0; pos < SettlementLayout[row].Count; pos++)
+					for (int pos = 0; pos < SettlementLayout[row].Count; pos++)
 					{
-						var roadEnd1 = (SettlementLayout[row + 1][pos], SettlementLayout[row][pos]);
+
+						var roadEnd1 = (SettlementLayout[row][pos], SettlementLayout[row + 1][pos]);
 						var roadEnd2 = (SettlementLayout[row][pos], SettlementLayout[row + 1][pos + 1]);
 
 						RoadEnds.Add(roadEnd1);
@@ -140,7 +142,7 @@ namespace Catan.Domain.Data
 
 						RoadEnds.Add(roadEnd2);
 						RoadByRoadEnds.Add(roadEnd2, index++);
-					
+
 					}
 				}
 				else if (SettlementLayout[row].Count == SettlementLayout[row + 1].Count)
@@ -154,22 +156,22 @@ namespace Catan.Domain.Data
 				}
 				else
 				{
-					for (int pos = 0; pos < SettlementLayout[row+1].Count; pos++)
+					for (int pos = 0; pos < SettlementLayout[row + 1].Count; pos++)
 					{
 						var roadEnd1 = (SettlementLayout[row][pos], SettlementLayout[row + 1][pos]);
-						var roadEnd2 = (SettlementLayout[row + 1][pos], SettlementLayout[row][pos + 1]);
+						var roadEnd2 = (SettlementLayout[row][pos + 1], SettlementLayout[row + 1][pos]);
 
 						RoadEnds.Add(roadEnd1);
 						RoadByRoadEnds.Add(roadEnd1, index++);
 
 						RoadEnds.Add(roadEnd2);
-						RoadByRoadEnds.Add(roadEnd2 , index++);
+						RoadByRoadEnds.Add(roadEnd2, index++);
 					}
 				}
 			}
 
 
-			foreach((int, int) road in RoadEnds)
+			foreach ((int, int) road in RoadEnds)
 			{
 				int settlement1 = road.Item1;
 				int settlement2 = road.Item2;
@@ -219,7 +221,7 @@ namespace Catan.Domain.Data
 
 		public static Dictionary<int, int> HarbourNextToSettlement = new Dictionary<int, int>();
 
-		public static List<Resource> getBeginningResourceList()
+		public static List<Resource> GetBeginningResourceList()
 		{
 			List<Resource> resources = new List<Resource>();
 

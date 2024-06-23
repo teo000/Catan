@@ -1,4 +1,5 @@
 ﻿using Catan.Application.Dtos.GamePieces;
+using Catan.Domain.Entities.GamePieces;
 
 namespace Catan.Application.Dtos
 {

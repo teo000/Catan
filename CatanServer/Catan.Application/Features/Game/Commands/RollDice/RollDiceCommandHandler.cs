@@ -7,7 +7,7 @@ using Catan.Application.GameManagement;
 
 namespace Catan.Application.Features.Game.Commands.RollDice
 {
-	public class RollDiceCommandHandler : IRequestHandler<RollDiceCommand, DiceRollResponse>
+	public class RollDiceCommandHandler : IRequestHandler<RollDiceCommand, GameSessionResponse>
 	{
 		private GameSessionManager _gameSessionManager;
 		private IMapper _mapper;
@@ -18,13 +18,13 @@ namespace Catan.Application.Features.Game.Commands.RollDice
 			_mapper = mapper;
 		}
 
-		public async Task<DiceRollResponse> Handle(RollDiceCommand request, CancellationToken cancellationToken)
+		public async Task<GameSessionResponse> Handle(RollDiceCommand request, CancellationToken cancellationToken)
 		{
 			var gameSessionResponse = _gameSessionManager.GetGameSession(request.GameId);
 
 			if (!gameSessionResponse.IsSuccess)
 			{
-				return new DiceRollResponse()
+				return new GameSessionResponse()
 				{
 					Success = false,
 					ValidationErrors = new List<string>() { gameSessionResponse.Error }
@@ -47,7 +47,7 @@ namespace Catan.Application.Features.Game.Commands.RollDice
 
 			if (!playerExists)
 			{
-				return new DiceRollResponse()
+				return new GameSessionResponse()
 				{
 					Success = false,
 					ValidationErrors = new List<string>() { "Player does not exist." }
@@ -56,27 +56,27 @@ namespace Catan.Application.Features.Game.Commands.RollDice
 
 			if (!player.IsActive)
 			{
-				return new DiceRollResponse()
+				return new GameSessionResponse()
 				{
 					Success = false,
 					ValidationErrors = new List<string>() { "Player has been disconnected." }
 				};
 			}
 
-			var result = gameSession.RollDice(player);
+			var result = await _gameSessionManager.RollDice(gameSession, player);
 			if (!result.IsSuccess)
 			{
-				return new DiceRollResponse()
+				return new GameSessionResponse()
 				{
 					Success = false,
 					ValidationErrors = new List<string>() { result.Error }
 				};
 			}
 
-			return new DiceRollResponse()
+			return new GameSessionResponse()
 			{
 				Success = true,
-				DiceRoll = _mapper.Map<DiceRollDto>(gameSession.Dice)
+				GameSession = _mapper.Map<GameSessionDto>(gameSession)
 			};
 		}
 	}

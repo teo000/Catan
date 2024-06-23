@@ -6,6 +6,7 @@ const apiClient = axios.create({
         'Content-Type': 'application/json',
     },
     withCredentials: true,
+    timeout: 100000
 });
 
 export default apiClient;

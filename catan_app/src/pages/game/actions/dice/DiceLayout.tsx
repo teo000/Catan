@@ -9,11 +9,11 @@ import {PlayerDto} from "../../../../interfaces/PlayerDto";
 interface DiceLayoutProps {
     gameSessionId: string;
     diceRoll: DiceRollDto;
-    turnPlayer: PlayerDto;
+    isClickable: boolean
 }
 
 
-const DiceLayout: React.FC<DiceLayoutProps> = ({ gameSessionId, diceRoll , turnPlayer}) => {
+const DiceLayout: React.FC<DiceLayoutProps> = ({ gameSessionId, diceRoll , isClickable}) => {
     const { request } = useFetch<DiceRollResponse>('/api/v1/Game/roll-dice');
     const [diceNumbers, setDiceNumbers]
         = useState<(number | null)[]>([null, null]);
@@ -22,7 +22,6 @@ const DiceLayout: React.FC<DiceLayoutProps> = ({ gameSessionId, diceRoll , turnP
     const firstDiceValue = diceRoll.values[0];
     const secondDiceValue = diceRoll.values[1];
 
-    const isMyTurn = (turnPlayer.id === player?.id);
 
     const randomizeDice = useCallback(async () => {
         const requestData = { gameId: gameSessionId, playerId: player?.id };
@@ -82,17 +81,9 @@ const DiceLayout: React.FC<DiceLayoutProps> = ({ gameSessionId, diceRoll , turnP
     return (
         <div className="dice-layout">
             <div className="dice-container">
-                <Dice number={diceNumbers[0]} />
-                <Dice number={diceNumbers[1]} />
+                <Dice number={diceNumbers[0]} isClickable={!isRolling && isClickable} onClick={randomizeDice} />
+                <Dice number={diceNumbers[1]} isClickable={!isRolling && isClickable} onClick={randomizeDice}/>
             </div>
-            <button
-                type="button"
-                className="btn-roll-dice"
-                onClick={randomizeDice}
-                disabled={isRolling || !isMyTurn || diceRoll.rolledThisTurn}
-            >
-                Roll dice
-            </button>
         </div>
     );
 };

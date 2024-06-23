@@ -20,9 +20,9 @@ export const TradeList: React.FC<TradeListProps> = ({trades, players}) => {
         return player ? player.name : 'Unknown player';
     };
 
-    const handleAccept = async (tradeId: string) => {
+    const handleRespondToTrade = async (tradeId: string, isAccepted: boolean) => {
         console.log(`Accepted trade with ID: ${tradeId}`);
-        const requestData = {gameId, playerId: player?.id, tradeId: tradeId};
+        const requestData = {gameId, playerId: player?.id, tradeId: tradeId, isAccepted};
 
         try {
             const response = await request('/accept', 'post', requestData);
@@ -34,11 +34,6 @@ export const TradeList: React.FC<TradeListProps> = ({trades, players}) => {
             console.error('Failed to accept trade', err);
         }
 
-    };
-
-    const handleReject = (tradeId: string) => {
-        console.log(`Rejected trade with ID: ${tradeId}`);
-        // reject
     };
 
     const tradesToMe = trades.filter(t => t.playerToReceiveId === player?.id);
@@ -53,11 +48,12 @@ export const TradeList: React.FC<TradeListProps> = ({trades, players}) => {
             {pendingTradesToMe.map(trade => (
                 <div key={trade.id} className="trade-item">
                     <span>
-                        Player {getPlayerName(trade.playerToGiveId)} wants to give you {trade.countToGive}
-                        {trade.resourceToGive} in exchange for {trade.countToReceive} {trade.resourceToReceive}
+                        Player {getPlayerName(trade.playerToGiveId)} wants to give
+                        you {trade.countToGive} {trade.resourceToGive} in exchange
+                        for {trade.countToReceive} {trade.resourceToReceive}
                     </span>
-                    <button className="accept-button" onClick={() => handleAccept(trade.id)}>✔</button>
-                    <button className="reject-button" onClick={() => handleReject(trade.id)}>✘</button>
+                    <button className="accept-button" onClick={() => handleRespondToTrade(trade.id, true)}>✔</button>
+                    <button className="reject-button" onClick={() => handleRespondToTrade(trade.id, false)}>✘</button>
                 </div>
             ))}
         </div>

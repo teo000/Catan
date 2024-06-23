@@ -1,79 +1,42 @@
-using Catan.Application.Features.Game.Commands.CreateGame;
+using Catan.API.Hubs;
+using Catan.Application.Features.Game.Commands.DiscardHalf;
 using Catan.Application.Features.Game.Commands.EndTurn;
+using Catan.Application.Features.Game.Commands.MakeMove;
 using Catan.Application.Features.Game.Commands.MoveThief;
-using Catan.Application.Features.Game.Commands.PlaceCity;
-using Catan.Application.Features.Game.Commands.PlaceRoad;
-using Catan.Application.Features.Game.Commands.PlaceSettlement;
+using Catan.Application.Features.Game.Commands.PlayDevelopmentCard;
 using Catan.Application.Features.Game.Commands.RollDice;
+using Catan.Application.Features.Game.CommandsObsolete.CreateGame;
+using Catan.Application.Features.Game.CommandsObsolete.PlaceCity;
+using Catan.Application.Features.Game.CommandsObsolete.PlaceRoad;
+using Catan.Application.Features.Game.CommandsObsolete.PlaceSettlement;
 using Catan.Application.Features.Game.Queries.GetGameState;
 using Catan.Application.GameManagement;
+using Catan.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace Catan.API.Controllers
 {
     public class GameController : ApiControllerBase
 	{
-
-		private readonly ILogger<GameController> _logger;
+		private readonly IHubContext<GameHub> _hubContext;
 		private readonly GameSessionManager _gameSessionManager;
+		private readonly Domain.Interfaces.ILogger _logger;
 
-		public GameController(ILogger<GameController> logger, GameSessionManager gameSessionManager)
+		public GameController(IHubContext<GameHub> hubContext, GameSessionManager gameSessionManager, Domain.Interfaces.ILogger logger)
 		{
-			_logger = logger;
+			_hubContext = hubContext;
 			_gameSessionManager = gameSessionManager;
+			_logger = logger;
 		}
-
-		[HttpPost]
-		[ProducesResponseType(StatusCodes.Status201Created)]
-		[ProducesResponseType(StatusCodes.Status400BadRequest)]
-		public async Task<IActionResult> Create(CreateGameCommand command)
-		{
-			var result = await Mediator.Send(command);
-			if (!result.Success)
-				return BadRequest(result);
-			return Ok(result);
-		}
-		
 
 		[HttpGet("{id}")]
-		public async Task<IActionResult> Get(Guid id)
+		public async Task<IActionResult> Get(Guid id, [FromQuery] Guid playerId)
 		{
-			var result = await Mediator.Send(new GetGameState(id));
+			var result = await Mediator.Send(new GetGameState(id, playerId));
 			if (!result.Success)
 				return BadRequest(result);
-			return Ok(result);
-		}
 
-		[HttpPost("road")]
-		[ProducesResponseType(StatusCodes.Status201Created)]
-		[ProducesResponseType(StatusCodes.Status400BadRequest)]
-		public async Task<IActionResult> PlaceRoad(PlaceRoadCommand command)
-		{
-			var result = await Mediator.Send(command);
-			if (!result.Success)
-				return BadRequest(result);
-			return Ok(result);
-		}
-
-		[HttpPost("settlement")]
-		[ProducesResponseType(StatusCodes.Status201Created)]
-		[ProducesResponseType(StatusCodes.Status400BadRequest)]
-		public async Task<IActionResult> PlaceSettlement(PlaceSettlementCommand command)
-		{
-			var result = await Mediator.Send(command);
-			if (!result.Success)
-				return BadRequest(result);
-			return Ok(result);
-		}
-
-		[HttpPost("city")]
-		[ProducesResponseType(StatusCodes.Status201Created)]
-		[ProducesResponseType(StatusCodes.Status400BadRequest)]
-		public async Task<IActionResult> PlaceCity(PlaceCityCommand command)
-		{
-			var result = await Mediator.Send(command);
-			if (!result.Success)
-				return BadRequest(result);
 			return Ok(result);
 		}
 
@@ -85,6 +48,10 @@ namespace Catan.API.Controllers
 			var result = await Mediator.Send(command);
 			if (!result.Success)
 				return BadRequest(result);
+
+			_logger.Warn($"Make move: game session sent this to all clients: {result.GameSession}");
+			await _hubContext.Clients.Group(command.GameId.ToString()).SendAsync("ReceiveGame", result.GameSession);
+
 			return Ok(result);
 		}
 
@@ -96,6 +63,10 @@ namespace Catan.API.Controllers
 			var result = await Mediator.Send(command);
 			if (!result.Success)
 				return BadRequest(result);
+
+			_logger.Warn($"Make move: game session sent this to all clients: {result.GameSession}");
+			await _hubContext.Clients.Group(command.GameId.ToString()).SendAsync("ReceiveGame", result.GameSession);
+
 			return Ok(result);
 		}
 
@@ -107,18 +78,134 @@ namespace Catan.API.Controllers
 			var result = await Mediator.Send(command);
 			if (!result.Success)
 				return BadRequest(result);
+
+			_logger.Warn($"Make move: game session sent this to all clients: {result.GameSession}");
+			await _hubContext.Clients.Group(command.GameId.ToString()).SendAsync("ReceiveGame", result.GameSession);
+
 			return Ok(result);
 		}
 
-		[HttpPost("notify-ai")]
+		
+		[HttpPost("make-move")]
 		[ProducesResponseType(StatusCodes.Status201Created)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
-		public async Task<IActionResult> NotifyAI(Guid gameId)
+		public async Task<IActionResult> MakeMove(MakeMoveCommand command)
 		{
-			var gameSession = _gameSessionManager.GetGameSession(gameId);
-			await _gameSessionManager.HandleAIPlayer(gameSession.Value);
-			return Ok(gameSession);
+			var result = await Mediator.Send(command);
+			if (!result.Success)
+				return BadRequest(result);
+
+			_logger.Warn($"Make move: game session sent this to all clients: {result.GameSession}");
+			await _hubContext.Clients.Group(command.GameId.ToString()).SendAsync("ReceiveGame", result.GameSession);
+
+			return Ok(result);
 		}
+
+		[HttpPost("play-devcard")]
+		[ProducesResponseType(StatusCodes.Status201Created)]
+		[ProducesResponseType(StatusCodes.Status400BadRequest)]
+		public async Task<IActionResult> PlayDevelopmentCard(PlayDevelopmentCardCommand command)
+		{
+			var result = await Mediator.Send(command);
+			if (!result.Success)
+				return BadRequest(result);
+
+			_logger.Warn($"Make move: game session sent this to all clients: {result.GameSession}");
+			await _hubContext.Clients.Group(command.GameId.ToString()).SendAsync("ReceiveGame", result.GameSession);
+
+			return Ok(result);
+		}
+
+		[HttpPost("discard-half")]
+		[ProducesResponseType(StatusCodes.Status201Created)]
+		[ProducesResponseType(StatusCodes.Status400BadRequest)]
+		public async Task<IActionResult> DiscardHalf(DiscardHalfCommand command)
+		{
+			var result = await Mediator.Send(command);
+			if (!result.Success)
+				return BadRequest(result);
+
+			_logger.Warn($"Make move: game session sent this to all clients: {result.GameSession}");
+			await _hubContext.Clients.Group(command.GameId.ToString()).SendAsync("ReceiveGame", result.GameSession);
+
+			return Ok(result);
+		}
+
+
+		//// for testing purposes
+		//[HttpPost("notify-ai")]
+		//[ProducesResponseType(StatusCodes.Status201Created)]
+		//[ProducesResponseType(StatusCodes.Status400BadRequest)]
+		//public async Task<IActionResult> NotifyAI(Guid gameId, Guid aIPlayerId)
+		//{
+		//	var gameSessionResult = _gameSessionManager.GetGameSession(gameId);
+
+		//	if (!gameSessionResult.IsSuccess) return BadRequest();
+		//	var gameSession = gameSessionResult.Value;
+
+		//	Player aIPlayer = null;
+
+		//	foreach (var p in gameSession.Players)
+		//	{
+		//		if (p.Id == aIPlayerId)
+		//		{
+		//			aIPlayer = p; break;
+		//		}
+		//	}
+		//	if (aIPlayer == null) return BadRequest();
+
+		//	await _gameSessionManager.HandleAIPlayer(gameSession, aIPlayer);
+		//	return Ok();
+		//}
+
+
+		//// obsolete, for testing purposes
+		//[HttpPost]
+		//[ProducesResponseType(StatusCodes.Status201Created)]
+		//[ProducesResponseType(StatusCodes.Status400BadRequest)]
+		//public async Task<IActionResult> Create(CreateGameCommand command)
+		//{
+		//	var result = await Mediator.Send(command);
+		//	if (!result.Success)
+		//		return BadRequest(result);
+		//	return Ok(result);
+		//}
+
+		//// obsolete, for testing purposes
+		//[HttpPost("road")]
+		//[ProducesResponseType(StatusCodes.Status201Created)]
+		//[ProducesResponseType(StatusCodes.Status400BadRequest)]
+		//public async Task<IActionResult> PlaceRoad(PlaceRoadCommand command)
+		//{
+		//	var result = await Mediator.Send(command);
+		//	if (!result.Success)
+		//		return BadRequest(result);
+		//	return Ok(result);
+		//}
+
+		//// obsolete, for testing purposes
+		//[HttpPost("settlement")]
+		//[ProducesResponseType(StatusCodes.Status201Created)]
+		//[ProducesResponseType(StatusCodes.Status400BadRequest)]
+		//public async Task<IActionResult> PlaceSettlement(PlaceSettlementCommand command)
+		//{
+		//	var result = await Mediator.Send(command);
+		//	if (!result.Success)
+		//		return BadRequest(result);
+		//	return Ok(result);
+		//}
+
+		//// obsolete, for testing purposes
+		//[HttpPost("city")]
+		//[ProducesResponseType(StatusCodes.Status201Created)]
+		//[ProducesResponseType(StatusCodes.Status400BadRequest)]
+		//public async Task<IActionResult> PlaceCity(PlaceCityCommand command)
+		//{
+		//	var result = await Mediator.Send(command);
+		//	if (!result.Success)
+		//		return BadRequest(result);
+		//	return Ok(result);
+		//}
 
 	}
 }

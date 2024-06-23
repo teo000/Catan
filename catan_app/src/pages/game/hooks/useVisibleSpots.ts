@@ -35,6 +35,7 @@ const useVisibleSpots = (gameSession: GameSessionDto) => {
 
 
         const settlementPositions = gameSession.map.settlements.map(s => s.position);
+        const cityPositions = gameSession.map.cities.map(c => c.position);
         const playerRoadPosition = gameSession.map.roads
             .filter(s => s.playerId === player?.id)
             .map(s => s.position)
@@ -44,7 +45,7 @@ const useVisibleSpots = (gameSession: GameSessionDto) => {
             const ends = roadEnds[road];
 
             for (const settlement of ends)
-                if (!settlementPositions.includes(settlement)){
+                if (!settlementPositions.includes(settlement) && !cityPositions.includes(settlement)){
                     let ok = true
                     for (const adjacent of adjacentSettlements[settlement])
                         if (settlementPositions.includes(adjacent)){

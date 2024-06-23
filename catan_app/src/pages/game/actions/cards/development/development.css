@@ -1,0 +1,58 @@
+.development-cards-carousel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    height: 100%;
+    width: 30%;
+    overflow: hidden;
+    margin-left: auto;
+}
+
+.arrow-button {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    z-index: 1;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.arrow-button.left {
+    left: 0;
+}
+
+.arrow-button.right {
+    right: 0;
+}
+
+.development-card-container {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.5s ease-in-out;
+    opacity: 0;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.clickable-dev-card{
+    cursor: pointer;
+}
+
+.clicked-dev-card{
+    transform: scale(0.9);
+    box-shadow: 0 0 20px 10px rgba(100, 100, 150, 0.2)
+}
+
+.development-card-container.active {
+    opacity: 1;
+}
+
+.development-card {
+    width: 150px;
+}

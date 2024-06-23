@@ -5,6 +5,9 @@ using Catan.Domain.Entities.Harbors;
 using Catan.Domain.Entities.Misc;
 using Catan.Domain.Entities.Trades;
 using Catan.Domain.Entities.GameMap;
+using Catan.Domain.Interfaces;
+using System;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Catan.Domain.Entities
 {
@@ -26,6 +29,9 @@ namespace Catan.Domain.Entities
 			TurnPlayerIndex = 0;
 			TurnEndTime = DateTime.Now.AddSeconds(GameInfo.TURN_DURATION);
 			Dice = new DiceRoll();
+
+			developmentCardsLeft.Add(DevelopmentType.VICTORY_POINT, 5);
+			developmentCardsLeft.Add(DevelopmentType.KNIGHT, 14);
 		}
 		public Guid Id { get; private set; }
 		public Map GameMap { get; private set; }
@@ -39,7 +45,10 @@ namespace Catan.Domain.Entities
 		public Player? Winner { get; private set; }
 		public LongestRoad LongestRoad { get; private set; }
 		public bool ThiefMovedThisTurn { get; private set; } = false;
+		public string Message { get; set; }
 
+		private Dictionary<DevelopmentType, int> developmentCardsLeft = new Dictionary<DevelopmentType, int>();
+		private static Random rng = new Random();
 
 		public static Result<GameSession> Create (List<Player> players)
 		{
@@ -78,6 +87,11 @@ namespace Catan.Domain.Entities
 
 			Dice.Reset();
 			ThiefMovedThisTurn = false;
+
+			foreach(Player player in Players)
+			{
+				player.SetDiscardedThisTurnFalse();
+			}
 
 			TurnEndTime = DateTime.Now.AddSeconds(GameInfo.TURN_DURATION);
 		}
@@ -269,13 +283,28 @@ namespace Catan.Domain.Entities
 
 		public Player? CheckIfIsWon()
 		{
+			Player? largestArmyPlayer = null;
+
+			var playersWithKnights = Players.Where(p => p.KnightsPlayed >= 3);
+			if (playersWithKnights.Any())
+			{
+				largestArmyPlayer = playersWithKnights.MaxBy(p => p.KnightsPlayed);
+			}
+
 			foreach (var player in Players)
 			{
 				var points = player.CalculatePoints();
 				if (LongestRoad is not null && LongestRoad.Player.Equals(player))
 					points += 2;
 
+				if (largestArmyPlayer != null && player == largestArmyPlayer)
+					player.WinningPoints += 2;
+
 				player.WinningPoints = points;
+
+				points += player.DevelopmentCards
+							.Where(c => c.DevelopmentType == DevelopmentType.VICTORY_POINT)
+							.Count();
 
 				if (points >= GameInfo.WINNING_POINTS)
 					return player;
@@ -283,19 +312,19 @@ namespace Catan.Domain.Entities
 			return null;
 		}
 
-		public Result<Dictionary<Player, Dictionary<Resource, int>>> RollDice (Player player)
+		public Result<DiceRoll> RollDice (Player player)
 		{
 			if (player != GetTurnPlayer())
-				return Result<Dictionary<Player, Dictionary<Resource, int>>>.Failure("It is not your turn.");
+				return Result<DiceRoll>.Failure("It is not your turn.");
 			if (Dice.RolledThisTurn)
-				return Result<Dictionary<Player, Dictionary<Resource, int>>>.Failure("The dice can only be rolled once a turn.");
+				return Result<DiceRoll>.Failure("The dice can only be rolled once a turn.");
 			if (IsInBeginningPhase())
-				return Result<Dictionary<Player, Dictionary<Resource, int>>>.Failure("The dice can't be rolled right now.");
+				return Result<DiceRoll>.Failure("The dice can't be rolled right now.");
 
 			Dice.Roll();
 			var assignedResources = AssignResources(Dice.GetSummedValue());
 			
-			return Result<Dictionary<Player, Dictionary<Resource, int>>>.Success(assignedResources);
+			return Result<DiceRoll>.Success(Dice);
 		}
 
 		private Dictionary<Player, Dictionary<Resource, int>> AssignResources(int number)
@@ -404,18 +433,28 @@ namespace Catan.Domain.Entities
 			return Result<PlayerTrade>.Failure("Trade does not exist in current context.");
 		}
 
-		public Result<PlayerTrade> AcceptTrade(Guid TradeId)
+		public Result<PlayerTrade> RespondToTrade(Guid TradeId, bool accepted)
 		{
 			var trade = getTrade(TradeId);
+
+			if (trade.Status != TradeStatus.Pending)
+				return Result<PlayerTrade>.Failure("Trade is no longer available.");
+
 			if (trade is null)
 				return Result<PlayerTrade>.Failure("Trade does not exist in current context.");
 
-			if (!trade.PlayerToReceive.HasResource(trade.ResourceToReceive, trade.CountToReceive))
+			if (accepted && !trade.PlayerToReceive.HasResource(trade.ResourceToReceive, trade.CountToReceive))
 				return Result<PlayerTrade>.Failure("You do not have enough resources");
 
-			if (!trade.PlayerToGive.HasResource(trade.ResourceToGive, trade.CountToGive))
+			if (accepted && !trade.PlayerToGive.HasResource(trade.ResourceToGive, trade.CountToGive))
 				return Result<PlayerTrade>.Failure("Trade could not be completed");
 
+			if (!accepted)
+			{
+				trade.SetRejected();
+				return Result<PlayerTrade>.Success(trade);
+				
+			}
 
 			trade.PlayerToReceive.SubtractResource(trade.ResourceToReceive, trade.CountToReceive);
 			trade.PlayerToGive.SubtractResource(trade.ResourceToGive, trade.CountToGive);
@@ -426,6 +465,7 @@ namespace Catan.Domain.Entities
 			trade.SetAccepted();
 
 			return Result<PlayerTrade>.Success(trade);
+
 		}
 
 		public Result<GameSession> TradeBank(Player player, Resource resourceToGive, int count, Resource resourceToReceive)
@@ -463,8 +503,25 @@ namespace Catan.Domain.Entities
 			return Result<Map>.Success(GameMap);
 		}
 
-		
-		private void CalculateNewLongestRoad()
+		public Result<Dictionary<Resource, int>> DiscardHalf(Player player, Dictionary<Resource, int> toDiscard)
+		{
+			if (!Dice.RolledThisTurn || !(Dice.GetSummedValue() == 7))
+				return Result<Dictionary<Resource, int>>.Failure("Dice must land on a 7 to discard half of your cards.");
+
+			if (player.DiscardedThisTurn)
+				return Result<Dictionary<Resource, int>>.Failure("You have already discarded half of your cards this round.");
+
+			if (!player.HasResources(toDiscard))
+			{
+				return Result<Dictionary<Resource, int>>.Failure($"You do not have those resources: {GameUtils.PrintDictionary(player.ResourceCount)}");
+			}
+
+
+			player.DiscardHalf(toDiscard);
+			return Result<Dictionary<Resource, int>>.Success(player.ResourceCount);
+		}
+
+		public void CalculateNewLongestRoad()
 		{
 			//adauga caz special broken road
 			foreach (var player in Players) {
@@ -493,5 +550,46 @@ namespace Catan.Domain.Entities
 			return null;
 		}
 
+		public Result<DevelopmentCard> BuyDevelopmentCard(Player player)
+		{
+			if (!player.HasResources(Buyable.DEVELOPMENT))
+			{
+				return Result<DevelopmentCard>.Failure($"You do not have those resources: {GameUtils.PrintDictionary(player.ResourceCount)}");
+			}
+
+			var allCards = developmentCardsLeft.SelectMany(kvp => Enumerable.Repeat(kvp.Key, kvp.Value)).ToList();
+
+			if (allCards.Count == 0)
+			{
+				return Result<DevelopmentCard>.Failure("No development cards left to draw.");
+			}
+
+			int randomIndex = rng.Next(allCards.Count);
+
+			DevelopmentType selectedCard = allCards[randomIndex];
+			developmentCardsLeft[selectedCard]--;
+
+			var newDevelopmentCard = new DevelopmentCard(selectedCard, Round);
+
+			player.AddDevelopmentCard(newDevelopmentCard);
+
+			return Result<DevelopmentCard>.Success(newDevelopmentCard);
+		}
+
+		public Result<GameSession> HandleKnight(Player player, int position)
+		{
+			if (player != GetTurnPlayer())
+				return Result<GameSession>.Failure("It is not your turn.");
+
+			if (!player.HasDevelopmentCard(DevelopmentType.KNIGHT))
+				return Result<GameSession>.Failure("You do not have a knight card.");
+
+			if (GameMap.ThiefPosition == position)
+				return Result<GameSession>.Failure("Move the thief to a different position.");
+
+			player.PlayKnight();
+			GameMap.MoveThief(position);
+			return Result<GameSession>.Success(this);
+		}
 	}
 }
