@@ -9,7 +9,7 @@ using MediatR;
 
 namespace Catan.Application.Features.Game.Commands.DiscardHalf;
 
-public class DiscardHalfCommandHandler : IRequestHandler<DiscardHalfCommand, PlayerResponse>
+public class DiscardHalfCommandHandler : IRequestHandler<DiscardHalfCommand, GameSessionResponse>
 {
 	private GameSessionManager _gameSessionManager;
 	private IMapper _mapper;
@@ -20,13 +20,13 @@ public class DiscardHalfCommandHandler : IRequestHandler<DiscardHalfCommand, Pla
 		_mapper = mapper;
 	}
 
-	public async Task<PlayerResponse> Handle(DiscardHalfCommand request, CancellationToken cancellationToken)
+	public async Task<GameSessionResponse> Handle(DiscardHalfCommand request, CancellationToken cancellationToken)
 	{
 		var validator = new DiscardHalfCommandValidator();
 		var validatorResult = await validator.ValidateAsync(request, cancellationToken);
 
 		if (!validatorResult.IsValid)
-			return new PlayerResponse
+			return new GameSessionResponse
 			{
 				Success = false,
 				ValidationErrors = validatorResult.Errors.Select(e => e.ErrorMessage).ToList()
@@ -36,7 +36,7 @@ public class DiscardHalfCommandHandler : IRequestHandler<DiscardHalfCommand, Pla
 
 		if (!gameSessionResponse.IsSuccess)
 		{
-			return new PlayerResponse()
+			return new GameSessionResponse()
 			{
 				Success = false,
 				ValidationErrors = new List<string>() { gameSessionResponse.Error }
@@ -59,7 +59,7 @@ public class DiscardHalfCommandHandler : IRequestHandler<DiscardHalfCommand, Pla
 
 		if (!playerExists)
 		{
-			return new PlayerResponse()
+			return new GameSessionResponse()
 			{
 				Success = false,
 				ValidationErrors = new List<string>() { "Player does not exist." }
@@ -68,7 +68,7 @@ public class DiscardHalfCommandHandler : IRequestHandler<DiscardHalfCommand, Pla
 
 		if (!player.IsActive)
 		{
-			return new PlayerResponse()
+			return new GameSessionResponse()
 			{
 				Success = false,
 				ValidationErrors = new List<string>() { "Player has been disconnected." }
@@ -79,17 +79,17 @@ public class DiscardHalfCommandHandler : IRequestHandler<DiscardHalfCommand, Pla
 
 		if (!result.IsSuccess)
 		{
-			return new PlayerResponse()
+			return new GameSessionResponse()
 			{
 				Success = false,
 				ValidationErrors = new List<string>() { result.Error }
 			};
 		}
 
-		return new PlayerResponse()
+		return new GameSessionResponse()
 		{
 			Success = true,
-			Player = _mapper.Map<PlayerDto>(player)
+			GameSession = _mapper.Map<GameSessionDto>(gameSession)
 		};
 	}
 	

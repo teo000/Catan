@@ -8,7 +8,7 @@ using MediatR;
 
 namespace Catan.Application.Features.Trade.Commands.InitiateTrade
 {
-	public class InitiateTradeCommandHandler : IRequestHandler<InitiateTradeCommand, TradeResponse>
+	public class InitiateTradeCommandHandler : IRequestHandler<InitiateTradeCommand, GameSessionResponse>
     {
         private GameSessionManager _gameSessionManager;
         private IMapper _mapper;
@@ -19,14 +19,14 @@ namespace Catan.Application.Features.Trade.Commands.InitiateTrade
             _mapper = mapper;
         }
 
-        public async Task<TradeResponse> Handle(InitiateTradeCommand request, CancellationToken cancellationToken)
+        public async Task<GameSessionResponse> Handle(InitiateTradeCommand request, CancellationToken cancellationToken)
         {
             var validator = new InitiateTradeCommandValidator();
             var validatorResult = await validator.ValidateAsync(request, cancellationToken);
 
             if (!validatorResult.IsValid)
-                return new TradeResponse
-                {
+                return new GameSessionResponse()
+				{
                     Success = false,
                     ValidationErrors = validatorResult.Errors.Select(e => e.ErrorMessage).ToList()
                 };
@@ -35,7 +35,7 @@ namespace Catan.Application.Features.Trade.Commands.InitiateTrade
 
             if (!gameSessionResponse.IsSuccess)
             {
-                return new TradeResponse()
+                return new GameSessionResponse()
                 {
                     Success = false,
                     ValidationErrors = new List<string>() { gameSessionResponse.Error }
@@ -64,7 +64,7 @@ namespace Catan.Application.Features.Trade.Commands.InitiateTrade
 
             if (!playerToGiveExists || !playerToReceiveExists)
             {
-                return new TradeResponse()
+                return new GameSessionResponse()
                 {
                     Success = false,
                     ValidationErrors = new List<string>() { "Player does not exist." }
@@ -73,7 +73,7 @@ namespace Catan.Application.Features.Trade.Commands.InitiateTrade
 
             if (!playerToGive.IsActive || !playerToReceive.IsActive)
             {
-                return new TradeResponse()
+                return new GameSessionResponse()
                 {
                     Success = false,
                     ValidationErrors = new List<string>() { "Player has been disconnected." }
@@ -82,7 +82,7 @@ namespace Catan.Application.Features.Trade.Commands.InitiateTrade
 
             if (playerToGive == playerToReceive)
             {
-                return new TradeResponse()
+                return new GameSessionResponse()
                 {
                     Success = false,
                     ValidationErrors = new List<string>() { "You cannot trade with yourself." }
@@ -98,17 +98,17 @@ namespace Catan.Application.Features.Trade.Commands.InitiateTrade
 
             if (!result.IsSuccess)
             {
-                return new TradeResponse()
+                return new GameSessionResponse()
                 {
                     Success = false,
                     ValidationErrors = new List<string>() { result.Error }
                 };
             }
 
-            return new TradeResponse()
+            return new GameSessionResponse()
             {
                 Success = true,
-                Trade = _mapper.Map<TradeDto>(result.Value)
+                GameSession = _mapper.Map<GameSessionDto>(gameSession)
             };
         }
     }

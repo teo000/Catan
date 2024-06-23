@@ -3,7 +3,7 @@ using MediatR;
 
 namespace Catan.Application.Features.Trade.Commands.RespondToTrade
 {
-	public class RespondToTradeCommand : IRequest<TradeResponse>
+	public class RespondToTradeCommand : IRequest<GameSessionResponse>
 	{
 		public Guid GameId { get; set; }
 		public Guid TradeId { get; set;}

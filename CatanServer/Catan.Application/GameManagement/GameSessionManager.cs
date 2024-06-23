@@ -18,16 +18,19 @@ namespace Catan.Application.GameManagement;
 public class GameSessionManager
 {
 	private readonly IAIService _aIService;
+	private readonly IGameNotifier _gameNotifier;
 	private readonly ILogger _logger;
+	private readonly IMapper _mapper;
 	private ConcurrentDictionary<Guid, GameSession> gameSessions = new ConcurrentDictionary<Guid, GameSession>();
 	private ConcurrentDictionary<Guid, Timer> sessionTimers = new ConcurrentDictionary<Guid, Timer>();
-	private ConcurrentDictionary<Guid, Timer> aITimers = new ConcurrentDictionary<Guid, Timer>();
 
 
-	public GameSessionManager(IAIService aIService, ILogger logger)
+	public GameSessionManager(IAIService aIService, IGameNotifier gameNotifier, ILogger logger, IMapper mapper)
 	{
 		_aIService = aIService;
+		_gameNotifier = gameNotifier;
 		_logger = logger;
+		_mapper = mapper;
 	}
 
 	public Result<GameSession> CreateGameSession(List<Player> players)
@@ -92,10 +95,10 @@ public class GameSessionManager
 		var currentPlayer = session.GetTurnPlayer();
 		if (currentPlayer.IsAI)
 		{
-			var arguments = new AITimerArguments() { GameSessionId = session.Id, PlayerId = currentPlayer.Id };
-			var aItimer = new Timer(HandleAI, arguments, 1000, int.MaxValue);
+			//var arguments = new AITimerArguments() { GameSessionId = session.Id, PlayerId = currentPlayer.Id };
+			//var aItimer = new Timer(HandleAI, arguments, 1000, int.MaxValue);
 
-			//Task.Run(() => HandleAIPlayer(session, currentPlayer));
+			Task.Run(() => HandleAIPlayer(session, currentPlayer));
 
 		}
 	}
@@ -155,6 +158,9 @@ public class GameSessionManager
 				StartTurnTimer(session.Id);
 			}
 		}
+
+		Task.Run(() =>_gameNotifier.NotifyGameAsync(_mapper.Map<GameSessionDto>(session)));
+
 	}
 
 	private void HandleAI(object? state)
@@ -205,7 +211,10 @@ public class GameSessionManager
 		foreach (var move in aIMoves)
 		{
 			ParseMove(session, aIPlayer, move);
+			await _gameNotifier.NotifyGameAsync(_mapper.Map<GameSessionDto>(session));
 		}
+
+
 
 		if (!session.IsInBeginningPhase())
 			EndPlayerTurn(session);
@@ -266,6 +275,8 @@ public class GameSessionManager
 						_logger.Warn($"AI failed to discard half of resources: {aIDiceRollResult.Error}");
 						LogResourceDictionary(aIResult.Value);
 					}
+					await _gameNotifier.NotifyGameAsync(_mapper.Map<GameSessionDto>(session));
+
 				}
 
 		return diceRollResult;
@@ -346,8 +357,12 @@ public class GameSessionManager
 			}
 
 			var aITradeResult = session.RespondToTrade(tradeResult.Value.Id, aIResult.Value);
+
 			if (!aITradeResult.IsSuccess)
 				_logger.Warn($"AI failed to respond to trade: {aITradeResult.Error}");
+
+			await _gameNotifier.NotifyGameAsync(_mapper.Map<GameSessionDto>(session));
+
 		}
 
 		return tradeResult;

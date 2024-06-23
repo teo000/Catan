@@ -1,5 +1,8 @@
 // Add services to the container.
+using Catan.API.Hubs;
+using Catan.API.Notifiers;
 using Catan.Application;
+using Catan.Application.Contracts;
 using Catan.Infrastructure;
 using NLog;
 using NLog.Web;
@@ -14,6 +17,8 @@ try
 	// Configure NLog
 	builder.Logging.ClearProviders();
 	builder.Host.UseNLog();
+	builder.Services.AddSignalR();
+
 
 	builder.Services.AddCors(options =>
 	{
@@ -28,6 +33,9 @@ try
 	builder.Services.AddEndpointsApiExplorer();
 	builder.Services.AddSwaggerGen();
 
+	builder.Services.AddSingleton<IGameNotifier, SignalRGameNotifier>();
+
+
 	var app = builder.Build();
 
 	// Configure the HTTP request pipeline.
@@ -39,9 +47,16 @@ try
 
 	app.UseHttpsRedirection();
 	app.UseCors("AllowAllHeaders");
+	app.UseRouting();
+
 	app.UseAuthorization();
 
-	app.MapControllers();
+	app.UseEndpoints(endpoints =>
+	{
+		endpoints.MapControllers();
+		endpoints.MapHub<GameHub>("/gameHub");
+		endpoints.MapHub<LobbyHub>("/lobbyHub");
+	});
 
 	app.Run();
 }

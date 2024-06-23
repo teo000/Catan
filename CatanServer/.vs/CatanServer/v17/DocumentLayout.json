@@ -3,20 +3,24 @@
   "WorkspaceRootPath": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{421998CE-A3D3-4629-947E-F01A8660DF70}|Catan.API\\Catan.API.csproj|d:\\facultate\\licenta\\catan\\catanserver\\catan.api\\controllers\\lobbycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{421998CE-A3D3-4629-947E-F01A8660DF70}|Catan.API\\Catan.API.csproj|solutionrelative:catan.api\\controllers\\lobbycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{CC1A4902-D896-4CA8-BD7E-93BBA08868AB}|Catan.Application\\Catan.Application.csproj|d:\\facultate\\licenta\\catan\\catanserver\\catan.application\\gamemanagement\\gamesessionmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CC1A4902-D896-4CA8-BD7E-93BBA08868AB}|Catan.Application\\Catan.Application.csproj|solutionrelative:catan.application\\gamemanagement\\gamesessionmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{99AD7023-984F-4983-9AB0-13D633FDB9F8}|Catan.Infrastructure\\Catan.Infrastructure.csproj|d:\\facultate\\licenta\\catan\\catanserver\\catan.infrastructure\\services\\aiservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{99AD7023-984F-4983-9AB0-13D633FDB9F8}|Catan.Infrastructure\\Catan.Infrastructure.csproj|solutionrelative:catan.infrastructure\\services\\aiservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{421998CE-A3D3-4629-947E-F01A8660DF70}|Catan.API\\Catan.API.csproj|d:\\facultate\\licenta\\catan\\catanserver\\catan.api\\controllers\\gamecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{421998CE-A3D3-4629-947E-F01A8660DF70}|Catan.API\\Catan.API.csproj|solutionrelative:catan.api\\controllers\\gamecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{421998CE-A3D3-4629-947E-F01A8660DF70}|Catan.API\\Catan.API.csproj|d:\\facultate\\licenta\\catan\\catanserver\\catan.api\\controllers\\tradecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{421998CE-A3D3-4629-947E-F01A8660DF70}|Catan.API\\Catan.API.csproj|solutionrelative:catan.api\\controllers\\tradecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E9197FDD-2460-4DF9-9646-CB7175AB9BFE}|Catan.Domain\\Catan.Domain.csproj|d:\\facultate\\licenta\\catan\\catanserver\\catan.domain\\common\\gameutils.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E9197FDD-2460-4DF9-9646-CB7175AB9BFE}|Catan.Domain\\Catan.Domain.csproj|solutionrelative:catan.domain\\common\\gameutils.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{CC1A4902-D896-4CA8-BD7E-93BBA08868AB}|Catan.Application\\Catan.Application.csproj|d:\\facultate\\licenta\\catan\\catanserver\\catan.application\\features\\trade\\commands\\tradebank\\tradebankcommandhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CC1A4902-D896-4CA8-BD7E-93BBA08868AB}|Catan.Application\\Catan.Application.csproj|solutionrelative:catan.application\\features\\trade\\commands\\tradebank\\tradebankcommandhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CC1A4902-D896-4CA8-BD7E-93BBA08868AB}|Catan.Application\\Catan.Application.csproj|d:\\facultate\\licenta\\catan\\catanserver\\catan.application\\features\\trade\\commands\\tradebank\\tradebankcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CC1A4902-D896-4CA8-BD7E-93BBA08868AB}|Catan.Application\\Catan.Application.csproj|solutionrelative:catan.application\\features\\trade\\commands\\tradebank\\tradebankcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{CC1A4902-D896-4CA8-BD7E-93BBA08868AB}|Catan.Application\\Catan.Application.csproj|d:\\facultate\\licenta\\catan\\catanserver\\catan.application\\features\\trade\\commands\\respondtotrade\\respondtotradecommandhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -31,44 +35,104 @@
       "RelativeMoniker": "D:0:0:{CC1A4902-D896-4CA8-BD7E-93BBA08868AB}|Catan.Application\\Catan.Application.csproj|solutionrelative:catan.application\\features\\trade\\commands\\initiatetrade\\initiatetradecommandhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E9197FDD-2460-4DF9-9646-CB7175AB9BFE}|Catan.Domain\\Catan.Domain.csproj|d:\\facultate\\licenta\\catan\\catanserver\\catan.domain\\entities\\gamesession.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E9197FDD-2460-4DF9-9646-CB7175AB9BFE}|Catan.Domain\\Catan.Domain.csproj|solutionrelative:catan.domain\\entities\\gamesession.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{CC1A4902-D896-4CA8-BD7E-93BBA08868AB}|Catan.Application\\Catan.Application.csproj|d:\\facultate\\licenta\\catan\\catanserver\\catan.application\\features\\trade\\commands\\initiatetrade\\initiatetradecommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CC1A4902-D896-4CA8-BD7E-93BBA08868AB}|Catan.Application\\Catan.Application.csproj|solutionrelative:catan.application\\features\\trade\\commands\\initiatetrade\\initiatetradecommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E9197FDD-2460-4DF9-9646-CB7175AB9BFE}|Catan.Domain\\Catan.Domain.csproj|d:\\facultate\\licenta\\catan\\catanserver\\catan.domain\\entities\\trades\\playertrade.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E9197FDD-2460-4DF9-9646-CB7175AB9BFE}|Catan.Domain\\Catan.Domain.csproj|solutionrelative:catan.domain\\entities\\trades\\playertrade.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{421998CE-A3D3-4629-947E-F01A8660DF70}|Catan.API\\Catan.API.csproj|d:\\facultate\\licenta\\catan\\catanserver\\catan.api\\controllers\\lobbycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{421998CE-A3D3-4629-947E-F01A8660DF70}|Catan.API\\Catan.API.csproj|solutionrelative:catan.api\\controllers\\lobbycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{421998CE-A3D3-4629-947E-F01A8660DF70}|Catan.API\\Catan.API.csproj|d:\\facultate\\licenta\\catan\\catanserver\\catan.api\\controllers\\gamecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{421998CE-A3D3-4629-947E-F01A8660DF70}|Catan.API\\Catan.API.csproj|solutionrelative:catan.api\\controllers\\gamecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{421998CE-A3D3-4629-947E-F01A8660DF70}|Catan.API\\Catan.API.csproj|d:\\facultate\\licenta\\catan\\catanserver\\catan.api\\hubs\\lobbyhub.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{421998CE-A3D3-4629-947E-F01A8660DF70}|Catan.API\\Catan.API.csproj|solutionrelative:catan.api\\hubs\\lobbyhub.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{CC1A4902-D896-4CA8-BD7E-93BBA08868AB}|Catan.Application\\Catan.Application.csproj|d:\\facultate\\licenta\\catan\\catanserver\\catan.application\\dtos\\tradedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CC1A4902-D896-4CA8-BD7E-93BBA08868AB}|Catan.Application\\Catan.Application.csproj|solutionrelative:catan.application\\dtos\\tradedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{421998CE-A3D3-4629-947E-F01A8660DF70}|Catan.API\\Catan.API.csproj|d:\\facultate\\licenta\\catan\\catanserver\\catan.api\\hubs\\gamehub.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{421998CE-A3D3-4629-947E-F01A8660DF70}|Catan.API\\Catan.API.csproj|solutionrelative:catan.api\\hubs\\gamehub.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{CC1A4902-D896-4CA8-BD7E-93BBA08868AB}|Catan.Application\\Catan.Application.csproj|d:\\facultate\\licenta\\catan\\catanserver\\catan.application\\gamemanagement\\gamesessionmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CC1A4902-D896-4CA8-BD7E-93BBA08868AB}|Catan.Application\\Catan.Application.csproj|solutionrelative:catan.application\\gamemanagement\\gamesessionmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{CC1A4902-D896-4CA8-BD7E-93BBA08868AB}|Catan.Application\\Catan.Application.csproj|d:\\facultate\\licenta\\catan\\catanserver\\catan.application\\features\\game\\commands\\movethief\\movethiefcommandhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CC1A4902-D896-4CA8-BD7E-93BBA08868AB}|Catan.Application\\Catan.Application.csproj|solutionrelative:catan.application\\features\\game\\commands\\movethief\\movethiefcommandhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CC1A4902-D896-4CA8-BD7E-93BBA08868AB}|Catan.Application\\Catan.Application.csproj|d:\\facultate\\licenta\\catan\\catanserver\\catan.application\\features\\game\\commands\\movethief\\movethiefcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CC1A4902-D896-4CA8-BD7E-93BBA08868AB}|Catan.Application\\Catan.Application.csproj|solutionrelative:catan.application\\features\\game\\commands\\movethief\\movethiefcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CC1A4902-D896-4CA8-BD7E-93BBA08868AB}|Catan.Application\\Catan.Application.csproj|d:\\facultate\\licenta\\catan\\catanserver\\catan.application\\features\\game\\commands\\endturn\\endturncommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CC1A4902-D896-4CA8-BD7E-93BBA08868AB}|Catan.Application\\Catan.Application.csproj|solutionrelative:catan.application\\features\\game\\commands\\endturn\\endturncommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CC1A4902-D896-4CA8-BD7E-93BBA08868AB}|Catan.Application\\Catan.Application.csproj|d:\\facultate\\licenta\\catan\\catanserver\\catan.application\\features\\game\\commands\\rolldice\\rolldicecommandhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CC1A4902-D896-4CA8-BD7E-93BBA08868AB}|Catan.Application\\Catan.Application.csproj|solutionrelative:catan.application\\features\\game\\commands\\rolldice\\rolldicecommandhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CC1A4902-D896-4CA8-BD7E-93BBA08868AB}|Catan.Application\\Catan.Application.csproj|d:\\facultate\\licenta\\catan\\catanserver\\catan.application\\features\\game\\commands\\discardhalf\\discardhalfcommandhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CC1A4902-D896-4CA8-BD7E-93BBA08868AB}|Catan.Application\\Catan.Application.csproj|solutionrelative:catan.application\\features\\game\\commands\\discardhalf\\discardhalfcommandhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CC1A4902-D896-4CA8-BD7E-93BBA08868AB}|Catan.Application\\Catan.Application.csproj|d:\\facultate\\licenta\\catan\\catanserver\\catan.application\\features\\game\\commands\\rolldice\\rolldicecommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CC1A4902-D896-4CA8-BD7E-93BBA08868AB}|Catan.Application\\Catan.Application.csproj|solutionrelative:catan.application\\features\\game\\commands\\rolldice\\rolldicecommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CC1A4902-D896-4CA8-BD7E-93BBA08868AB}|Catan.Application\\Catan.Application.csproj|d:\\facultate\\licenta\\catan\\catanserver\\catan.application\\features\\game\\commands\\discardhalf\\discardhalfcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CC1A4902-D896-4CA8-BD7E-93BBA08868AB}|Catan.Application\\Catan.Application.csproj|solutionrelative:catan.application\\features\\game\\commands\\discardhalf\\discardhalfcommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{99AD7023-984F-4983-9AB0-13D633FDB9F8}|Catan.Infrastructure\\Catan.Infrastructure.csproj|d:\\facultate\\licenta\\catan\\catanserver\\catan.infrastructure\\services\\aiservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{99AD7023-984F-4983-9AB0-13D633FDB9F8}|Catan.Infrastructure\\Catan.Infrastructure.csproj|solutionrelative:catan.infrastructure\\services\\aiservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{421998CE-A3D3-4629-947E-F01A8660DF70}|Catan.API\\Catan.API.csproj|d:\\facultate\\licenta\\catan\\catanserver\\catan.api\\notifiers\\signalrgamenotifier.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{421998CE-A3D3-4629-947E-F01A8660DF70}|Catan.API\\Catan.API.csproj|solutionrelative:catan.api\\notifiers\\signalrgamenotifier.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CC1A4902-D896-4CA8-BD7E-93BBA08868AB}|Catan.Application\\Catan.Application.csproj|d:\\facultate\\licenta\\catan\\catanserver\\catan.application\\contracts\\igamenotifier.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CC1A4902-D896-4CA8-BD7E-93BBA08868AB}|Catan.Application\\Catan.Application.csproj|solutionrelative:catan.application\\contracts\\igamenotifier.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CC1A4902-D896-4CA8-BD7E-93BBA08868AB}|Catan.Application\\Catan.Application.csproj|d:\\facultate\\licenta\\catan\\catanserver\\catan.application\\applicationserviceregistrationdi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CC1A4902-D896-4CA8-BD7E-93BBA08868AB}|Catan.Application\\Catan.Application.csproj|solutionrelative:catan.application\\applicationserviceregistrationdi.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{421998CE-A3D3-4629-947E-F01A8660DF70}|Catan.API\\Catan.API.csproj|d:\\facultate\\licenta\\catan\\catanserver\\catan.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{421998CE-A3D3-4629-947E-F01A8660DF70}|Catan.API\\Catan.API.csproj|solutionrelative:catan.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E9197FDD-2460-4DF9-9646-CB7175AB9BFE}|Catan.Domain\\Catan.Domain.csproj|d:\\facultate\\licenta\\catan\\catanserver\\catan.domain\\interfaces\\ilogger.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E9197FDD-2460-4DF9-9646-CB7175AB9BFE}|Catan.Domain\\Catan.Domain.csproj|solutionrelative:catan.domain\\interfaces\\ilogger.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CC1A4902-D896-4CA8-BD7E-93BBA08868AB}|Catan.Application\\Catan.Application.csproj|d:\\facultate\\licenta\\catan\\catanserver\\catan.application\\dtos\\gamepieces\\settlementdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CC1A4902-D896-4CA8-BD7E-93BBA08868AB}|Catan.Application\\Catan.Application.csproj|solutionrelative:catan.application\\dtos\\gamepieces\\settlementdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CC1A4902-D896-4CA8-BD7E-93BBA08868AB}|Catan.Application\\Catan.Application.csproj|d:\\facultate\\licenta\\catan\\catanserver\\catan.application\\dtos\\playerdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CC1A4902-D896-4CA8-BD7E-93BBA08868AB}|Catan.Application\\Catan.Application.csproj|solutionrelative:catan.application\\dtos\\playerdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{CC1A4902-D896-4CA8-BD7E-93BBA08868AB}|Catan.Application\\Catan.Application.csproj|d:\\facultate\\licenta\\catan\\catanserver\\catan.application\\dtos\\gamesessiondto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{CC1A4902-D896-4CA8-BD7E-93BBA08868AB}|Catan.Application\\Catan.Application.csproj|solutionrelative:catan.application\\dtos\\gamesessiondto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E9197FDD-2460-4DF9-9646-CB7175AB9BFE}|Catan.Domain\\Catan.Domain.csproj|d:\\facultate\\licenta\\catan\\catanserver\\catan.domain\\common\\result.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E9197FDD-2460-4DF9-9646-CB7175AB9BFE}|Catan.Domain\\Catan.Domain.csproj|solutionrelative:catan.domain\\common\\result.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{CC1A4902-D896-4CA8-BD7E-93BBA08868AB}|Catan.Application\\Catan.Application.csproj|d:\\facultate\\licenta\\catan\\catanserver\\catan.application\\features\\lobby\\joinlobby\\joinlobbycommandhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CC1A4902-D896-4CA8-BD7E-93BBA08868AB}|Catan.Application\\Catan.Application.csproj|solutionrelative:catan.application\\features\\lobby\\joinlobby\\joinlobbycommandhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{CC1A4902-D896-4CA8-BD7E-93BBA08868AB}|Catan.Application\\Catan.Application.csproj|d:\\facultate\\licenta\\catan\\catanserver\\catan.application\\contracts\\iaiservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CC1A4902-D896-4CA8-BD7E-93BBA08868AB}|Catan.Application\\Catan.Application.csproj|solutionrelative:catan.application\\contracts\\iaiservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{CC1A4902-D896-4CA8-BD7E-93BBA08868AB}|Catan.Application\\Catan.Application.csproj|d:\\facultate\\licenta\\catan\\catanserver\\catan.application\\features\\lobby\\addaiplayer\\addaiplayercommandhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CC1A4902-D896-4CA8-BD7E-93BBA08868AB}|Catan.Application\\Catan.Application.csproj|solutionrelative:catan.application\\features\\lobby\\addaiplayer\\addaiplayercommandhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{99AD7023-984F-4983-9AB0-13D633FDB9F8}|Catan.Infrastructure\\Catan.Infrastructure.csproj|d:\\facultate\\licenta\\catan\\catanserver\\catan.infrastructure\\requests\\aitraderequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{99AD7023-984F-4983-9AB0-13D633FDB9F8}|Catan.Infrastructure\\Catan.Infrastructure.csproj|solutionrelative:catan.infrastructure\\requests\\aitraderequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E9197FDD-2460-4DF9-9646-CB7175AB9BFE}|Catan.Domain\\Catan.Domain.csproj|d:\\facultate\\licenta\\catan\\catanserver\\catan.domain\\data\\movetype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E9197FDD-2460-4DF9-9646-CB7175AB9BFE}|Catan.Domain\\Catan.Domain.csproj|solutionrelative:catan.domain\\data\\movetype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{99AD7023-984F-4983-9AB0-13D633FDB9F8}|Catan.Infrastructure\\Catan.Infrastructure.csproj|d:\\facultate\\licenta\\catan\\catanserver\\catan.infrastructure\\requests\\aimoverequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{99AD7023-984F-4983-9AB0-13D633FDB9F8}|Catan.Infrastructure\\Catan.Infrastructure.csproj|solutionrelative:catan.infrastructure\\requests\\aimoverequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{CC1A4902-D896-4CA8-BD7E-93BBA08868AB}|Catan.Application\\Catan.Application.csproj|d:\\facultate\\licenta\\catan\\catanserver\\catan.application\\moves\\move.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CC1A4902-D896-4CA8-BD7E-93BBA08868AB}|Catan.Application\\Catan.Application.csproj|solutionrelative:catan.application\\moves\\move.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CC1A4902-D896-4CA8-BD7E-93BBA08868AB}|Catan.Application\\Catan.Application.csproj|d:\\facultate\\licenta\\catan\\catanserver\\catan.application\\features\\lobby\\addaiplayer\\addaiplayercommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CC1A4902-D896-4CA8-BD7E-93BBA08868AB}|Catan.Application\\Catan.Application.csproj|solutionrelative:catan.application\\features\\lobby\\addaiplayer\\addaiplayercommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -78,32 +142,34 @@
       "DocumentGroups": [
         {
           "DockedWidth": 369,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 9,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "LobbyController.cs",
-              "DocumentMoniker": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.API\\Controllers\\LobbyController.cs",
-              "RelativeDocumentMoniker": "Catan.API\\Controllers\\LobbyController.cs",
-              "ToolTip": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.API\\Controllers\\LobbyController.cs*",
-              "RelativeToolTip": "Catan.API\\Controllers\\LobbyController.cs*",
-              "ViewState": "AQIAACwAAAAAAAAAAAAzwAUAAAAAAAAA",
+              "DocumentIndex": 11,
+              "Title": "GameHub.cs",
+              "DocumentMoniker": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.API\\Hubs\\GameHub.cs",
+              "RelativeDocumentMoniker": "Catan.API\\Hubs\\GameHub.cs",
+              "ToolTip": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.API\\Hubs\\GameHub.cs",
+              "RelativeToolTip": "Catan.API\\Hubs\\GameHub.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAACAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-23T13:35:54.655Z",
+              "WhenOpened": "2024-06-23T15:10:42.649Z",
+              "IsPinned": true,
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "GameUtils.cs",
-              "DocumentMoniker": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Domain\\Common\\GameUtils.cs",
-              "RelativeDocumentMoniker": "Catan.Domain\\Common\\GameUtils.cs",
-              "ToolTip": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Domain\\Common\\GameUtils.cs",
-              "RelativeToolTip": "Catan.Domain\\Common\\GameUtils.cs",
-              "ViewState": "AQIAABkAAAAAAAAAAAAjwCYAAABOAAAA",
+              "DocumentIndex": 1,
+              "Title": "GameController.cs",
+              "DocumentMoniker": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.API\\Controllers\\GameController.cs",
+              "RelativeDocumentMoniker": "Catan.API\\Controllers\\GameController.cs",
+              "ToolTip": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.API\\Controllers\\GameController.cs",
+              "RelativeToolTip": "Catan.API\\Controllers\\GameController.cs",
+              "ViewState": "AQIAABgAAAAAAAAAAAAAABAAAAAfAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-23T13:34:03.857Z",
+              "WhenOpened": "2024-06-23T13:56:25.416Z",
+              "IsPinned": true,
               "EditorCaption": ""
             },
             {
@@ -114,22 +180,38 @@
               "RelativeDocumentMoniker": "Catan.API\\Controllers\\TradeController.cs",
               "ToolTip": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.API\\Controllers\\TradeController.cs",
               "RelativeToolTip": "Catan.API\\Controllers\\TradeController.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAACAAAA",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAAAA0AAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-23T13:33:31.165Z",
+              "WhenOpened": "2024-06-23T17:54:19.867Z",
+              "IsPinned": true,
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "PlayerTrade.cs",
-              "DocumentMoniker": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Domain\\Entities\\Trades\\PlayerTrade.cs",
-              "RelativeDocumentMoniker": "Catan.Domain\\Entities\\Trades\\PlayerTrade.cs",
-              "ToolTip": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Domain\\Entities\\Trades\\PlayerTrade.cs",
-              "RelativeToolTip": "Catan.Domain\\Entities\\Trades\\PlayerTrade.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAB4AAAAhAAAA",
+              "DocumentIndex": 9,
+              "Title": "LobbyController.cs",
+              "DocumentMoniker": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.API\\Controllers\\LobbyController.cs",
+              "RelativeDocumentMoniker": "Catan.API\\Controllers\\LobbyController.cs",
+              "ToolTip": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.API\\Controllers\\LobbyController.cs",
+              "RelativeToolTip": "Catan.API\\Controllers\\LobbyController.cs",
+              "ViewState": "AQIAAAwAAAAAAAAAAAAgwFEAAAAeAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-22T19:19:17.618Z",
+              "WhenOpened": "2024-06-23T15:10:05.398Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "LobbyHub.cs",
+              "DocumentMoniker": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.API\\Hubs\\LobbyHub.cs",
+              "RelativeDocumentMoniker": "Catan.API\\Hubs\\LobbyHub.cs",
+              "ToolTip": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.API\\Hubs\\LobbyHub.cs",
+              "RelativeToolTip": "Catan.API\\Hubs\\LobbyHub.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAIAAAAZAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-23T15:10:58.089Z",
+              "IsPinned": true,
               "EditorCaption": ""
             },
             {
@@ -138,171 +220,366 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "GameController.cs",
-              "DocumentMoniker": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.API\\Controllers\\GameController.cs",
-              "RelativeDocumentMoniker": "Catan.API\\Controllers\\GameController.cs",
-              "ToolTip": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.API\\Controllers\\GameController.cs",
-              "RelativeToolTip": "Catan.API\\Controllers\\GameController.cs",
-              "ViewState": "AQIAAFoAAAAAAAAAAAApwGYAAAADAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-22T19:02:23.726Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "TradeDto.cs",
-              "DocumentMoniker": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Application\\Dtos\\TradeDto.cs",
-              "RelativeDocumentMoniker": "Catan.Application\\Dtos\\TradeDto.cs",
-              "ToolTip": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Application\\Dtos\\TradeDto.cs",
-              "RelativeToolTip": "Catan.Application\\Dtos\\TradeDto.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAtAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-22T18:10:53.811Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "RespondToTradeCommandHandler.cs",
-              "DocumentMoniker": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Application\\Features\\Trade\\Commands\\RespondToTrade\\RespondToTradeCommandHandler.cs",
-              "RelativeDocumentMoniker": "Catan.Application\\Features\\Trade\\Commands\\RespondToTrade\\RespondToTradeCommandHandler.cs",
-              "ToolTip": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Application\\Features\\Trade\\Commands\\RespondToTrade\\RespondToTradeCommandHandler.cs",
-              "RelativeToolTip": "Catan.Application\\Features\\Trade\\Commands\\RespondToTrade\\RespondToTradeCommandHandler.cs",
-              "ViewState": "AQIAAB8AAAAAAAAAAAAIwBgAAAAmAAAA",
+              "Title": "TradeBankCommand.cs",
+              "DocumentMoniker": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Application\\Features\\Trade\\Commands\\TradeBank\\TradeBankCommand.cs",
+              "RelativeDocumentMoniker": "Catan.Application\\Features\\Trade\\Commands\\TradeBank\\TradeBankCommand.cs",
+              "ToolTip": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Application\\Features\\Trade\\Commands\\TradeBank\\TradeBankCommand.cs",
+              "RelativeToolTip": "Catan.Application\\Features\\Trade\\Commands\\TradeBank\\TradeBankCommand.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAAA9AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-22T17:46:24.519Z",
+              "WhenOpened": "2024-06-23T17:57:37.466Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "TradeBankCommandHandler.cs",
+              "DocumentMoniker": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Application\\Features\\Trade\\Commands\\TradeBank\\TradeBankCommandHandler.cs",
+              "RelativeDocumentMoniker": "Catan.Application\\Features\\Trade\\Commands\\TradeBank\\TradeBankCommandHandler.cs",
+              "ToolTip": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Application\\Features\\Trade\\Commands\\TradeBank\\TradeBankCommandHandler.cs",
+              "RelativeToolTip": "Catan.Application\\Features\\Trade\\Commands\\TradeBank\\TradeBankCommandHandler.cs",
+              "ViewState": "AQIAAE0AAAAAAAAAAAAjwFkAAAA6AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-23T17:57:32.579Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 5,
-              "Title": "RespondToTradeCommand.cs",
-              "DocumentMoniker": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Application\\Features\\Trade\\Commands\\RespondToTrade\\RespondToTradeCommand.cs",
-              "RelativeDocumentMoniker": "Catan.Application\\Features\\Trade\\Commands\\RespondToTrade\\RespondToTradeCommand.cs",
-              "ToolTip": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Application\\Features\\Trade\\Commands\\RespondToTrade\\RespondToTradeCommand.cs",
-              "RelativeToolTip": "Catan.Application\\Features\\Trade\\Commands\\RespondToTrade\\RespondToTradeCommand.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAMAAABCAAAA",
+              "Title": "RespondToTradeCommandHandler.cs",
+              "DocumentMoniker": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Application\\Features\\Trade\\Commands\\RespondToTrade\\RespondToTradeCommandHandler.cs",
+              "RelativeDocumentMoniker": "Catan.Application\\Features\\Trade\\Commands\\RespondToTrade\\RespondToTradeCommandHandler.cs",
+              "ToolTip": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Application\\Features\\Trade\\Commands\\RespondToTrade\\RespondToTradeCommandHandler.cs",
+              "RelativeToolTip": "Catan.Application\\Features\\Trade\\Commands\\RespondToTrade\\RespondToTradeCommandHandler.cs",
+              "ViewState": "AQIAADQAAAAAAAAAAAAIwEgAAAA6AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-22T17:46:23.345Z",
+              "WhenOpened": "2024-06-23T17:56:57.584Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "GameSession.cs",
-              "DocumentMoniker": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Domain\\Entities\\GameSession.cs",
-              "RelativeDocumentMoniker": "Catan.Domain\\Entities\\GameSession.cs",
-              "ToolTip": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Domain\\Entities\\GameSession.cs",
-              "RelativeToolTip": "Catan.Domain\\Entities\\GameSession.cs",
-              "ViewState": "AQIAAKEBAAAAAAAAAAD4v6kBAAAhAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-19T14:47:48.391Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "AIService.cs",
-              "DocumentMoniker": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Infrastructure\\Services\\AIService.cs",
-              "RelativeDocumentMoniker": "Catan.Infrastructure\\Services\\AIService.cs",
-              "ToolTip": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Infrastructure\\Services\\AIService.cs",
-              "RelativeToolTip": "Catan.Infrastructure\\Services\\AIService.cs",
-              "ViewState": "AQIAAEgAAAAAAAAAAAASwIMAAAADAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-22T17:48:02.754Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 0,
               "Title": "GameSessionManager.cs",
               "DocumentMoniker": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Application\\GameManagement\\GameSessionManager.cs",
               "RelativeDocumentMoniker": "Catan.Application\\GameManagement\\GameSessionManager.cs",
-              "ToolTip": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Application\\GameManagement\\GameSessionManager.cs",
-              "RelativeToolTip": "Catan.Application\\GameManagement\\GameSessionManager.cs",
-              "ViewState": "AQIAAEwBAAAAAAAAAAApwFkBAAAEAAAA",
+              "ToolTip": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Application\\GameManagement\\GameSessionManager.cs*",
+              "RelativeToolTip": "Catan.Application\\GameManagement\\GameSessionManager.cs*",
+              "ViewState": "AQIAAE8AAAAAAAAAAIAzwF8AAAAZAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-19T12:28:11.353Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "GameSessionDto.cs",
-              "DocumentMoniker": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Application\\Dtos\\GameSessionDto.cs",
-              "RelativeDocumentMoniker": "Catan.Application\\Dtos\\GameSessionDto.cs",
-              "ToolTip": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Application\\Dtos\\GameSessionDto.cs",
-              "RelativeToolTip": "Catan.Application\\Dtos\\GameSessionDto.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-22T18:10:51.955Z",
+              "WhenOpened": "2024-06-23T17:23:03.413Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 6,
+              "Title": "RespondToTradeCommand.cs",
+              "DocumentMoniker": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Application\\Features\\Trade\\Commands\\RespondToTrade\\RespondToTradeCommand.cs",
+              "RelativeDocumentMoniker": "Catan.Application\\Features\\Trade\\Commands\\RespondToTrade\\RespondToTradeCommand.cs",
+              "ToolTip": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Application\\Features\\Trade\\Commands\\RespondToTrade\\RespondToTradeCommand.cs",
+              "RelativeToolTip": "Catan.Application\\Features\\Trade\\Commands\\RespondToTrade\\RespondToTradeCommand.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAABCAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-23T17:56:51.688Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
               "Title": "InitiateTradeCommandHandler.cs",
               "DocumentMoniker": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Application\\Features\\Trade\\Commands\\InitiateTrade\\InitiateTradeCommandHandler.cs",
               "RelativeDocumentMoniker": "Catan.Application\\Features\\Trade\\Commands\\InitiateTrade\\InitiateTradeCommandHandler.cs",
               "ToolTip": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Application\\Features\\Trade\\Commands\\InitiateTrade\\InitiateTradeCommandHandler.cs",
               "RelativeToolTip": "Catan.Application\\Features\\Trade\\Commands\\InitiateTrade\\InitiateTradeCommandHandler.cs",
-              "ViewState": "AQIAAFsAAAAAAAAAAAAjwG0AAAAfAAAA",
+              "ViewState": "AQIAAFgAAAAAAAAAAAAIwG4AAABGAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-19T20:44:12.939Z",
+              "WhenOpened": "2024-06-23T17:56:09.437Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "IAIService.cs",
-              "DocumentMoniker": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Application\\Contracts\\IAIService.cs",
-              "RelativeDocumentMoniker": "Catan.Application\\Contracts\\IAIService.cs",
-              "ToolTip": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Application\\Contracts\\IAIService.cs",
-              "RelativeToolTip": "Catan.Application\\Contracts\\IAIService.cs",
-              "ViewState": "AQIAAAIAAAAAAAAAAIAzwAkAAAAaAAAA",
+              "DocumentIndex": 8,
+              "Title": "InitiateTradeCommand.cs",
+              "DocumentMoniker": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Application\\Features\\Trade\\Commands\\InitiateTrade\\InitiateTradeCommand.cs",
+              "RelativeDocumentMoniker": "Catan.Application\\Features\\Trade\\Commands\\InitiateTrade\\InitiateTradeCommand.cs",
+              "ToolTip": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Application\\Features\\Trade\\Commands\\InitiateTrade\\InitiateTradeCommand.cs",
+              "RelativeToolTip": "Catan.Application\\Features\\Trade\\Commands\\InitiateTrade\\InitiateTradeCommand.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAABEAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-22T17:48:23.035Z",
+              "WhenOpened": "2024-06-23T17:55:52.82Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "MoveThiefCommandHandler.cs",
+              "DocumentMoniker": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Application\\Features\\Game\\Commands\\MoveThief\\MoveThiefCommandHandler.cs",
+              "RelativeDocumentMoniker": "Catan.Application\\Features\\Game\\Commands\\MoveThief\\MoveThiefCommandHandler.cs",
+              "ToolTip": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Application\\Features\\Game\\Commands\\MoveThief\\MoveThiefCommandHandler.cs",
+              "RelativeToolTip": "Catan.Application\\Features\\Game\\Commands\\MoveThief\\MoveThiefCommandHandler.cs",
+              "ViewState": "AQIAAEMAAAAAAAAAAAAIwE8AAAA5AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-23T17:51:30.815Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 13,
-              "Title": "Result.cs",
-              "DocumentMoniker": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Domain\\Common\\Result.cs",
-              "RelativeDocumentMoniker": "Catan.Domain\\Common\\Result.cs",
-              "ToolTip": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Domain\\Common\\Result.cs",
-              "RelativeToolTip": "Catan.Domain\\Common\\Result.cs",
-              "ViewState": "AQIAAA8AAAAAAAAAAAA7wBoAAAAAAAAA",
+              "Title": "MoveThiefCommand.cs",
+              "DocumentMoniker": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Application\\Features\\Game\\Commands\\MoveThief\\MoveThiefCommand.cs",
+              "RelativeDocumentMoniker": "Catan.Application\\Features\\Game\\Commands\\MoveThief\\MoveThiefCommand.cs",
+              "ToolTip": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Application\\Features\\Game\\Commands\\MoveThief\\MoveThiefCommand.cs",
+              "RelativeToolTip": "Catan.Application\\Features\\Game\\Commands\\MoveThief\\MoveThiefCommand.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAAA9AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-22T19:15:23.733Z",
+              "WhenOpened": "2024-06-23T17:51:25.768Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "AITradeRequest.cs",
-              "DocumentMoniker": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Infrastructure\\Requests\\AITradeRequest.cs",
-              "RelativeDocumentMoniker": "Catan.Infrastructure\\Requests\\AITradeRequest.cs",
-              "ToolTip": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Infrastructure\\Requests\\AITradeRequest.cs",
-              "RelativeToolTip": "Catan.Infrastructure\\Requests\\AITradeRequest.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAIAAAAoAAAA",
+              "DocumentIndex": 14,
+              "Title": "EndTurnCommand.cs",
+              "DocumentMoniker": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Application\\Features\\Game\\Commands\\EndTurn\\EndTurnCommand.cs",
+              "RelativeDocumentMoniker": "Catan.Application\\Features\\Game\\Commands\\EndTurn\\EndTurnCommand.cs",
+              "ToolTip": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Application\\Features\\Game\\Commands\\EndTurn\\EndTurnCommand.cs",
+              "RelativeToolTip": "Catan.Application\\Features\\Game\\Commands\\EndTurn\\EndTurnCommand.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-22T17:55:29.804Z",
+              "WhenOpened": "2024-06-23T17:51:22.548Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "RollDiceCommand.cs",
+              "DocumentMoniker": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Application\\Features\\Game\\Commands\\RollDice\\RollDiceCommand.cs",
+              "RelativeDocumentMoniker": "Catan.Application\\Features\\Game\\Commands\\RollDice\\RollDiceCommand.cs",
+              "ToolTip": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Application\\Features\\Game\\Commands\\RollDice\\RollDiceCommand.cs",
+              "RelativeToolTip": "Catan.Application\\Features\\Game\\Commands\\RollDice\\RollDiceCommand.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAAA/AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-23T17:50:46.083Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 16,
-              "Title": "AIMoveRequest.cs",
-              "DocumentMoniker": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Infrastructure\\Requests\\AIMoveRequest.cs",
-              "RelativeDocumentMoniker": "Catan.Infrastructure\\Requests\\AIMoveRequest.cs",
-              "ToolTip": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Infrastructure\\Requests\\AIMoveRequest.cs",
-              "RelativeToolTip": "Catan.Infrastructure\\Requests\\AIMoveRequest.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAAjAAAA",
+              "Title": "DiscardHalfCommandHandler.cs",
+              "DocumentMoniker": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Application\\Features\\Game\\Commands\\DiscardHalf\\DiscardHalfCommandHandler.cs",
+              "RelativeDocumentMoniker": "Catan.Application\\Features\\Game\\Commands\\DiscardHalf\\DiscardHalfCommandHandler.cs",
+              "ToolTip": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Application\\Features\\Game\\Commands\\DiscardHalf\\DiscardHalfCommandHandler.cs",
+              "RelativeToolTip": "Catan.Application\\Features\\Game\\Commands\\DiscardHalf\\DiscardHalfCommandHandler.cs",
+              "ViewState": "AQIAAE8AAAAAAAAAAAAzwFsAAAA5AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-22T17:55:38.594Z",
+              "WhenOpened": "2024-06-23T17:49:59.969Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "RollDiceCommandHandler.cs",
+              "DocumentMoniker": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Application\\Features\\Game\\Commands\\RollDice\\RollDiceCommandHandler.cs",
+              "RelativeDocumentMoniker": "Catan.Application\\Features\\Game\\Commands\\RollDice\\RollDiceCommandHandler.cs",
+              "ToolTip": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Application\\Features\\Game\\Commands\\RollDice\\RollDiceCommandHandler.cs",
+              "RelativeToolTip": "Catan.Application\\Features\\Game\\Commands\\RollDice\\RollDiceCommandHandler.cs",
+              "ViewState": "AQIAAEAAAAAAAAAAAAAIwE4AAAA5AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-23T17:49:48.669Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "DiscardHalfCommand.cs",
+              "DocumentMoniker": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Application\\Features\\Game\\Commands\\DiscardHalf\\DiscardHalfCommand.cs",
+              "RelativeDocumentMoniker": "Catan.Application\\Features\\Game\\Commands\\DiscardHalf\\DiscardHalfCommand.cs",
+              "ToolTip": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Application\\Features\\Game\\Commands\\DiscardHalf\\DiscardHalfCommand.cs",
+              "RelativeToolTip": "Catan.Application\\Features\\Game\\Commands\\DiscardHalf\\DiscardHalfCommand.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAA+AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-23T17:49:30.06Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "AIService.cs",
+              "DocumentMoniker": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Infrastructure\\Services\\AIService.cs",
+              "RelativeDocumentMoniker": "Catan.Infrastructure\\Services\\AIService.cs",
+              "ToolTip": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Infrastructure\\Services\\AIService.cs",
+              "RelativeToolTip": "Catan.Infrastructure\\Services\\AIService.cs",
+              "ViewState": "AQIAAI0AAAAAAAAAAAAzwAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-23T17:22:46.383Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.API\\Program.cs",
+              "RelativeDocumentMoniker": "Catan.API\\Program.cs",
+              "ToolTip": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.API\\Program.cs",
+              "RelativeToolTip": "Catan.API\\Program.cs",
+              "ViewState": "AQIAABEAAAAAAAAAAAAgwCMAAAAsAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-23T15:31:33.86Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "IGameNotifier.cs",
+              "DocumentMoniker": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Application\\Contracts\\IGameNotifier.cs",
+              "RelativeDocumentMoniker": "Catan.Application\\Contracts\\IGameNotifier.cs",
+              "ToolTip": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Application\\Contracts\\IGameNotifier.cs",
+              "RelativeToolTip": "Catan.Application\\Contracts\\IGameNotifier.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAqwAcAAAASAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-23T17:27:04.157Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "SignalRGameNotifier.cs",
+              "DocumentMoniker": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.API\\Notifiers\\SignalRGameNotifier.cs",
+              "RelativeDocumentMoniker": "Catan.API\\Notifiers\\SignalRGameNotifier.cs",
+              "ToolTip": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.API\\Notifiers\\SignalRGameNotifier.cs",
+              "RelativeToolTip": "Catan.API\\Notifiers\\SignalRGameNotifier.cs",
+              "ViewState": "AQIAAAgAAAAAAAAAAADwvxQAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-23T17:30:02.851Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "ApplicationServiceRegistrationDI.cs",
+              "DocumentMoniker": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Application\\ApplicationServiceRegistrationDI.cs",
+              "RelativeDocumentMoniker": "Catan.Application\\ApplicationServiceRegistrationDI.cs",
+              "ToolTip": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Application\\ApplicationServiceRegistrationDI.cs",
+              "RelativeToolTip": "Catan.Application\\ApplicationServiceRegistrationDI.cs",
+              "ViewState": "AQIAAAcAAAAAAAAAAAAAABUAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-23T17:34:24.883Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "SettlementDto.cs",
+              "DocumentMoniker": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Application\\Dtos\\GamePieces\\SettlementDto.cs",
+              "RelativeDocumentMoniker": "Catan.Application\\Dtos\\GamePieces\\SettlementDto.cs",
+              "ToolTip": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Application\\Dtos\\GamePieces\\SettlementDto.cs",
+              "RelativeToolTip": "Catan.Application\\Dtos\\GamePieces\\SettlementDto.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAAqAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-23T17:00:53.12Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "ILogger.cs",
+              "DocumentMoniker": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Domain\\Interfaces\\ILogger.cs",
+              "RelativeDocumentMoniker": "Catan.Domain\\Interfaces\\ILogger.cs",
+              "ToolTip": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Domain\\Interfaces\\ILogger.cs",
+              "RelativeToolTip": "Catan.Domain\\Interfaces\\ILogger.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-23T17:22:38.757Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "PlayerDto.cs",
+              "DocumentMoniker": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Application\\Dtos\\PlayerDto.cs",
+              "RelativeDocumentMoniker": "Catan.Application\\Dtos\\PlayerDto.cs",
+              "ToolTip": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Application\\Dtos\\PlayerDto.cs",
+              "RelativeToolTip": "Catan.Application\\Dtos\\PlayerDto.cs",
+              "ViewState": "AQIAAA8AAAAAAAAAAAA9wAQAAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-23T16:59:17.643Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "GameSessionDto.cs",
+              "DocumentMoniker": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Application\\Dtos\\GameSessionDto.cs",
+              "RelativeDocumentMoniker": "Catan.Application\\Dtos\\GameSessionDto.cs",
+              "ToolTip": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Application\\Dtos\\GameSessionDto.cs",
+              "RelativeToolTip": "Catan.Application\\Dtos\\GameSessionDto.cs",
+              "ViewState": "AQIAAA8AAAAAAAAAAAA1wB4AAAAiAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-23T16:52:22.952Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
+              "Title": "MoveType.cs",
+              "DocumentMoniker": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Domain\\Data\\MoveType.cs",
+              "RelativeDocumentMoniker": "Catan.Domain\\Data\\MoveType.cs",
+              "ToolTip": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Domain\\Data\\MoveType.cs",
+              "RelativeToolTip": "Catan.Domain\\Data\\MoveType.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAACAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-23T16:43:58.209Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 31,
+              "Title": "Move.cs",
+              "DocumentMoniker": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Application\\Moves\\Move.cs",
+              "RelativeDocumentMoniker": "Catan.Application\\Moves\\Move.cs",
+              "ToolTip": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Application\\Moves\\Move.cs",
+              "RelativeToolTip": "Catan.Application\\Moves\\Move.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-23T16:43:24.673Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "AddAIPlayerCommandHandler.cs",
+              "DocumentMoniker": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Application\\Features\\Lobby\\AddAIPlayer\\AddAIPlayerCommandHandler.cs",
+              "RelativeDocumentMoniker": "Catan.Application\\Features\\Lobby\\AddAIPlayer\\AddAIPlayerCommandHandler.cs",
+              "ToolTip": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Application\\Features\\Lobby\\AddAIPlayer\\AddAIPlayerCommandHandler.cs",
+              "RelativeToolTip": "Catan.Application\\Features\\Lobby\\AddAIPlayer\\AddAIPlayerCommandHandler.cs",
+              "ViewState": "AQIAABUAAAAAAAAAAAAjwBcAAAAhAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-23T15:14:43.951Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "JoinLobbyCommandHandler.cs",
+              "DocumentMoniker": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Application\\Features\\Lobby\\JoinLobby\\JoinLobbyCommandHandler.cs",
+              "RelativeDocumentMoniker": "Catan.Application\\Features\\Lobby\\JoinLobby\\JoinLobbyCommandHandler.cs",
+              "ToolTip": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Application\\Features\\Lobby\\JoinLobby\\JoinLobbyCommandHandler.cs",
+              "RelativeToolTip": "Catan.Application\\Features\\Lobby\\JoinLobby\\JoinLobbyCommandHandler.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAAAhAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-23T15:14:14.525Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 32,
+              "Title": "AddAIPlayerCommand.cs",
+              "DocumentMoniker": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Application\\Features\\Lobby\\AddAIPlayer\\AddAIPlayerCommand.cs",
+              "RelativeDocumentMoniker": "Catan.Application\\Features\\Lobby\\AddAIPlayer\\AddAIPlayerCommand.cs",
+              "ToolTip": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Application\\Features\\Lobby\\AddAIPlayer\\AddAIPlayerCommand.cs",
+              "RelativeToolTip": "Catan.Application\\Features\\Lobby\\AddAIPlayer\\AddAIPlayerCommand.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAMAAAA2AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-23T15:13:52.217Z",
               "EditorCaption": ""
             }
           ]

@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Catan.Application.Features.Game.Commands.DiscardHalf;
 
-public class DiscardHalfCommand : IRequest<PlayerResponse>
+public class DiscardHalfCommand : IRequest<GameSessionResponse>
 {
 	public Guid GameId { get; set; }
 	public Guid PlayerId { get; set; }

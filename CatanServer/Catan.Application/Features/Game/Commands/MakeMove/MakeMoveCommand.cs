@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Catan.Application.Features.Game.Commands.MakeMove
 {
-	public class MakeMoveCommand : IRequest<MoveResponse>
+	public class MakeMoveCommand : IRequest<GameSessionResponse>
 	{
 		public Guid GameId { get; set; }
 		public Guid PlayerId { get; set; }

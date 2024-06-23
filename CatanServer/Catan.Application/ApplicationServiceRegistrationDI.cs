@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Catan.Application.Contracts;
 using Catan.Application.GameManagement;
 using Catan.Application.Mapper;
 using Microsoft.Extensions.DependencyInjection;

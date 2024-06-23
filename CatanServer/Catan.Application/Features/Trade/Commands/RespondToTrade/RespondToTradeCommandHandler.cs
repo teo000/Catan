@@ -7,7 +7,7 @@ using MediatR;
 
 namespace Catan.Application.Features.Trade.Commands.RespondToTrade
 {
-	public class RespondToTradeCommandHandler : IRequestHandler<RespondToTradeCommand, TradeResponse>
+	public class RespondToTradeCommandHandler : IRequestHandler<RespondToTradeCommand, GameSessionResponse>
 	{
 		private GameSessionManager _gameSessionManager;
 		private IMapper _mapper;
@@ -18,13 +18,13 @@ namespace Catan.Application.Features.Trade.Commands.RespondToTrade
 			_mapper = mapper;
 		}
 
-		public async Task<TradeResponse> Handle(RespondToTradeCommand request, CancellationToken cancellationToken)
+		public async Task<GameSessionResponse> Handle(RespondToTradeCommand request, CancellationToken cancellationToken)
 		{
 			var gameSessionResponse = _gameSessionManager.GetGameSession(request.GameId);
 
 			if (!gameSessionResponse.IsSuccess)
 			{
-				return new TradeResponse()
+				return new GameSessionResponse()
 				{
 					Success = false,
 					ValidationErrors = new List<string>() { gameSessionResponse.Error }
@@ -35,7 +35,7 @@ namespace Catan.Application.Features.Trade.Commands.RespondToTrade
 			var tradeResponse = gameSession.GetTrade(request.TradeId);
 
 			if (!tradeResponse.IsSuccess) {
-				return new TradeResponse()
+				return new GameSessionResponse()
 				{
 					Success = false,
 					ValidationErrors = new List<string>() { tradeResponse.Error }
@@ -44,14 +44,14 @@ namespace Catan.Application.Features.Trade.Commands.RespondToTrade
 
 			var trade = tradeResponse.Value;
 			if (trade.Status != TradeStatus.Pending)
-				return new TradeResponse()
+				return new GameSessionResponse()
 				{
 					Success = false,
 					ValidationErrors = new List<string>() { "Trade is no longer available." }
 				};
 
 			if (trade.PlayerToReceive.Id != request.PlayerId)
-				return new TradeResponse()
+				return new GameSessionResponse()
 				{
 					Success = false,
 					ValidationErrors = new List<string>() { "You cannot respond to this trade" }
@@ -60,17 +60,17 @@ namespace Catan.Application.Features.Trade.Commands.RespondToTrade
 			var result = gameSession.RespondToTrade(trade.Id, request.IsAccepted);
 			if (!result.IsSuccess)
 			{
-				return new TradeResponse()
+				return new GameSessionResponse()
 				{
 					Success = false,
 					ValidationErrors = new List<string>() {  result.Error}
 				};
 			}
 
-			return new TradeResponse()
+			return new GameSessionResponse()
 			{
 				Success = true,
-				Trade = _mapper.Map<TradeDto>(result.Value)
+				GameSession = _mapper.Map<GameSessionDto>(gameSession)
 			};
 
 		}

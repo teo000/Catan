@@ -51,7 +51,10 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
     const message = useMessage(gameSession);
 
     const {getVisibleSettlementSpots, getVisibleRoadSpots} = useVisibleSpots(gameSession);
-    
+
+
+
+
     useEffect(() =>{
         if((gameSession.round === 1 || gameSession.round ===2 ) && player?.id === gameSession.turnPlayer.id) {
             setButtonsDisabled(true);
@@ -84,10 +87,16 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
     };
 
     const handleSettlementClick = async (id: number) => {
-        const requestData = {gameId: gameSession.id, playerId: player?.id, position: id};
+        const requestData =
+            {
+                gameId: gameSession.id,
+                playerId: player?.id,
+                position: id,
+                moveType: "PlaceSettlement"
+            };
 
         try {
-            const response = await request('/settlement', 'post', requestData);
+            const response = await request('/make-move', 'post', requestData);
             if (response === null || !response.success){
                 console.error('Failed to place settlement: Invalid response format', response);
             }
@@ -115,10 +124,16 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
         setActiveButton(action === activeButton ? ButtonActions.None : action);
     };
     const handleCityClick = async (id: number) => {
-        const requestData = {gameId: gameSession.id, playerId: player?.id, position: id};
+        const requestData =
+            {
+                gameId: gameSession.id,
+                playerId: player?.id,
+                position: id,
+                moveType: "PlaceCity"
+            };
 
         try {
-            const response = await request('/city', 'post', requestData);
+            const response = await request('/make-move', 'post', requestData);
             if (response === null || !response.success){
                 console.error('Failed to place settlement: Invalid response format', response);
             }
@@ -165,10 +180,16 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
     };
 
     const handleRoadClick = async (id: number) => {
-        const requestData = {gameId: gameSession.id, playerId: player?.id, position: id};
+        const requestData =
+            {
+                gameId: gameSession.id,
+                playerId: player?.id,
+                position: id,
+                moveType: "PlaceRoad"
+            };
 
         try {
-            const response = await request('/road', 'post', requestData);
+            const response = await request('/make-move', 'post', requestData);
             if (response === null || !response.success){
                 console.error('Failed to place road: Invalid response format', response);
             }
@@ -239,7 +260,7 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
         return <p> Something went wrong ... </p>
     }
 
-    console.log(gameSession);
+    // console.log(gameSession);
 
     const isAbandoned = (gameSession.gameStatus === 'Abandoned')
     const isWon = (gameSession.gameStatus === 'Finished')
