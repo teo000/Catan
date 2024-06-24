@@ -4,6 +4,7 @@ using Catan.Application.Features.Lobby.CreateLobby;
 using Catan.Application.Features.Lobby.GetLobby;
 using Catan.Application.Features.Lobby.JoinLobby;
 using Catan.Application.Features.Lobby.StartGame;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 
@@ -31,6 +32,7 @@ namespace Catan.API.Controllers
 			return Ok(result);
 		}
 
+		[Authorize(Roles = "User")]
 		[HttpPost("create")]
 		[ProducesResponseType(StatusCodes.Status201Created)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
