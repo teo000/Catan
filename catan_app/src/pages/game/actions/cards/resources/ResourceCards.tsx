@@ -5,7 +5,7 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import useFetch from "../../../../../hooks/useFetch";
 import {DiceRollResponse} from "../../../../../responses/DiceRollResponse";
 import {PlayerDto} from "../../../../../interfaces/PlayerDto";
-import {usePlayer} from "../../../../../context/PlayerProvider";
+import {usePlayer} from "../../../../../contexts/PlayerProvider";
 import {BaseResponse} from "../../../../../responses/BaseResponse";
 
 

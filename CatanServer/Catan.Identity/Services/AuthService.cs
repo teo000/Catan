@@ -33,6 +33,7 @@ public class AuthService : IAuthService
 		ApplicationUser user = new ApplicationUser()
 		{
 			UserName = model.Username,
+			Email = model.Email,
 		};
 		var createUserResult = await userManager.CreateAsync(user, model.Password);
 		if (!createUserResult.Succeeded)

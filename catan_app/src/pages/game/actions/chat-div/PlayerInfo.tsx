@@ -1,5 +1,5 @@
 import {PlayerDto} from "../../../../interfaces/PlayerDto";
-import {usePlayer} from "../../../../context/PlayerProvider";
+import {usePlayer} from "../../../../contexts/PlayerProvider";
 
 interface PlayerProps {
     playerInfo: PlayerDto

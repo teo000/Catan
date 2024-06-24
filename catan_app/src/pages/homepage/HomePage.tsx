@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import useFetch from "../../hooks/useFetch";
 import {LobbyPlayerResponse} from "../../responses/LobbyPlayerResponse";
 import './homepage.css';
-import {usePlayer} from "../../context/PlayerProvider";
+import {usePlayer} from "../../contexts/PlayerProvider";
 import {MapLogicInfo} from "../game/utils/MapLogicInfo";
 
 const HomePage = () => {

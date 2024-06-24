@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {PlayerDto} from "../../../interfaces/PlayerDto";
 import "./lobby.css"
-import {usePlayer} from "../../../context/PlayerProvider";
+import {usePlayer} from "../../../contexts/PlayerProvider";
 import useFetch from "../../../hooks/useFetch";
 import {BaseResponse} from "../../../responses/BaseResponse";
 

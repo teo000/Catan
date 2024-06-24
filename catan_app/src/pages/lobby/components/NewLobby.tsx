@@ -3,7 +3,7 @@ import {HubConnection, HubConnectionBuilder} from '@microsoft/signalr';
 import { useLocation } from 'react-router-dom';
 import { WaitingRoom } from './WaitingRoom';
 import useFetch from "../../../hooks/useFetch";
-import {usePlayer} from "../../../context/PlayerProvider";
+import {usePlayer} from "../../../contexts/PlayerProvider";
 import {GameSessionDto} from "../../../interfaces/GameSessionDto";
 import {LobbyResponse} from "../../../responses/LobbyResponse";
 import {PlayerDto} from "../../../interfaces/PlayerDto";

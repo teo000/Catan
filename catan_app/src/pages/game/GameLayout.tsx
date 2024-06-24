@@ -11,7 +11,7 @@ import {TurnTimerLabel} from "./actions/turnTimerLabel/TurnTimerLabel";
 import {GameSessionDto} from "../../interfaces/GameSessionDto";
 import useFetch from "../../hooks/useFetch";
 import {LobbyResponse} from "../../responses/LobbyResponse";
-import {usePlayer} from "../../context/PlayerProvider";
+import {usePlayer} from "../../contexts/PlayerProvider";
 import DiceLayout from "./actions/dice/DiceLayout";
 import ResourceCards from "./actions/cards/resources/ResourceCards";
 import {getEmptyResourceCount} from "../../interfaces/ResourceCountDto";

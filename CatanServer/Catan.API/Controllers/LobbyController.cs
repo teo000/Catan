@@ -45,6 +45,7 @@ namespace Catan.API.Controllers
 			return Ok(result);
 		}
 
+		[Authorize(Roles = "User")]
 		[HttpPost("join")]
 		[ProducesResponseType(StatusCodes.Status201Created)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -59,6 +60,7 @@ namespace Catan.API.Controllers
 			return Ok(result);
 		}
 
+		[Authorize(Roles = "User")]
 		[HttpPost("add-ai")]
 		[ProducesResponseType(StatusCodes.Status201Created)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -73,7 +75,7 @@ namespace Catan.API.Controllers
 			return Ok(result);
 		}
 
-
+		[Authorize(Roles = "User")]
 		[HttpPost("start")]
 		[ProducesResponseType(StatusCodes.Status201Created)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]

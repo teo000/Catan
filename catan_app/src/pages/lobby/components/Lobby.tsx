@@ -1,7 +1,7 @@
 import useFetch from "../../../hooks/useFetch";
 import {LobbyResponse} from "../../../responses/LobbyResponse";
 import {useLocation} from "react-router-dom";
-import {usePlayer} from "../../../context/PlayerProvider";
+import {usePlayer} from "../../../contexts/PlayerProvider";
 import React, {useCallback, useEffect, useState} from "react";
 import {GameLayout} from "../../game/GameLayout";
 import {WaitingRoom} from "./WaitingRoom";

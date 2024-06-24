@@ -2,7 +2,7 @@ import Modal from "react-modal";
 import React, {useEffect, useState} from "react";
 import "./trade-window.css"
 import useFetch from "../../../../hooks/useFetch";
-import {usePlayer} from "../../../../context/PlayerProvider";
+import {usePlayer} from "../../../../contexts/PlayerProvider";
 import {BaseResponse} from "../../../../responses/BaseResponse";
 import {PlayerDto} from "../../../../interfaces/PlayerDto";
 

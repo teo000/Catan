@@ -1,5 +1,5 @@
 import useFetch from "../../../../hooks/useFetch";
-import {usePlayer} from "../../../../context/PlayerProvider";
+import {usePlayer} from "../../../../contexts/PlayerProvider";
 import {GameSessionResponse} from "../../../../responses/GameSessionResponse";
 
 export function EndTurnButton({disabled} : {disabled:boolean}){
