@@ -33,6 +33,7 @@
 .discard-controls {
     display: flex;
     margin-top: auto;
+    align-items: center;
 }
 
 .resource-arrow-button {

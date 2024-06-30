@@ -531,7 +531,7 @@ namespace Catan.Domain.Entities
 
 				var (longestRoadLength, longestRoad) = GraphFunctions.FindLongestRoad(roadEnds);
 
-				if (longestRoadLength >= 5 && longestRoadLength >= LongestRoad.Roads.Count)
+				if (longestRoadLength >= 5 && (LongestRoad is null || longestRoadLength >= LongestRoad.Roads.Count))
 				{
 					var roadList = longestRoad.Select(r => GameMapData.RoadByRoadEnds[r])
 						.Select(pos => GameMap.Roads[pos]).ToList();

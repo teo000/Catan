@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Catan.Application.Contracts;
 using Catan.Application.Dtos;
-using Catan.Application.Moves;
+using Catan.Application.Models.Moves;
 using Catan.Domain.Common;
 using Catan.Domain.Data;
 using Catan.Domain.Entities;
@@ -27,7 +27,6 @@ public class AIService : IAIService
 		_mapper = mapper;
 		_logger = logger;
 	}
-
 
 	public async Task<Result<List<Move>>> MakeAIMove(GameSession gameSession, Guid playerId)
 	{
@@ -124,7 +123,6 @@ public class AIService : IAIService
 			return Result<Dictionary<Resource, int>>.Failure("An unexpected error occurred");
 		}
 	}
-
 
 	public async Task<Result<bool>> RespondToTrade(GameSession gameSession, Guid playerId, Trade trade)
 	{

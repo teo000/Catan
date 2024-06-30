@@ -7,7 +7,7 @@ import {Authentication} from "./pages/authentication/Authentication";
 import PrivateRoute from "./misc/PrivateRoute";
 
 
-function App() {
+export default function App() {
     return (
         <div className="app">
             <Routes>
@@ -18,4 +18,3 @@ function App() {
         </div>
     );
 }
-export default App;

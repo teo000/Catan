@@ -33,6 +33,9 @@ try
 	builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
 
 	builder.Services.AddApplicationServices();
+	builder.Services.AddInfrastructureToDI(builder.Configuration); builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
+
+	builder.Services.AddApplicationServices();
 	builder.Services.AddInfrastructureToDI(builder.Configuration);
 
 	builder.Services.AddControllers();

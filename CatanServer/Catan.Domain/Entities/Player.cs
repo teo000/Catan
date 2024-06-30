@@ -1,6 +1,7 @@
 ﻿using Catan.Domain.Common;
 using Catan.Domain.Data;
 using Catan.Domain.Entities.GamePieces;
+using Catan.Domain.Entities.Misc;
 using Catan.Domain.Entities.Trades;
 using System.Xml.Linq;
 
@@ -21,7 +22,7 @@ namespace Catan.Domain.Entities
 			foreach (Resource resource in Enum.GetValues(typeof(Resource)))
 				if (resource != Resource.Desert)
 				{
-					ResourceCount.Add(resource, 2);
+					ResourceCount.Add(resource, 0);
 					TradeCount.Add(resource, 4);
 				}
 			IsAI = isAI;

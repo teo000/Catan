@@ -23,7 +23,7 @@ const Register: React.FC = () => {
 
     return (
         <form className="auth-form" onSubmit={handleSubmit}>
-            <h2>Register</h2>
+            <h1>Register</h1>
             <div className="inputs">
             <div className= "input-label-div" >
                 <label>Username:</label>

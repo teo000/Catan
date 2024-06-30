@@ -1,6 +1,5 @@
 ﻿using Catan.Application.Contracts;
 using Catan.Application.Models.Identity;
-using Catan.Domain.Common;
 using Catan.Identity.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;

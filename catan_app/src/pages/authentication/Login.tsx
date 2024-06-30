@@ -21,7 +21,7 @@ const Login: React.FC = () => {
 
     return (
         <form className="auth-form" onSubmit={handleSubmit}>
-            <h2>Login</h2>
+            <h1>Login</h1>
             <div className="inputs">
                 <div>
                     <label>Username:</label>

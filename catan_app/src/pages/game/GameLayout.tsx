@@ -304,6 +304,8 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
     const diceIsClickable = isMyTurn && !gameSession.dice.rolledThisTurn &&
         !(gameSession.round === 1  || gameSession.round === 2)
 
+    const playerCardsNo = Object.values(playerState.resourceCount).reduce((a, b) => a + b, 0);
+    const mustDiscard = lastDiceRoll === 7 && !playerState.discardedThisTurn && playerCardsNo >= 7
 
     return (
         <div className="gameLayout">
@@ -372,7 +374,7 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
                     <ChatDiv trades={gameSession.trades} players={gameSession.players}/>
                 </div>
                 <Cards resourceCount={resourceCount}
-                       mustDiscard={lastDiceRoll === 7 && !playerState.discardedThisTurn}
+                       mustDiscard={mustDiscard}
                        developmentCards={playerState.developmentCards}
                        knightOnClick={onKnightClick}
                 />

@@ -104,7 +104,7 @@ namespace AIService.UseCases
 			do
 			{
 				newSettlementPosition = rng.Next(GameMapData.SETTLEMENTS_NO - 1);
-			} while (!settlementsPositions.Contains(newSettlementPosition) 
+			} while (settlementsPositions.Contains(newSettlementPosition) 
 					&& Settlement.HasAdjacentSettlements(settlementsPositions, newSettlementPosition));
 
 			moves.Add(new PlaceSettlementMove(gameState.Id, newSettlementPosition));

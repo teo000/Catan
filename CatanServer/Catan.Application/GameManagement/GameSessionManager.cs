@@ -2,8 +2,8 @@
 using AutoMapper;
 using Catan.Application.Contracts;
 using Catan.Application.Dtos;
-using Catan.Application.GameManagement.Misc;
-using Catan.Application.Moves;
+using Catan.Application.Models;
+using Catan.Application.Models.Moves;
 using Catan.Domain.Common;
 using Catan.Domain.Data;
 using Catan.Domain.Entities;
@@ -190,6 +190,8 @@ public class GameSessionManager
 		if (!session.IsInBeginningPhase())
 		{
 			await RollDice(session, aIPlayer);
+			await _gameNotifier.NotifyGameAsync(_mapper.Map<GameSessionDto>(session));
+			await Task.Delay(1000);
 		}
 
 		var aIMovesResult = await _aIService.MakeAIMove(session, aIPlayer.Id);
@@ -219,7 +221,6 @@ public class GameSessionManager
 		if (!session.IsInBeginningPhase())
 			EndPlayerTurn(session);
 
-		// handle AI move result here
 	}
 
 	private void ParseMove(GameSession session, Player aIPlayer, Move move)

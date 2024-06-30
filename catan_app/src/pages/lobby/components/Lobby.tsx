@@ -69,14 +69,6 @@ export const Lobby = React.memo(() => {
             console.error('Connection closed: ', error);
         });
 
-        connection.onreconnecting((error) => {
-            console.warn('Reconnecting: ', error);
-        });
-
-        connection.onreconnected((connectionId) => {
-            console.log('Reconnected: ', connectionId);
-        });
-
         connection.on('ReceiveLobby', (lobby: LobbyDto) => {
             console.log('Received lobby:', lobby);
 
@@ -167,3 +159,22 @@ export const Lobby = React.memo(() => {
         return <WaitingRoom players={lobby.players} onClick={onStartGame} />;
     }
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

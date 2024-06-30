@@ -3,8 +3,6 @@ import {ResourceCountDto} from "../../../../../interfaces/ResourceCountDto";
 import "./resource-cards.css"
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import useFetch from "../../../../../hooks/useFetch";
-import {DiceRollResponse} from "../../../../../responses/DiceRollResponse";
-import {PlayerDto} from "../../../../../interfaces/PlayerDto";
 import {usePlayer} from "../../../../../contexts/PlayerProvider";
 import {BaseResponse} from "../../../../../responses/BaseResponse";
 

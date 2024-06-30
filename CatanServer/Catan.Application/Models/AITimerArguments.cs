@@ -1,6 +1,6 @@
 ﻿using Catan.Domain.Entities;
 
-namespace Catan.Application.GameManagement.Misc
+namespace Catan.Application.Models
 {
     public class AITimerArguments
     {

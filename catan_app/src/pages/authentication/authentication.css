@@ -33,10 +33,11 @@
     flex-direction: column;
     margin: 25px;
     height: 80%;
+    /*font-weight: bold;*/
 }
 
-.auth-form h2 {
-    font-size: 24px;
+.auth-form h1 {
+    font-size: 30px;
     margin-bottom: 20px;
     color: #333;
 }
@@ -61,11 +62,12 @@
     padding: 10px;
     margin-top: auto;
     border: none;
-    border-radius: 4px;
-    background-color: #e5872d;
+    border-radius: 10px;
+    background-color: #ff8211;
     color: white;
     font-size: 16px;
     cursor: pointer;
+    font-weight: bold;
 }
 
 .auth-form button:hover {

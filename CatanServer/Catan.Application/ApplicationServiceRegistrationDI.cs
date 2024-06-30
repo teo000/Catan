@@ -1,13 +1,13 @@
 ﻿using AutoMapper;
 using Catan.Application.Contracts;
 using Catan.Application.GameManagement;
-using Catan.Application.Mapper;
+using Catan.Application.Utils.Mapper;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
 namespace Catan.Application
 {
-	public static class ApplicationServiceRegistrationDI
+    public static class ApplicationServiceRegistrationDI
 	{
 		public static void AddApplicationServices(this IServiceCollection services)
 		{

@@ -83,7 +83,7 @@ namespace Catan.API.Controllers
 			return Ok(result);
 		}
 
-		[Authorize(Roles = "User")]
+		[Authorize]
 		[HttpPost("make-move")]
 		[ProducesResponseType(StatusCodes.Status201Created)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -93,11 +93,12 @@ namespace Catan.API.Controllers
 			if (!result.Success)
 				return BadRequest(result);
 
-			_logger.Warn($"Make move: game session sent this to all clients: {result.GameSession}");
 			await _hubContext.Clients.Group(command.GameId.ToString()).SendAsync("ReceiveGame", result.GameSession);
 
 			return Ok(result);
 		}
+
+
 		[Authorize(Roles = "User")]
 		[HttpPost("play-devcard")]
 		[ProducesResponseType(StatusCodes.Status201Created)]
@@ -108,7 +109,6 @@ namespace Catan.API.Controllers
 			if (!result.Success)
 				return BadRequest(result);
 
-			_logger.Warn($"Make move: game session sent this to all clients: {result.GameSession}");
 			await _hubContext.Clients.Group(command.GameId.ToString()).SendAsync("ReceiveGame", result.GameSession);
 
 			return Ok(result);
