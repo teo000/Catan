@@ -45,7 +45,7 @@ namespace Catan.API.Controllers
 			if (!result.Success)
 				return BadRequest(result);
 
-			_logger.Warn($"Make move: game session sent this to all clients: {result.GameSession}");
+			//_logger.Warn($"Make move: game session sent this to all clients: {result.GameSession}");
 			await _hubContext.Clients.Group(command.GameId.ToString()).SendAsync("ReceiveGame", result.GameSession);
 
 			return Ok(result);
@@ -61,7 +61,7 @@ namespace Catan.API.Controllers
 			if (!result.Success)
 				return BadRequest(result);
 
-			_logger.Warn($"Make move: game session sent this to all clients: {result.GameSession}");
+			//_logger.Warn($"Make move: game session sent this to all clients: {result.GameSession}");
 			await _hubContext.Clients.Group(command.GameId.ToString()).SendAsync("ReceiveGame", result.GameSession);
 
 			return Ok(result);
@@ -77,7 +77,7 @@ namespace Catan.API.Controllers
 			if (!result.Success)
 				return BadRequest(result);
 
-			_logger.Warn($"Make move: game session sent this to all clients: {result.GameSession}");
+			//_logger.Warn($"Make move: game session sent this to all clients: {result.GameSession}");
 			await _hubContext.Clients.Group(command.GameId.ToString()).SendAsync("ReceiveGame", result.GameSession);
 
 			return Ok(result);
@@ -124,7 +124,7 @@ namespace Catan.API.Controllers
 			if (!result.Success)
 				return BadRequest(result);
 
-			_logger.Warn($"Make move: game session sent this to all clients: {result.GameSession}");
+			//_logger.Warn($"Make move: game session sent this to all clients: {result.GameSession}");
 			await _hubContext.Clients.Group(command.GameId.ToString()).SendAsync("ReceiveGame", result.GameSession);
 
 			return Ok(result);

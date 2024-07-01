@@ -1,8 +1,5 @@
 ﻿using Catan.API.Hubs;
-using Catan.Application.Contracts;
 using Catan.Application.Dtos;
-using Catan.Domain.Common;
-using Catan.Domain.Entities;
 using Microsoft.AspNetCore.SignalR;
 
 namespace Catan.API.Notifiers

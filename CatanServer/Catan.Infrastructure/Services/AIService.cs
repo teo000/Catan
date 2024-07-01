@@ -88,7 +88,7 @@ public class AIService : IAIService
 		try
 		{
 			string requestContent = JsonSerializer.Serialize(request, jsonOptions);
-			_logger.Warn($"Sending discard-half request for player {playerId}. Request content: {requestContent}");
+			_logger.Warn($"Sending discard-half request for player {playerId}");
 
 			var response = await _httpClient.PostAsJsonAsync("discard-half", request, jsonOptions);
 			response.EnsureSuccessStatusCode();
@@ -99,7 +99,7 @@ public class AIService : IAIService
 			var result = JsonSerializer.Deserialize<Result<Dictionary<string, int>>>(responseContent, jsonOptions);
 			if (result == null)
 			{
-				_logger.Error($"Sending discard-half request for player {responseContent}");
+				_logger.Error($"Failed to deserialize response");
 				return Result<Dictionary<Resource, int>>.Failure("Failed to deserialize response");
 			}
 
@@ -166,4 +166,44 @@ public class AIService : IAIService
 		}
 	}
 
+	public async Task<Result<int>> MoveThief(GameSession gameSession, Guid playerId)
+	{
+		var jsonOptions = new JsonSerializerOptions
+		{
+			WriteIndented = true,
+			Converters = { new ResultJsonConverter<int>(), }
+		};
+
+		var request = new AIMoveRequest
+		{
+			GameState = _mapper.Map<GameSessionDto>(gameSession),
+			PlayerId = playerId,
+		};
+
+		var jsonString = JsonSerializer.Serialize(request, jsonOptions);
+		Console.WriteLine("JSON Sent to Microservice:");
+		Console.WriteLine(jsonString);
+
+		var response = await _httpClient.PostAsJsonAsync("move-thief", request);
+		response.EnsureSuccessStatusCode();
+
+		var responseContent = await response.Content.ReadAsStringAsync();
+
+		Console.WriteLine("JSON Response from Microservice:");
+		Console.WriteLine(responseContent);
+
+		try
+		{
+			var content = JsonSerializer.Deserialize<Result<int>>(responseContent, jsonOptions);
+			if (content != null)
+				return content;
+			else
+				throw new Exception("Deserialized content is null");
+		}
+		catch (Exception ex)
+		{
+			Console.WriteLine("Error deserializing response: " + ex.Message);
+			throw new Exception("AI service error: " + ex.Message);
+		}
+	}
 }

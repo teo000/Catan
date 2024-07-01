@@ -39,6 +39,16 @@ namespace AIService.Presentation.Controllers
 			return BadRequest(discardResult.Error);
 		}
 
+		[HttpPost("move-thief")]
+		public async Task<IActionResult> MoveThief([FromBody] MoveRequest request)
+		{
+			var discardResult = _aiDecisionService.MoveThief(request.GameState, request.PlayerId);
+			if (discardResult.IsSuccess)
+				return Ok(discardResult);
+
+			return BadRequest(discardResult.Error);
+		}
+
 		[HttpPost("respond-to-trade")]
 		public async Task<IActionResult> RespondToTrade([FromBody] TradeRequest request)
 		{

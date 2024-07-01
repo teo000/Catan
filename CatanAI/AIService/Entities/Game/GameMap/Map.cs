@@ -16,6 +16,9 @@ namespace AIService.Entities.Game.GameMap
 		public static List<int> GetViableSettlementPositions(GameState gameState, Player player)
 		{
 			var settlementPositions = gameState.Map.Settlements.Select(s => s.Position).ToList();
+			var citiesPostions = gameState.Map.Cities.Select(c => c.Position).ToList();
+			var buildingsPositions = settlementPositions.Concat(citiesPostions).ToList();
+
 			var playerRoadPositions = gameState.Map.Roads
 				.Where(s => s.PlayerId == player?.Id)
 				.Select(s => s.Position)
@@ -30,14 +33,14 @@ namespace AIService.Entities.Game.GameMap
 
 				foreach (var settlement in endPositions)
 				{
-					if (!settlementPositions.Contains(settlement))
+					if (!buildingsPositions.Contains(settlement))
 					{
 						var ok = true;
 						if (GameMapData.AdjacentSettlements.TryGetValue(settlement, out var adjacents))
 						{
 							foreach (var adjacent in adjacents)
 							{
-								if (settlementPositions.Contains(adjacent))
+								if (buildingsPositions.Contains(adjacent))
 								{
 									ok = false;
 									break;

@@ -5,7 +5,7 @@
 		public PlaceCityMove(Guid gameId, int position) : base(gameId)
 		{
 			Position = position;
-			MoveType = Data.MoveType.PlaceRoad;
+			MoveType = Data.MoveType.PlaceCity;
 		}
 
 		public int Position { get; set; }

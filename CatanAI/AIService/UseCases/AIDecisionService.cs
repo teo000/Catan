@@ -61,7 +61,7 @@ namespace AIService.UseCases
 
 
 			if (player.HasResources(Buyable.CITY)) {
-				var settlementToUpgrade = ListExtensions.GetRandomElement(player.Settlements);
+				var settlementToUpgrade = RandomExtensions.GetRandomElement(player.Settlements);
 				moves.Add(new PlaceCityMove(gameState.Id, settlementToUpgrade.Position));
 				player.SubtractResources(Buyable.CITY);
 			}
@@ -71,9 +71,9 @@ namespace AIService.UseCases
 				var viableSettlementPositions = Map.GetViableSettlementPositions(gameState, player);
 				if (viableSettlementPositions.Count > 0)
 				{
-					var newSettlementPosition = ListExtensions.GetRandomElement(viableSettlementPositions);
+					var newSettlementPosition = RandomExtensions.GetRandomElement(viableSettlementPositions);
 					moves.Add(new PlaceSettlementMove(gameState.Id, newSettlementPosition));
-					player.SubtractResources(Buyable.ROAD);
+					player.SubtractResources(Buyable.SETTLEMENT);
 				}
 			}
 
@@ -82,7 +82,7 @@ namespace AIService.UseCases
 				var viableRoadPositions = Map.GetViableRoadPositions(gameState, player);
 				if (viableRoadPositions.Count > 0)
 				{
-					var newRoadPosition = ListExtensions.GetRandomElement(viableRoadPositions);
+					var newRoadPosition = RandomExtensions.GetRandomElement(viableRoadPositions);
 					moves.Add(new PlaceRoadMove(gameState.Id, newRoadPosition));
 					player.SubtractResources(Buyable.ROAD);
 				}
@@ -105,12 +105,12 @@ namespace AIService.UseCases
 			{
 				newSettlementPosition = rng.Next(GameMapData.SETTLEMENTS_NO - 1);
 			} while (settlementsPositions.Contains(newSettlementPosition) 
-					&& Settlement.HasAdjacentSettlements(settlementsPositions, newSettlementPosition));
+					|| Settlement.HasAdjacentSettlements(settlementsPositions, newSettlementPosition));
 
 			moves.Add(new PlaceSettlementMove(gameState.Id, newSettlementPosition));
 
 			var adjacentSettlements = GameMapData.AdjacentSettlements[newSettlementPosition];
-			var otherSettlementPosition = ListExtensions.GetRandomElement(adjacentSettlements);
+			var otherSettlementPosition = RandomExtensions.GetRandomElement(adjacentSettlements);
 			var roadPosition = Road.GetRoadPosition(newSettlementPosition, otherSettlementPosition);
 
 			moves.Add(new PlaceRoadMove(gameState.Id, roadPosition));
@@ -121,6 +121,36 @@ namespace AIService.UseCases
 		public Result<bool> RespondToTrade (GameState gameState, Guid playerId, PlayerTrade trade)
 		{
 			return Result<bool>.Success(true);
+		}
+
+		public Result<int> MoveThief(GameState gameState, Guid playerId)
+		{
+			var hexes = gameState.Map.HexTiles;
+			var thiefPosition = gameState.Map.ThiefPosition;
+			var otherPlayersSettlementPos = gameState.Map.Settlements
+				.Where(p => p.PlayerId != playerId)
+				.Select(s => s.Position)
+				.ToList();
+
+			var possibleHexes = otherPlayersSettlementPos
+				.SelectMany(pos => GameMapData.SettlementAdjacentHexes[pos])
+				.ToList();
+
+			possibleHexes.Sort();
+
+
+			var probabilityDict = new Dictionary<int, int>();
+
+			foreach (int hex in possibleHexes)
+			{
+				if (!probabilityDict.ContainsKey(hex))
+					probabilityDict.Add(hex, hexes[hex].Number);
+				else probabilityDict[hex] += hexes[hex].Number;
+			}
+
+			var selectedHex = RandomExtensions.SelectWeightedRandom(probabilityDict);
+
+			return Result<int>.Success(selectedHex);
 		}
 	}
 }

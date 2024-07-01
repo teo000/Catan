@@ -22,7 +22,7 @@ namespace Catan.Domain.Entities
 			foreach (Resource resource in Enum.GetValues(typeof(Resource)))
 				if (resource != Resource.Desert)
 				{
-					ResourceCount.Add(resource, 0);
+					ResourceCount.Add(resource, 4);
 					TradeCount.Add(resource, 4);
 				}
 			IsAI = isAI;
@@ -174,6 +174,12 @@ namespace Catan.Domain.Entities
 		{
 			Settlements.Add(settlement);
 			LastPlacedSettlementPos = settlement.Position;
+		}
+
+		public void AddCity(City city)
+		{
+			Cities.Add(city);
+			Settlements.RemoveAll(s => s.Position == city.Position);
 		}
 
 		public int GetCardsNo()

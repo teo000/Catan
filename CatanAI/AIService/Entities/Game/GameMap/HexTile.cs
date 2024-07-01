@@ -5,8 +5,8 @@ namespace AIService.Entities.Game.GameMap
 {
     public class HexTile
     {
-        public Resource Resource { get; private set; }
-        public int Number { get; private set; }
-        public List<Building> Buildings { get; private set; } = new List<Building>();
+        public Resource Resource { get; set; }
+        public int Number { get; set; }
+        public List<Building> Buildings { get; set; } = new List<Building>();
     }
 }

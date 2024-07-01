@@ -55,8 +55,6 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
     const {getVisibleSettlementSpots, getVisibleRoadSpots} = useVisibleSpots(gameSession);
 
 
-
-
     useEffect(() =>{
         if((gameSession.round === 1 || gameSession.round ===2 ) && player?.id === gameSession.turnPlayer.id) {
             setButtonsDisabled(true);
@@ -285,8 +283,6 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
         return <p> Something went wrong ... </p>
     }
 
-    // console.log(gameSession);
-
     const isAbandoned = (gameSession.gameStatus === 'Abandoned')
     const isWon = (gameSession.gameStatus === 'Finished')
 
@@ -306,6 +302,9 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
 
     const playerCardsNo = Object.values(playerState.resourceCount).reduce((a, b) => a + b, 0);
     const mustDiscard = lastDiceRoll === 7 && !playerState.discardedThisTurn && playerCardsNo >= 7
+    const robberVisible = isMyTurn &&
+        (( lastDiceRoll === 7 && !gameSession.thiefMovedThisTurn) || knightCardClicked)
+
 
     return (
         <div className="gameLayout">
@@ -345,7 +344,7 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
                             onRoadClick={handleRoadClick}
                         />
                         <RobberSpots
-                            visible={(lastDiceRoll === 7 && !gameSession.thiefMovedThisTurn) || knightCardClicked }
+                            visible={robberVisible}
                             onRobberSpotClick={onRobberClick}
                             currentSpot={gameSession.map.thiefPosition}
                         />
@@ -384,9 +383,6 @@ const GameLayout: React.FC<GameLayoutProps> = ({gameSession}) => {
             {isWon && gameSession.winner &&
                 <Overlay winner={gameSession.winner.name}
                          message="Game finished!"
-                         // message={gameSession.winner.id === player.id ?
-                         // "You won!" : `${gameSession.winner.name} wins`}
-
                 />
             }
             <TradeBank isOpen={isTradeBankOpen} setIsOpen={setIsTradeBankOpen} tradeCount={playerState.tradeCount} />

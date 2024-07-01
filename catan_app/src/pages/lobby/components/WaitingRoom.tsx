@@ -33,7 +33,6 @@ export const WaitingRoom: React.FC<Props> = ({ players, onClick}) => {
         }
     };
 
-
     const handleCopyJoinCode = () => {
         navigator.clipboard.writeText(joinCode)
             .then(() => {

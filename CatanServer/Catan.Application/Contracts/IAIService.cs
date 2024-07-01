@@ -12,6 +12,7 @@ namespace Catan.Application.Contracts
 		public Task<Result<List<Move>>> MakeAIMove(GameSession gameSession, Guid playerId);
 		public Task<Result<Dictionary<Resource, int>>> DiscardHalfOfResources (GameSession gameSession, Guid playerId);
 		public Task<Result<bool>> RespondToTrade (GameSession gameSession, Guid playerId, Trade trade);
+		public Task<Result<int>> MoveThief(GameSession gameSession, Guid playerId);
 
 	}
 }

@@ -89,7 +89,7 @@ export const TradePlayer: React.FC<TradeBankProps> = ({ players, isOpen, setIsOp
             </div>
 
             <div className="trade-resource">
-                <label htmlFor="giveResource">Give Resource:</label>
+                <label htmlFor="giveResource">Give:</label>
 
                 <select
                     id="giveResource"
@@ -110,7 +110,7 @@ export const TradePlayer: React.FC<TradeBankProps> = ({ players, isOpen, setIsOp
                 />
             </div>
             <div className="trade-resource">
-                <label htmlFor="receiveResource">Receive Resource:</label>
+                <label htmlFor="receiveResource">Receive:</label>
                 <select
                     id="receiveResource"
                     value={receiveResource}
@@ -132,8 +132,11 @@ export const TradePlayer: React.FC<TradeBankProps> = ({ players, isOpen, setIsOp
             <p>
                 {message}
             </p>
-            <button className="modal-button" onClick={handleConfirm}>OK</button>
-            <button className="modal-button" onClick={handleCancel}>Close</button>
+            <div className="buttons-container">
+                <button className="modal-button" onClick={handleConfirm}>OK</button>
+                <button className="modal-button" onClick={handleCancel}>Close</button>
+            </div>
+
         </Modal>
     );
 };

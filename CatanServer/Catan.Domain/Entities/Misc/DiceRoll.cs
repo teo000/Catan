@@ -16,6 +16,7 @@ public class DiceRoll
 		Values[0] = rnd.Next(1, 7);
 		Values[1] = rnd.Next(1, 7);
 
+
 		RolledThisTurn = true;
 
 		return (Values[0], Values[1]);

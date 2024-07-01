@@ -49,6 +49,7 @@ const ResourceCards: React.FC<ResourceCardsProps> = ({ resourceCount, mustDiscar
                 console.error('Failed to discard half: Invalid response format', response);
             }
             console.log(response);
+            setDiscardCounts({});
         } catch (err) {
             console.error('Failed to discard half', err);
         }
