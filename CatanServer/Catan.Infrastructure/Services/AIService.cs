@@ -2,6 +2,7 @@
 using Catan.Application.Contracts;
 using Catan.Application.Dtos;
 using Catan.Application.Models.Moves;
+using Catan.Application.Models.Requests;
 using Catan.Domain.Common;
 using Catan.Domain.Data;
 using Catan.Domain.Entities;
@@ -206,4 +207,41 @@ public class AIService : IAIService
 			throw new Exception("AI service error: " + ex.Message);
 		}
 	}
+
+	public async Task<Result<List<PlayerTradeRequest>>> InitiatePlayerTrades(GameSession gameSession, Guid playerId)
+	{
+		var jsonOptions = new JsonSerializerOptions
+		{
+			WriteIndented = true,
+			Converters = { new ResultJsonConverter<List<PlayerTradeRequest>>(), new PlayerTradeRequestConverter() }
+		};
+
+		var request = new AIMoveRequest
+		{
+			GameState = _mapper.Map<GameSessionDto>(gameSession),
+			PlayerId = playerId,
+		};
+
+		var jsonString = JsonSerializer.Serialize(request, jsonOptions);
+
+		var response = await _httpClient.PostAsJsonAsync("initiate-player-trades", request);
+		response.EnsureSuccessStatusCode();
+
+		var responseContent = await response.Content.ReadAsStringAsync();
+
+		try
+		{
+			var content = JsonSerializer.Deserialize<Result<List<PlayerTradeRequest>>>(responseContent, jsonOptions);
+			if (content != null)
+				return content;
+			else
+				throw new Exception("Deserialized content is null");
+		}
+		catch (Exception ex)
+		{
+			Console.WriteLine("Error deserializing response: " + ex.Message);
+			throw new Exception("AI service error: " + ex.Message);
+		}
+	}
+
 }

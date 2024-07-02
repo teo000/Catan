@@ -10,6 +10,7 @@ using Catan.Domain.Entities.GamePieces;
 using Catan.Domain.Entities.Misc;
 using Catan.Domain.Entities.Trades;
 using Catan.Domain.Interfaces;
+using MediatR;
 
 namespace Catan.Application.GameManagement;
 
@@ -190,6 +191,7 @@ public class GameSessionManager
 			await RollDice(session, aIPlayer);
 			await _gameNotifier.NotifyGameAsync(_mapper.Map<GameSessionDto>(session));
 			await Task.Delay(1000);
+
 		}
 
 		if (session.Dice.GetSummedValue() == 7)
@@ -203,6 +205,10 @@ public class GameSessionManager
 			await WaitForHumanPlayersToDiscard(session);
 			_logger.Warn("Everyone discarded... moving on");
 		}
+
+		if(!session.IsInBeginningPhase())
+			await AIHandlePlayerTrades(session, aIPlayer);
+
 
 		var aIMovesResult = await _aIService.MakeAIMove(session, aIPlayer.Id);
 
@@ -228,6 +234,37 @@ public class GameSessionManager
 
 		if (!session.IsInBeginningPhase())
 			EndPlayerTurn(session);
+	}
+
+	private async Task AIHandlePlayerTrades(GameSession session, Player aIPlayer)
+	{
+		var aIResult = await _aIService.InitiatePlayerTrades(session, aIPlayer.Id);
+
+		if (!aIResult.IsSuccess)
+		{
+			_logger.Warn($"AI did not initiate any player trades: {aIResult.Error}");
+			return;
+		}
+
+		foreach(var trade in aIResult.Value)
+		{
+			var playerToReceive = session.Players.Where(p => p.Id == trade.PlayerToReceiveId).FirstOrDefault();
+			if (playerToReceive == default) {
+				_logger.Error($"Player {trade.PlayerToGiveId} was not found");
+				continue;
+			}
+
+			var resourceToGive = (Resource)Enum.Parse(typeof(Resource), trade.ResourceToGive, true);
+			var resourceToReceive = (Resource)Enum.Parse(typeof(Resource), trade.ResourceToReceive, true);
+
+			var aITradeResult = session.AddNewPendingTrade(aIPlayer, resourceToGive, trade.CountToGive, playerToReceive, resourceToReceive, trade.CountToReceive);
+
+			if (!aITradeResult.IsSuccess)
+			{
+				_logger.Error($"AI failed to move thief: {aITradeResult.Error}");
+			}
+			await _gameNotifier.NotifyGameAsync(_mapper.Map<GameSessionDto>(session));
+		}
 	}
 
 	private async Task WaitForHumanPlayersToDiscard(GameSession session)

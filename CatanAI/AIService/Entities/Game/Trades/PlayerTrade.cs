@@ -4,7 +4,7 @@ namespace AIService.Entities.Game.Trades
 {
     public class PlayerTrade : Trade
     {
-        public Guid PlayerToReceiveId { get; private set; }
-        public TradeStatus Status { get; private set; } = TradeStatus.Pending;
+        public Guid PlayerToReceiveId { get; set; }
+        public TradeStatus Status { get; set; } = TradeStatus.Pending;
     }
 }

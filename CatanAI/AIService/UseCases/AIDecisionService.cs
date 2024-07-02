@@ -5,6 +5,7 @@ using AIService.Entities.Game.GameMap;
 using AIService.Entities.Game.GamePieces;
 using AIService.Entities.Game.Trades;
 using AIService.Entities.Moves;
+using AIService.UseCases.Dtos;
 using AIService.Utils;
 using Catan.Data;
 
@@ -57,8 +58,6 @@ namespace AIService.UseCases
 		private List<Move> HandleGame(GameState gameState, Player player)
 		{
 			var moves = new List<Move>();
-			var map = gameState.Map;
-
 
 			if (player.HasResources(Buyable.CITY)) {
 				var settlementToUpgrade = RandomExtensions.GetRandomElement(player.Settlements);
@@ -151,6 +150,72 @@ namespace AIService.UseCases
 			var selectedHex = RandomExtensions.SelectWeightedRandom(probabilityDict);
 
 			return Result<int>.Success(selectedHex);
+		}
+
+		public Result<List<PlayerTradeRequest>> InitiatePlayerTrades(GameState gameState, Guid playerId)
+		{
+			var aIPlayer = gameState.Players.Where(p => p.Id == playerId).FirstOrDefault();
+
+			if (aIPlayer == null)
+				return Result<List<PlayerTradeRequest>>.Failure("Player not found");
+
+			if (aIPlayer.GetCardsNo() < 4 )
+				return Result<List<PlayerTradeRequest>>.Failure("Player has less than 4 cards");
+
+			if (aIPlayer.HasResources(Buyable.CITY)
+				|| aIPlayer.HasResources(Buyable.CITY) || aIPlayer.HasResources(Buyable.ROAD))
+				return Result<List<PlayerTradeRequest>>.Failure("Player has enough resources");
+
+			var neededForCity = aIPlayer.CardsNeeded(Buyable.CITY);
+			var neededForSettlement = aIPlayer.CardsNeeded(Buyable.SETTLEMENT);
+			var neededForRoad = aIPlayer.CardsNeeded(Buyable.ROAD);
+
+			var closestBuyable = new Dictionary<Buyable, Dictionary<Resource, int>>
+			{
+				{ Buyable.CITY, neededForCity },
+				{ Buyable.SETTLEMENT, neededForSettlement },
+				{ Buyable.ROAD, neededForRoad }
+			}
+			.Where(kv => kv.Value.Any())
+			.OrderBy(kv => kv.Value.Values.Sum())
+			.FirstOrDefault();
+
+			if (closestBuyable.Key == default)
+				return Result<List<PlayerTradeRequest>>.Failure("Player is not close enough to any buyable item");
+
+			var trades = new List<PlayerTradeRequest>();
+
+			foreach (var neededResource in closestBuyable.Value)
+			{
+				var resourceWanted = neededResource.Key;
+				var quantityWanted = neededResource.Value;
+
+				for (int i = 0; i < quantityWanted; i++)
+				{
+					var resourceOffered = aIPlayer.GetMostAbundantResource();
+					if (!resourceOffered.HasValue) 
+						continue;
+
+					foreach (var p in gameState.Players) 
+						if (p.Id != aIPlayer.Id)
+						{
+							var trade = new PlayerTradeRequest
+							{
+								PlayerToReceiveId = p.Id,
+								ResourceToReceive = resourceWanted.ToString(),
+								CountToReceive = quantityWanted,
+								PlayerToGiveId = aIPlayer.Id,
+								ResourceToGive = resourceOffered.Value.ToString(),
+								CountToGive = quantityWanted
+							};
+
+							trades.Add(trade);
+						}
+				}
+			}
+
+			return Result<List<PlayerTradeRequest>>.Success(trades);
+
 		}
 	}
 }

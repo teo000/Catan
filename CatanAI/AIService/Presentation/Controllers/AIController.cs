@@ -58,5 +58,17 @@ namespace AIService.Presentation.Controllers
 
 			return BadRequest(result.Error);
 		}
+
+		[HttpPost("initiate-player-trades")]
+		public async Task<IActionResult> InitiatePlayerTrades([FromBody] MoveRequest request)
+		{
+			var result = _aiDecisionService.InitiatePlayerTrades(request.GameState, request.PlayerId);
+
+			var responseJson = JsonSerializer.Serialize(result, new JsonSerializerOptions { WriteIndented = true });
+
+
+			return Ok(result);
+
+		}
 	}
 }
