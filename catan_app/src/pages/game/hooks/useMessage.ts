@@ -1,5 +1,5 @@
 import {GameSessionDto} from "../../../interfaces/GameSessionDto";
-import {usePlayer} from "../../../context/PlayerProvider";
+import {usePlayer} from "../../../contexts/PlayerProvider";
 
 export const useMessage = (gameSession : GameSessionDto) => {
     const {player} = usePlayer()

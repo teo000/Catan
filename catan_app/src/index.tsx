@@ -4,25 +4,20 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {BrowserRouter, Routes, Route} from "react-router-dom";
-import {PlayerProvider} from "./context/PlayerProvider";
+import {PlayerProvider} from "./contexts/PlayerProvider";
+import {AuthProvider} from "./contexts/AuthContext";
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 
-// root.render(
-//   <React.StrictMode>
-//     <App />
-//   </React.StrictMode>
-// );
-
-// axios.defaults.baseURL = 'https://localhost:7251';
-
 root.render(
     <BrowserRouter>
-        <PlayerProvider>
-            <App/>
-        </PlayerProvider>
+        <AuthProvider>
+            <PlayerProvider>
+                <App />
+            </PlayerProvider>
+        </AuthProvider>
     </BrowserRouter>
     // document.getElementById('root')
 )

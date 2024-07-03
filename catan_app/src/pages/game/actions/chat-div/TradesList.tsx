@@ -1,6 +1,6 @@
 import {TradeDto} from "../../../../interfaces/TradeDto";
 import "./chat.css"
-import {usePlayer} from "../../../../context/PlayerProvider";
+import {usePlayer} from "../../../../contexts/PlayerProvider";
 import {PlayerDto} from "../../../../interfaces/PlayerDto";
 import useFetch from "../../../../hooks/useFetch";
 import {LobbyResponse} from "../../../../responses/LobbyResponse";

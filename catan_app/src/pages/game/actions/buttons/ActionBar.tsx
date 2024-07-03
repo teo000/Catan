@@ -5,6 +5,7 @@ import {PlaceCityButton} from "./PlaceCityButton";
 import "./action-button.css"
 import {BuyDevelopmentCardButton} from "./BuyDevelopmentCardButton";
 import {Tooltip} from "../../misc/tooltip/ToolTip";
+import {ResourceCountDto} from "../../../../interfaces/ResourceCountDto";
 export enum ButtonActions {
     None = 'None',
     PlaceSettlement = 'PlaceSettlement',
@@ -14,7 +15,7 @@ export enum ButtonActions {
 }
 
 interface ActionBarProps {
-    disabled: boolean
+    disabled: boolean;
     activeButton: ButtonActions;
     handlePlaceSettlementButtonClick: (action: ButtonActions) => void;
     handlePlaceRoadButtonClick: (action: ButtonActions) => void;
@@ -37,7 +38,15 @@ const resourceRequirements: ResourceRequirements = {
     developmentCard: "1x Wheat, 1x Sheep, 1x Ore"
 };
 
-function ActionBar({ disabled, activeButton, handlePlaceSettlementButtonClick, handlePlaceRoadButtonClick, handlePlaceCityButtonClick, handleTradeBankButtonClick, handleTradePlayerButtonClick, handleBuyDevelopmentButtonClick }: ActionBarProps) {
+function ActionBar({ disabled,
+                       activeButton,
+                       handlePlaceSettlementButtonClick,
+                       handlePlaceRoadButtonClick,
+                       handlePlaceCityButtonClick,
+                       handleTradeBankButtonClick,
+                       handleTradePlayerButtonClick,
+                       handleBuyDevelopmentButtonClick
+}: ActionBarProps) {
     return (
         <div className="actions-div">
             <div className="action-button-wrapper">

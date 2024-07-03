@@ -1,7 +1,7 @@
 import useFetch from "../../../hooks/useFetch";
 import {LobbyResponse} from "../../../responses/LobbyResponse";
 import {useLocation} from "react-router-dom";
-import {usePlayer} from "../../../context/PlayerProvider";
+import {usePlayer} from "../../../contexts/PlayerProvider";
 import React, {useCallback, useEffect, useState} from "react";
 import {GameLayout} from "../../game/GameLayout";
 import {WaitingRoom} from "./WaitingRoom";
@@ -67,14 +67,6 @@ export const Lobby = React.memo(() => {
 
         connection.onclose((error) => {
             console.error('Connection closed: ', error);
-        });
-
-        connection.onreconnecting((error) => {
-            console.warn('Reconnecting: ', error);
-        });
-
-        connection.onreconnected((connectionId) => {
-            console.log('Reconnected: ', connectionId);
         });
 
         connection.on('ReceiveLobby', (lobby: LobbyDto) => {
@@ -167,3 +159,22 @@ export const Lobby = React.memo(() => {
         return <WaitingRoom players={lobby.players} onClick={onStartGame} />;
     }
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -2,6 +2,7 @@
 
 public enum Buyable
 {
+	NONE,
 	SETTLEMENT,
 	CITY,
 	ROAD,

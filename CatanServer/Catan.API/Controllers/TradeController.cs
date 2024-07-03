@@ -2,6 +2,7 @@
 using Catan.Application.Features.Trade.Commands.InitiateTrade;
 using Catan.Application.Features.Trade.Commands.RespondToTrade;
 using Catan.Application.Features.Trade.Commands.TradeBank;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 
@@ -18,6 +19,7 @@ namespace Catan.API.Controllers
 			_hubContext = hubContext;
 		}
 
+		[Authorize(Roles = "User")]
 		[HttpPost("initiate")]
 		[ProducesResponseType(StatusCodes.Status201Created)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -34,6 +36,7 @@ namespace Catan.API.Controllers
 			return Ok(result);
 		}
 
+		[Authorize(Roles = "User")]
 		[HttpPost("accept")]
 		[ProducesResponseType(StatusCodes.Status201Created)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -50,6 +53,7 @@ namespace Catan.API.Controllers
 			return Ok(result);
 		}
 
+		[Authorize(Roles = "User")]
 		[HttpPost("bank")]
 		[ProducesResponseType(StatusCodes.Status201Created)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]

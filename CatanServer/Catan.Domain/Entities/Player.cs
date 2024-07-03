@@ -1,6 +1,7 @@
 ﻿using Catan.Domain.Common;
 using Catan.Domain.Data;
 using Catan.Domain.Entities.GamePieces;
+using Catan.Domain.Entities.Misc;
 using Catan.Domain.Entities.Trades;
 using System.Xml.Linq;
 
@@ -21,8 +22,8 @@ namespace Catan.Domain.Entities
 			foreach (Resource resource in Enum.GetValues(typeof(Resource)))
 				if (resource != Resource.Desert)
 				{
-					ResourceCount.Add(resource, 2);
-					TradeCount.Add(resource, 4);
+					ResourceCount.Add(resource, 1);
+					TradeCount.Add(resource, 0);
 				}
 			IsAI = isAI;
 		}
@@ -173,6 +174,12 @@ namespace Catan.Domain.Entities
 		{
 			Settlements.Add(settlement);
 			LastPlacedSettlementPos = settlement.Position;
+		}
+
+		public void AddCity(City city)
+		{
+			Cities.Add(city);
+			Settlements.RemoveAll(s => s.Position == city.Position);
 		}
 
 		public int GetCardsNo()

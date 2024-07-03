@@ -3,7 +3,7 @@ import React, {useEffect, useState} from "react";
 import "./trade-window.css"
 import useFetch from "../../../../hooks/useFetch";
 import {LobbyResponse} from "../../../../responses/LobbyResponse";
-import {usePlayer} from "../../../../context/PlayerProvider";
+import {usePlayer} from "../../../../contexts/PlayerProvider";
 import {BaseResponse} from "../../../../responses/BaseResponse";
 import {ResourceCountDto} from "../../../../interfaces/ResourceCountDto";
 
@@ -75,7 +75,7 @@ export const TradeBank: React.FC<TradeBankProps> = ({ isOpen, setIsOpen, tradeCo
         >
             <h2>Trade with Bank</h2>
             <div className="trade-resource">
-                <label htmlFor="giveResource">Give Resource:</label>
+                <label htmlFor="giveResource">Give:</label>
                 <select
                     id="giveResource"
                     value={giveResource}
@@ -94,7 +94,7 @@ export const TradeBank: React.FC<TradeBankProps> = ({ isOpen, setIsOpen, tradeCo
                 />
             </div>
             <div className="trade-resource">
-                <label htmlFor="receiveResource">Receive Resource:</label>
+                <label htmlFor="receiveResource">Receive:</label>
                 <select
                     id="receiveResource"
                     value={receiveResource}
@@ -116,8 +116,10 @@ export const TradeBank: React.FC<TradeBankProps> = ({ isOpen, setIsOpen, tradeCo
             <p>
                 {message}
             </p>
-            <button className="modal-button" onClick={handleConfirm}>OK</button>
-            <button className="modal-button" onClick={handleCancel}>Close</button>
+            <div className="buttons-container">
+                <button className="modal-button" onClick={handleConfirm}>OK</button>
+                <button className="modal-button" onClick={handleCancel}>Close</button>
+            </div>
         </Modal>
     );
 };

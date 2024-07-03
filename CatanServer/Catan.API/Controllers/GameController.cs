@@ -5,31 +5,26 @@ using Catan.Application.Features.Game.Commands.MakeMove;
 using Catan.Application.Features.Game.Commands.MoveThief;
 using Catan.Application.Features.Game.Commands.PlayDevelopmentCard;
 using Catan.Application.Features.Game.Commands.RollDice;
-using Catan.Application.Features.Game.CommandsObsolete.CreateGame;
-using Catan.Application.Features.Game.CommandsObsolete.PlaceCity;
-using Catan.Application.Features.Game.CommandsObsolete.PlaceRoad;
-using Catan.Application.Features.Game.CommandsObsolete.PlaceSettlement;
 using Catan.Application.Features.Game.Queries.GetGameState;
 using Catan.Application.GameManagement;
-using Catan.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 
 namespace Catan.API.Controllers
 {
-    public class GameController : ApiControllerBase
+	public class GameController : ApiControllerBase
 	{
 		private readonly IHubContext<GameHub> _hubContext;
-		private readonly GameSessionManager _gameSessionManager;
 		private readonly Domain.Interfaces.ILogger _logger;
 
-		public GameController(IHubContext<GameHub> hubContext, GameSessionManager gameSessionManager, Domain.Interfaces.ILogger logger)
+		public GameController(IHubContext<GameHub> hubContext, Domain.Interfaces.ILogger logger)
 		{
 			_hubContext = hubContext;
-			_gameSessionManager = gameSessionManager;
 			_logger = logger;
 		}
 
+		[Authorize(Roles = "User")]
 		[HttpGet("{id}")]
 		public async Task<IActionResult> Get(Guid id, [FromQuery] Guid playerId)
 		{
@@ -40,6 +35,7 @@ namespace Catan.API.Controllers
 			return Ok(result);
 		}
 
+		[Authorize(Roles = "User")]
 		[HttpPost("thief")]
 		[ProducesResponseType(StatusCodes.Status201Created)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -49,12 +45,13 @@ namespace Catan.API.Controllers
 			if (!result.Success)
 				return BadRequest(result);
 
-			_logger.Warn($"Make move: game session sent this to all clients: {result.GameSession}");
+			//_logger.Warn($"Make move: game session sent this to all clients: {result.GameSession}");
 			await _hubContext.Clients.Group(command.GameId.ToString()).SendAsync("ReceiveGame", result.GameSession);
 
 			return Ok(result);
 		}
 
+		[Authorize(Roles = "User")]
 		[HttpPost("end-turn")]
 		[ProducesResponseType(StatusCodes.Status201Created)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -64,12 +61,13 @@ namespace Catan.API.Controllers
 			if (!result.Success)
 				return BadRequest(result);
 
-			_logger.Warn($"Make move: game session sent this to all clients: {result.GameSession}");
+			//_logger.Warn($"Make move: game session sent this to all clients: {result.GameSession}");
 			await _hubContext.Clients.Group(command.GameId.ToString()).SendAsync("ReceiveGame", result.GameSession);
 
 			return Ok(result);
 		}
 
+		[Authorize(Roles = "User")]
 		[HttpPost("roll-dice")]
 		[ProducesResponseType(StatusCodes.Status201Created)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -79,13 +77,13 @@ namespace Catan.API.Controllers
 			if (!result.Success)
 				return BadRequest(result);
 
-			_logger.Warn($"Make move: game session sent this to all clients: {result.GameSession}");
+			//_logger.Warn($"Make move: game session sent this to all clients: {result.GameSession}");
 			await _hubContext.Clients.Group(command.GameId.ToString()).SendAsync("ReceiveGame", result.GameSession);
 
 			return Ok(result);
 		}
 
-		
+		[Authorize]
 		[HttpPost("make-move")]
 		[ProducesResponseType(StatusCodes.Status201Created)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -95,12 +93,13 @@ namespace Catan.API.Controllers
 			if (!result.Success)
 				return BadRequest(result);
 
-			_logger.Warn($"Make move: game session sent this to all clients: {result.GameSession}");
 			await _hubContext.Clients.Group(command.GameId.ToString()).SendAsync("ReceiveGame", result.GameSession);
 
 			return Ok(result);
 		}
 
+
+		[Authorize(Roles = "User")]
 		[HttpPost("play-devcard")]
 		[ProducesResponseType(StatusCodes.Status201Created)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -110,12 +109,12 @@ namespace Catan.API.Controllers
 			if (!result.Success)
 				return BadRequest(result);
 
-			_logger.Warn($"Make move: game session sent this to all clients: {result.GameSession}");
 			await _hubContext.Clients.Group(command.GameId.ToString()).SendAsync("ReceiveGame", result.GameSession);
 
 			return Ok(result);
 		}
 
+		[Authorize(Roles = "User")]
 		[HttpPost("discard-half")]
 		[ProducesResponseType(StatusCodes.Status201Created)]
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -125,7 +124,7 @@ namespace Catan.API.Controllers
 			if (!result.Success)
 				return BadRequest(result);
 
-			_logger.Warn($"Make move: game session sent this to all clients: {result.GameSession}");
+			//_logger.Warn($"Make move: game session sent this to all clients: {result.GameSession}");
 			await _hubContext.Clients.Group(command.GameId.ToString()).SendAsync("ReceiveGame", result.GameSession);
 
 			return Ok(result);

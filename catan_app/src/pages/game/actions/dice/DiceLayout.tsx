@@ -1,7 +1,7 @@
 import {Dice} from "./Dice";
 import {useCallback, useEffect, useState} from "react";
 import useFetch from "../../../../hooks/useFetch";
-import {usePlayer} from "../../../../context/PlayerProvider";
+import {usePlayer} from "../../../../contexts/PlayerProvider";
 import {DiceRollResponse} from "../../../../responses/DiceRollResponse";
 import {DiceRollDto} from "../../../../interfaces/DiceRollDto";
 import {PlayerDto} from "../../../../interfaces/PlayerDto";

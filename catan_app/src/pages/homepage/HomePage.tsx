@@ -3,8 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import useFetch from "../../hooks/useFetch";
 import {LobbyPlayerResponse} from "../../responses/LobbyPlayerResponse";
 import './homepage.css';
-import {usePlayer} from "../../context/PlayerProvider";
+import {usePlayer} from "../../contexts/PlayerProvider";
 import {MapLogicInfo} from "../game/utils/MapLogicInfo";
+import {useAuth} from "../../contexts/AuthContext";
 
 const HomePage = () => {
     const { data, error, loading, request } = useFetch<LobbyPlayerResponse>('/api/v1/Lobby');
@@ -12,8 +13,8 @@ const HomePage = () => {
     const navigate = useNavigate();
     const [lobbyCode, setLobbyCode] = useState('');
     const [playerName, setPlayerName] = useState('');
-
     const { player, setPlayer } = usePlayer();
+    const {currentUser} = useAuth();
 
     useEffect(() =>{
             const loadMapLogicInfo = async () => {
@@ -24,9 +25,8 @@ const HomePage = () => {
     )
 
     const createLobby = async () => {
-        const requestData = { playerName };
+        const requestData = { playerName: currentUser };
         console.log("Create lobby");
-
 
         try {
             const response = await request('/create', 'post', requestData);
@@ -46,7 +46,7 @@ const HomePage = () => {
         }
     };
     const joinLobby = async () => {
-        const requestData = { joinCode : lobbyCode, playerName };
+        const requestData = { joinCode : lobbyCode, playerName: currentUser }; //validate current user is not null jic
 
         try {
             const response = await request('/join', 'post', requestData);
@@ -68,21 +68,16 @@ const HomePage = () => {
         <div className="homepage-container">
             <div className="homepage" >
                 <h1>Welcome to Settlers of Catan</h1>
-                <input
-                    type="text"
-                    value={playerName}
-                    onChange={(e) => setPlayerName(e.target.value)}
-                    placeholder="Enter your name"
-                />
+
                 <input
                     type="text"
                     value={lobbyCode}
                     onChange={(e) => setLobbyCode(e.target.value)}
                     placeholder="Enter Lobby Code"
                 />
-
-                <button onClick={createLobby}>Create Lobby</button>
                 <button onClick={joinLobby}>Join Lobby</button>
+                <p> ... or create your own </p>
+                <button onClick={createLobby}>Create Lobby</button>
             </div>
         </div>
     );

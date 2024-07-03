@@ -3,9 +3,7 @@ import {ResourceCountDto} from "../../../../../interfaces/ResourceCountDto";
 import "./resource-cards.css"
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import useFetch from "../../../../../hooks/useFetch";
-import {DiceRollResponse} from "../../../../../responses/DiceRollResponse";
-import {PlayerDto} from "../../../../../interfaces/PlayerDto";
-import {usePlayer} from "../../../../../context/PlayerProvider";
+import {usePlayer} from "../../../../../contexts/PlayerProvider";
 import {BaseResponse} from "../../../../../responses/BaseResponse";
 
 
@@ -51,6 +49,7 @@ const ResourceCards: React.FC<ResourceCardsProps> = ({ resourceCount, mustDiscar
                 console.error('Failed to discard half: Invalid response format', response);
             }
             console.log(response);
+            setDiscardCounts({});
         } catch (err) {
             console.error('Failed to discard half', err);
         }

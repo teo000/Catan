@@ -1,9 +1,6 @@
-﻿using AIService.Entities.Data;
-using AIService.Presentation.Requests;
+﻿using AIService.Presentation.Requests;
 using AIService.UseCases;
-using AIService.Utils;
 using Microsoft.AspNetCore.Mvc;
-using System.Text.Json.Serialization;
 using System.Text.Json;
 
 namespace AIService.Presentation.Controllers
@@ -39,6 +36,16 @@ namespace AIService.Presentation.Controllers
 			return BadRequest(discardResult.Error);
 		}
 
+		[HttpPost("move-thief")]
+		public async Task<IActionResult> MoveThief([FromBody] MoveRequest request)
+		{
+			var discardResult = _aiDecisionService.MoveThief(request.GameState, request.PlayerId);
+			if (discardResult.IsSuccess)
+				return Ok(discardResult);
+
+			return BadRequest(discardResult.Error);
+		}
+
 		[HttpPost("respond-to-trade")]
 		public async Task<IActionResult> RespondToTrade([FromBody] TradeRequest request)
 		{
@@ -47,6 +54,18 @@ namespace AIService.Presentation.Controllers
 				return Ok(result);
 
 			return BadRequest(result.Error);
+		}
+
+		[HttpPost("initiate-player-trades")]
+		public async Task<IActionResult> InitiatePlayerTrades([FromBody] MoveRequest request)
+		{
+			var result = _aiDecisionService.InitiatePlayerTrades(request.GameState, request.PlayerId);
+
+			var responseJson = JsonSerializer.Serialize(result, new JsonSerializerOptions { WriteIndented = true });
+
+
+			return Ok(result);
+
 		}
 	}
 }

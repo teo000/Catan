@@ -46,5 +46,42 @@ namespace AIService.Entities.Game
 
 			return true;
 		}
+
+		public int GetCardsNo()
+		{
+			int no = 0;
+			foreach (var (resource, count) in ResourceCount)
+			{
+				no += count;
+			}
+			return no;
+		}
+
+		public Dictionary<Resource, int> CardsNeeded(Buyable buyable)
+		{
+			var costs = GameInfo.Costs[buyable];
+			var cardsNeeded = new Dictionary<Resource, int>();
+			foreach (var (resource, required) in costs)
+			{
+				int differenceNeeded = required - ResourceCount[resource];
+				if (differenceNeeded > 0)
+					cardsNeeded.Add(resource, differenceNeeded);
+			}
+
+			return cardsNeeded;
+		}
+
+		public Resource? GetMostAbundantResource()
+		{
+			var abundantResource = ResourceCount
+			.Where(rc => rc.Value > 0)
+			.OrderByDescending(rc => rc.Value)
+			.FirstOrDefault();
+
+			if (abundantResource.Key == default)
+				return null; 
+
+			return abundantResource.Key;
+		}
 	}
 }

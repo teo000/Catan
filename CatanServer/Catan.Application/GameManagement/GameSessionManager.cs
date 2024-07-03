@@ -2,8 +2,7 @@
 using AutoMapper;
 using Catan.Application.Contracts;
 using Catan.Application.Dtos;
-using Catan.Application.GameManagement.Misc;
-using Catan.Application.Moves;
+using Catan.Application.Models.Moves;
 using Catan.Domain.Common;
 using Catan.Domain.Data;
 using Catan.Domain.Entities;
@@ -163,34 +162,53 @@ public class GameSessionManager
 
 	}
 
-	private void HandleAI(object? state)
-	{
-		Console.WriteLine("gata");
-		var args = (AITimerArguments)state;
+	//private void HandleAI(object? state)
+	//{
+	//	Console.WriteLine("gata");
+	//	var args = (AITimerArguments)state;
 
-		var sessionResult = GetGameSession(args.GameSessionId);
+	//	var sessionResult = GetGameSession(args.GameSessionId);
 
-		if (!sessionResult.IsSuccess)
-		{
-			return;
-		}
+	//	if (!sessionResult.IsSuccess)
+	//	{
+	//		return;
+	//	}
 
-		var session = sessionResult.Value;
+	//	var session = sessionResult.Value;
 
-		var currentPlayer = session.GetTurnPlayer();
-		if (args.PlayerId != currentPlayer.Id)
-			return;
+	//	var currentPlayer = session.GetTurnPlayer();
+	//	if (args.PlayerId != currentPlayer.Id)
+	//		return;
 
-		Task.Run(() => HandleAIPlayer(session, currentPlayer));
+	//	Task.Run(() => HandleAIPlayer(session, currentPlayer));
 
-	}
+	//}
 
 	public async Task HandleAIPlayer(GameSession session, Player aIPlayer)
 	{
 		if (!session.IsInBeginningPhase())
 		{
 			await RollDice(session, aIPlayer);
+			await _gameNotifier.NotifyGameAsync(_mapper.Map<GameSessionDto>(session));
+			await Task.Delay(1000);
+
 		}
+
+		if (session.Dice.GetSummedValue() == 7)
+		{
+			await AIHandleMoveThief(session, aIPlayer);
+			_logger.Warn("Handled move thief");
+
+			await AIHandleRoll7(session); // ais discard half of cards
+			_logger.Warn("Handled discard 7");
+			_logger.Warn("Waiting...");
+			await WaitForHumanPlayersToDiscard(session);
+			_logger.Warn("Everyone discarded... moving on");
+		}
+
+		if(!session.IsInBeginningPhase())
+			await AIHandlePlayerTrades(session, aIPlayer);
+
 
 		var aIMovesResult = await _aIService.MakeAIMove(session, aIPlayer.Id);
 
@@ -214,12 +232,56 @@ public class GameSessionManager
 			await _gameNotifier.NotifyGameAsync(_mapper.Map<GameSessionDto>(session));
 		}
 
-
-
 		if (!session.IsInBeginningPhase())
 			EndPlayerTurn(session);
+	}
 
-		// handle AI move result here
+	private async Task AIHandlePlayerTrades(GameSession session, Player aIPlayer)
+	{
+		var aIResult = await _aIService.InitiatePlayerTrades(session, aIPlayer.Id);
+
+		if (!aIResult.IsSuccess)
+		{
+			_logger.Warn($"AI did not initiate any player trades: {aIResult.Error}");
+			return;
+		}
+
+		foreach(var trade in aIResult.Value)
+		{
+			var playerToReceive = session.Players.Where(p => p.Id == trade.PlayerToReceiveId).FirstOrDefault();
+			if (playerToReceive == default) {
+				_logger.Error($"Player {trade.PlayerToGiveId} was not found");
+				continue;
+			}
+
+			var resourceToGive = (Resource)Enum.Parse(typeof(Resource), trade.ResourceToGive, true);
+			var resourceToReceive = (Resource)Enum.Parse(typeof(Resource), trade.ResourceToReceive, true);
+
+			var aITradeResult = session.AddNewPendingTrade(aIPlayer, resourceToGive, trade.CountToGive, playerToReceive, resourceToReceive, trade.CountToReceive);
+
+			if (!aITradeResult.IsSuccess)
+			{
+				_logger.Error($"AI failed to move thief: {aITradeResult.Error}");
+			}
+			await _gameNotifier.NotifyGameAsync(_mapper.Map<GameSessionDto>(session));
+		}
+	}
+
+	private async Task WaitForHumanPlayersToDiscard(GameSession session)
+	{
+		var humanPlayers = session.Players
+			.Where(p => !p.IsAI && p.IsActive && p.GetCardsNo() >= 7 )
+			.ToList();
+		bool allDiscarded = false;
+
+		while (!allDiscarded)
+		{
+			allDiscarded = humanPlayers.All(p => p.DiscardedThisTurn);
+			if (!allDiscarded)
+			{
+				await Task.Delay(1000);
+			}
+		}
 	}
 
 	private void ParseMove(GameSession session, Player aIPlayer, Move move)
@@ -264,23 +326,48 @@ public class GameSessionManager
 		
 		var dice = diceRollResult.Value;
 		if (dice.GetSummedValue() == 7)
-			foreach (var aIPlayer in aIPlayers)
-				if (aIPlayer.GetCardsNo() >= 7)
-				{
-					var aIResult = await _aIService.DiscardHalfOfResources(session, aIPlayer.Id); // set timer for this
-					var aIDiceRollResult = session.DiscardHalf(aIPlayer, aIResult.Value);
-
-					if (!aIDiceRollResult.IsSuccess)
-					{
-						_logger.Warn($"AI failed to discard half of resources: {aIDiceRollResult.Error}");
-						LogResourceDictionary(aIResult.Value);
-					}
-					await _gameNotifier.NotifyGameAsync(_mapper.Map<GameSessionDto>(session));
-
-				}
+			await AIHandleRoll7(session);
 
 		return diceRollResult;
 	
+	}
+
+	private async Task AIHandleRoll7(GameSession session)
+	{
+		var aIPlayers = session.Players.Where(p => p.IsAI);
+		foreach (var aIPlayer in aIPlayers)
+			if (aIPlayer.GetCardsNo() >= 7)
+			{
+				var aIResult = await _aIService.DiscardHalfOfResources(session, aIPlayer.Id);
+
+				if (!aIResult.IsSuccess)
+				{
+					_logger.Error($"AI service response unsuccessful: {aIResult.Error}");
+					break;
+				}
+
+				var aIDiceRollResult = session.DiscardHalf(aIPlayer, aIResult.Value);
+
+				if (!aIDiceRollResult.IsSuccess)
+				{
+					_logger.Error($"AI failed to discard half of resources: {aIDiceRollResult.Error}"); //kick
+					LogResourceDictionary(aIResult.Value);
+				}
+				await _gameNotifier.NotifyGameAsync(_mapper.Map<GameSessionDto>(session));
+
+			}
+	}
+
+	private async Task AIHandleMoveThief(GameSession session, Player aIPlayer)
+	{
+		var aIResult = await _aIService.MoveThief(session, aIPlayer.Id);
+		var aIDiceRollResult = session.MoveThief(aIPlayer, aIResult.Value);
+
+		if (!aIDiceRollResult.IsSuccess)
+		{
+			_logger.Error($"AI failed to move thief: {aIDiceRollResult.Error}");
+		}
+		await _gameNotifier.NotifyGameAsync(_mapper.Map<GameSessionDto>(session));
 	}
 
 	private void LogResourceDictionary(Dictionary<Resource, int> resourceDictionary)

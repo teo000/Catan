@@ -1,6 +1,6 @@
 import {GameSessionDto} from "../../../interfaces/GameSessionDto";
 import {MapLogicInfo} from "../utils/MapLogicInfo";
-import {usePlayer} from "../../../context/PlayerProvider";
+import {usePlayer} from "../../../contexts/PlayerProvider";
 // const getVisibleSettlementSpots = (): number[] => {
 //     if (gameSession.round === 1 || gameSession.round === 2){
 //         return getBeginningSettlementSpots();

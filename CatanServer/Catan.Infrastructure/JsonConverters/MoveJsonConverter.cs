@@ -1,6 +1,6 @@
-﻿using Catan.Application.Moves;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 using System.Text.Json;
+using Catan.Application.Models.Moves;
 
 namespace Catan.Infrastructure.JsonConverters;
 

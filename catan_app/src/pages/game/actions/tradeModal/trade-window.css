@@ -1,16 +1,16 @@
 
 .trade-modal{
-    /*position: relative;*/
     margin-left: auto;
-    height: 50%;
-    width: 45%;
+    /*height: 30%;*/
+    width: 20%;
     background-color: rgba(255, 255, 255, 1);
     border-radius: 40px;
     padding: 40px;
 
     position: absolute;
-    top: 35%;
-    left: 50%;
+
+    top: 40%;
+    left: 45%;
     -ms-transform: translateY(-50%);
     transform: translateY(-50%);
 }
@@ -37,8 +37,17 @@
 /*    text-align: center;*/
 /*}*/
 
-.modal-content h2 {
+.trade-modal h2 {
     margin-top: 0;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.trade-modal .buttons-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 30px;
 }
 
 .trade-resource {
@@ -58,6 +67,7 @@
     flex: 2;
     padding: 5px;
     margin-left: 10px;
+    width: 100%;
 }
 
 .modal-button {

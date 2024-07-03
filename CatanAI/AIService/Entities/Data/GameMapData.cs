@@ -53,7 +53,7 @@ public static class GameMapData
 
 				adjacentTiles.Add(HexTileRowLayout[row][pos]);
 
-				SettlementAdjacentTiles.Add(adjacentTiles);
+				SettlementAdjacentHexes.Add(adjacentTiles);
 			}
 
 			for (int pos = 0; pos < HexTileRowLayout[row].Count; pos++)
@@ -74,14 +74,14 @@ public static class GameMapData
 				if (pos < HexTileRowLayout[row].Count)
 					adjacentTiles.Add(HexTileRowLayout[row][pos]);
 
-				SettlementAdjacentTiles.Add(adjacentTiles);
+				SettlementAdjacentHexes.Add(adjacentTiles);
 			}
 
 			List<int> lastAdjacentTiles = new List<int>();
 			if (row >= 1)
 				lastAdjacentTiles.Add(HexTileRowLayout[row - 1][HexTileRowLayout[row - 1].Count - 1]);
 			lastAdjacentTiles.Add(HexTileRowLayout[row][HexTileRowLayout[row].Count - 1]);
-			SettlementAdjacentTiles.Add(lastAdjacentTiles);
+			SettlementAdjacentHexes.Add(lastAdjacentTiles);
 		}
 
 		for (int row = ROWS_NO/2; row < ROWS_NO; row++)
@@ -101,11 +101,11 @@ public static class GameMapData
 				if(row < ROWS_NO - 1 && pos >= 1)
 					adjacentTiles.Add(HexTileRowLayout[row+1][pos-1]);
 
-				SettlementAdjacentTiles.Add(adjacentTiles);
+				SettlementAdjacentHexes.Add(adjacentTiles);
 			}
 
 			List<int> lastAdjacentTiles = [HexTileRowLayout[row][HexTileRowLayout[row].Count - 1]];
-			SettlementAdjacentTiles.Add(lastAdjacentTiles);
+			SettlementAdjacentHexes.Add(lastAdjacentTiles);
 
 
 			for (int pos = 0; pos < HexTileRowLayout[row].Count; pos++)
@@ -121,7 +121,7 @@ public static class GameMapData
 					adjacentTiles.Add(HexTileRowLayout[row + 1][pos]);
 				}
 
-				SettlementAdjacentTiles.Add(adjacentTiles);
+				SettlementAdjacentHexes.Add(adjacentTiles);
 			}
 		}
 
@@ -195,7 +195,7 @@ public static class GameMapData
 
 	}
 
-	public static List<List<int>> SettlementAdjacentTiles = new List<List<int>>();
+	public static List<List<int>> SettlementAdjacentHexes = new List<List<int>>();
 
 	public static List<(int, int)> RoadEnds = new List<(int, int)>();
 

@@ -46,10 +46,11 @@ public class Map
 	}
 
 	public HexTile[] HexTiles {  get; private set; } = new HexTile[GameMapData.HEX_TILE_NO];
-	public int ThiefPosition { get; private set; }
-	public Building[] Buildings { get; private set; } = new Building[GameMapData.SETTLEMENTS_NO];
+	public Building[] Buildings { get; private set; } = new Building[GameMapData.SETTLEMENTS_NO]; //settlements and cities
 	public Road[] Roads { get; private set; } = new Road[GameMapData.ROADS_NO];
 	public Harbor[] Harbors { get; private set; } = new Harbor[GameMapData.HARBORS_NO];
+	public int ThiefPosition { get; private set; }
+
 
 	public void MoveThief(int position)
 	{
