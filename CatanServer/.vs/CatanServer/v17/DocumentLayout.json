@@ -3,8 +3,16 @@
   "WorkspaceRootPath": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{E9197FDD-2460-4DF9-9646-CB7175AB9BFE}|Catan.Domain\\Catan.Domain.csproj|d:\\facultate\\licenta\\catan\\catanserver\\catan.domain\\entities\\gamemap\\map.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E9197FDD-2460-4DF9-9646-CB7175AB9BFE}|Catan.Domain\\Catan.Domain.csproj|solutionrelative:catan.domain\\entities\\gamemap\\map.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{CC1A4902-D896-4CA8-BD7E-93BBA08868AB}|Catan.Application\\Catan.Application.csproj|d:\\facultate\\licenta\\catan\\catanserver\\catan.application\\gamemanagement\\gamesessionmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{CC1A4902-D896-4CA8-BD7E-93BBA08868AB}|Catan.Application\\Catan.Application.csproj|solutionrelative:catan.application\\gamemanagement\\gamesessionmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CC1A4902-D896-4CA8-BD7E-93BBA08868AB}|Catan.Application\\Catan.Application.csproj|d:\\facultate\\licenta\\catan\\catanserver\\catan.application\\features\\trade\\commands\\respondtotrade\\respondtotradecommandhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CC1A4902-D896-4CA8-BD7E-93BBA08868AB}|Catan.Application\\Catan.Application.csproj|solutionrelative:catan.application\\features\\trade\\commands\\respondtotrade\\respondtotradecommandhandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -23,15 +31,39 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "Map.cs",
+              "DocumentMoniker": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Domain\\Entities\\GameMap\\Map.cs",
+              "RelativeDocumentMoniker": "Catan.Domain\\Entities\\GameMap\\Map.cs",
+              "ToolTip": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Domain\\Entities\\GameMap\\Map.cs",
+              "RelativeToolTip": "Catan.Domain\\Entities\\GameMap\\Map.cs",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAAADoAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-02T23:25:56.538Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "RespondToTradeCommandHandler.cs",
+              "DocumentMoniker": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Application\\Features\\Trade\\Commands\\RespondToTrade\\RespondToTradeCommandHandler.cs",
+              "RelativeDocumentMoniker": "Catan.Application\\Features\\Trade\\Commands\\RespondToTrade\\RespondToTradeCommandHandler.cs",
+              "ToolTip": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Application\\Features\\Trade\\Commands\\RespondToTrade\\RespondToTradeCommandHandler.cs",
+              "RelativeToolTip": "Catan.Application\\Features\\Trade\\Commands\\RespondToTrade\\RespondToTradeCommandHandler.cs",
+              "ViewState": "AQIAACsAAAAAAAAAAAAIwDQAAAA0AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-02T23:16:06.351Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "GameSessionManager.cs",
               "DocumentMoniker": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Application\\GameManagement\\GameSessionManager.cs",
               "RelativeDocumentMoniker": "Catan.Application\\GameManagement\\GameSessionManager.cs",
-              "ToolTip": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Application\\GameManagement\\GameSessionManager.cs*",
-              "RelativeToolTip": "Catan.Application\\GameManagement\\GameSessionManager.cs*",
-              "ViewState": "AQIAAPQAAAAAAAAAAAApwAMBAABuAAAA",
+              "ToolTip": "D:\\Facultate\\Licenta\\Catan\\CatanServer\\Catan.Application\\GameManagement\\GameSessionManager.cs",
+              "RelativeToolTip": "Catan.Application\\GameManagement\\GameSessionManager.cs",
+              "ViewState": "AQIAANAAAAAAAAAAAAASwNgAAAATAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-30T11:38:03.803Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-06-30T11:38:03.803Z"
             }
           ]
         },

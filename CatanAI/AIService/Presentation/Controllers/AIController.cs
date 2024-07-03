@@ -1,9 +1,6 @@
-﻿using AIService.Entities.Data;
-using AIService.Presentation.Requests;
+﻿using AIService.Presentation.Requests;
 using AIService.UseCases;
-using AIService.Utils;
 using Microsoft.AspNetCore.Mvc;
-using System.Text.Json.Serialization;
 using System.Text.Json;
 
 namespace AIService.Presentation.Controllers
