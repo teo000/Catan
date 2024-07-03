@@ -13,11 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Catan.Domain", "Catan.Domai
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{2C29A8B3-A3B6-455B-BA36-0741D9B98DD7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catan.Identity", "Catan.Identity\Catan.Identity.csproj", "{70EC6226-5C4C-4CF2-9016-AE404D85D01C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Catan.Identity", "Catan.Identity\Catan.Identity.csproj", "{70EC6226-5C4C-4CF2-9016-AE404D85D01C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{B511C86B-978B-496B-8324-858A278321E8}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{04195F04-95D0-4C91-A8BF-60A1A931A031}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

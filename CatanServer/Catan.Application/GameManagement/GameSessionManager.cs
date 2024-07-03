@@ -10,7 +10,6 @@ using Catan.Domain.Entities.GamePieces;
 using Catan.Domain.Entities.Misc;
 using Catan.Domain.Entities.Trades;
 using Catan.Domain.Interfaces;
-using MediatR;
 
 namespace Catan.Application.GameManagement;
 
@@ -206,8 +205,14 @@ public class GameSessionManager
 			_logger.Warn("Everyone discarded... moving on");
 		}
 
-		if(!session.IsInBeginningPhase())
-			await AIHandlePlayerTrades(session, aIPlayer);
+		if (!session.IsInBeginningPhase())
+		{
+			bool areTradesPending = await AIHandlePlayerTrades(session, aIPlayer);
+			if (areTradesPending)
+			{
+				await Task.Delay(3000);
+			}
+		}
 
 
 		var aIMovesResult = await _aIService.MakeAIMove(session, aIPlayer.Id);
@@ -236,14 +241,14 @@ public class GameSessionManager
 			EndPlayerTurn(session);
 	}
 
-	private async Task AIHandlePlayerTrades(GameSession session, Player aIPlayer)
+	private async Task<bool> AIHandlePlayerTrades(GameSession session, Player aIPlayer)
 	{
 		var aIResult = await _aIService.InitiatePlayerTrades(session, aIPlayer.Id);
 
 		if (!aIResult.IsSuccess)
 		{
-			_logger.Warn($"AI did not initiate any player trades: {aIResult.Error}");
-			return;
+			_logger.Warn($"{aIPlayer.Name} did not initiate any player trades: {aIResult.Error}");
+			return false;
 		}
 
 		foreach(var trade in aIResult.Value)
@@ -261,10 +266,11 @@ public class GameSessionManager
 
 			if (!aITradeResult.IsSuccess)
 			{
-				_logger.Error($"AI failed to move thief: {aITradeResult.Error}");
+				_logger.Error($"{aIPlayer.Name} failed to move thief: {aITradeResult.Error}");
 			}
 			await _gameNotifier.NotifyGameAsync(_mapper.Map<GameSessionDto>(session));
 		}
+		return true;
 	}
 
 	private async Task WaitForHumanPlayersToDiscard(GameSession session)
@@ -298,19 +304,19 @@ public class GameSessionManager
 		{
 			var result = PlaceSettlement(session, aIPlayer, move.Position);
 			if (!result.IsSuccess)
-				_logger.Warn($"AI Place Settlement error: {result.Error}");
+				_logger.Warn($"{aIPlayer.Name} Place Settlement error: {result.Error}");
 		}
 		else if (moveType == MoveType.PlaceRoad)
 		{
 			var result = PlaceRoad(session, aIPlayer, move.Position);
 			if (!result.IsSuccess)
-				_logger.Warn($"AI Place Road error: {result.Error}");
+				_logger.Warn($"{aIPlayer.Name} Place Road error: {result.Error}");
 		}
 		else if (moveType == MoveType.PlaceCity)
 		{
 			var result = PlaceCity(session, aIPlayer, move.Position);
 			if (!result.IsSuccess)
-				_logger.Warn($"AI Place City error: {result.Error}");
+				_logger.Warn($"{aIPlayer.Name} Place City error: {result.Error}");
 		}
 	}
 
@@ -393,7 +399,7 @@ public class GameSessionManager
 		}
 
 		if (player.IsAI)
-			_logger.Warn($"AI places road at position: {position}");
+			_logger.Warn($"{player.Name} places road at position: {position}");
 
 		var result = session.PlaceRoad(player, position.Value);
 

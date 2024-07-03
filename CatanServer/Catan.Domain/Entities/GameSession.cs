@@ -184,7 +184,7 @@ public class GameSession
 		if (!player.IsActive)
 			return Result<Road>.Failure("You have been kicked out of the lobby");
 
-		if (position >= GameMapData.ROADS_NO)
+		if (position >= GameMapData.ROADS_NO && position < 0)
 			return Result<Road>.Failure("Incorrect road index");
 
 		if (GameMap.Roads[position] != null)
@@ -291,11 +291,11 @@ public class GameSession
 		foreach (var player in Players)
 		{
 			var points = player.CalculatePoints();
-			if (LongestRoad is not null && LongestRoad.Player.Equals(player))
+			if (LongestRoad is not null && LongestRoad.Player.Id.Equals(player.Id))
 				points += 2;
 
-			if (largestArmyPlayer != null && player == largestArmyPlayer)
-				player.WinningPoints += 2;
+			if (largestArmyPlayer != null && largestArmyPlayer.Id.Equals(player.Id))
+				points += 2;
 
 			player.WinningPoints = points;
 
@@ -530,7 +530,7 @@ public class GameSession
 
 			if (longestRoadLength >= 5 && (LongestRoad is null || longestRoadLength >= LongestRoad.Roads.Count))
 			{
-				var roadList = longestRoad.Select(r => GameMapData.RoadByRoadEnds[r])
+				var roadList = longestRoad.Select(r => GameMapData.GetRoadByRoadEnds(r.Item1, r.Item2))
 					.Select(pos => GameMap.Roads[pos]).ToList();
 				LongestRoad = new LongestRoad(roadList, player);
 			}

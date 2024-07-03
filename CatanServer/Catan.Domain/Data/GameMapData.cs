@@ -126,7 +126,7 @@ namespace Catan.Domain.Data
 				}
 			}
 
-			var index = 0;
+			int index = 0;
 			for (int row = 0; row < SettlementLayout.Count - 1; row++)
 			{
 				if (SettlementLayout[row].Count < SettlementLayout[row + 1].Count)
@@ -243,5 +243,17 @@ namespace Catan.Domain.Data
 			return resources;
 		}
 
+
+		public static int GetRoadByRoadEnds(int settlementPosition1, int settlementPosition2)
+		{
+			if (settlementPosition1 < settlementPosition2)
+				return RoadByRoadEnds
+					.TryGetValue((settlementPosition1, settlementPosition2), out var roadPosition)
+					? roadPosition : -1;
+			else
+				return RoadByRoadEnds
+					.TryGetValue((settlementPosition2, settlementPosition1), out var roadPosition)
+					? roadPosition : -1;
+		}
 	}
 }
