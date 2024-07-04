@@ -55,127 +55,7 @@ namespace AIService.UseCases
 
 		}
 
-		private int GetBestSettlementPos(GameState gameState, Player player) 
-		{
-			var viableSettlementPositions = gameState.Map.GetViableSettlementPositions(player);
-
-			if (viableSettlementPositions.Count == 0)
-				return -1;
-
-			var newSettlementPosition = viableSettlementPositions
-				.OrderByDescending(gameState.Map.GetSettlementResourceValue)
-				.FirstOrDefault();
-
-			if (newSettlementPosition == null)
-				return -1;
-
-			return newSettlementPosition;
-		}
-
-		private int GetBestBeginningSettlementPos(GameState gameState, Player player)
-		{
-			var viableSettlementPositions = gameState.Map.GetViableBeginningSettlementPositions();
-
-			if (viableSettlementPositions.Count == 0)
-				return -1;
-
-			var newSettlementPosition = viableSettlementPositions
-				.OrderByDescending(gameState.Map.GetSettlementResourceValue)
-				.FirstOrDefault();
-
-			if (newSettlementPosition == null)
-				return -1;
-
-			return newSettlementPosition;
-		}
-
-		private int GetBestRoadPos(GameState gameState, Player player)
-		{
-			var roadsToSettlement = gameState.Map.GetViableRoadsToSettlement(player);
-
-			if (roadsToSettlement.Count == 0)
-				return -1;
-
-			var bestRoadPositions = roadsToSettlement
-				.OrderByDescending(rs => gameState.Map.GetSettlementResourceValue(rs.SettlementPosition))
-				.Select(rs => rs.Roads)
-				.ToList();
-
-			if (bestRoadPositions.Count == 0)
-				return -1;
-
-			if (!gameState.Map.RoadAtPosition(bestRoadPositions[0][0]))
-				return bestRoadPositions[0][0];
-			else return bestRoadPositions[0][1];
-		}
-
-		private List<Move> HandleGame(GameState gameState, Player player)
-		{
-			var moves = new List<Move>();
-
-			if (player.HasResources(Buyable.CITY))
-			{
-				var settlementToUpgrade = player.Settlements
-					.OrderByDescending(s => gameState.Map.GetSettlementResourceValue(s.Position))
-					.FirstOrDefault();
-
-				if (settlementToUpgrade != null)
-				{
-					moves.Add(new PlaceCityMove(gameState.Id, settlementToUpgrade.Position));
-					player.SubtractResources(Buyable.CITY);
-				}
-			}
-
-			if (player.HasResources(Buyable.SETTLEMENT))
-			{
-				var newSettlementPosition = GetBestSettlementPos(gameState, player);
-
-				if (newSettlementPosition != -1)
-				{
-					moves.Add(new PlaceSettlementMove(gameState.Id, newSettlementPosition));
-					player.SubtractResources(Buyable.SETTLEMENT);
-				}
-				
-			}
-
-
-			if (player.HasResources(Buyable.ROAD))
-			{
-				var newRoadPosition = GetBestRoadPos(gameState, player);
-				if (newRoadPosition != -1)
-				{
-					moves.Add(new PlaceRoadMove(gameState.Id, newRoadPosition));
-					player.SubtractResources(Buyable.ROAD);
-				}
-			}
-
-
-			return moves;
-		}
-
-		private List<Move> HandleBeginning(GameState gameState, Player player)
-		{
-			var moves = new List<Move>();
-
-			var map = gameState.Map;
-
-			var settlementsPositions = map.Settlements.Select(s => s.Position).ToList();
-
-			var newSettlementPosition = GetBestBeginningSettlementPos(gameState, player);
-
-			moves.Add(new PlaceSettlementMove(gameState.Id, newSettlementPosition));
-
-			var adjacentSettlements = GameMapData.AdjacentSettlements[newSettlementPosition];
-			var otherSettlementPosition = RandomExtensions.GetRandomElement(adjacentSettlements);
-			var roadPosition = Road.GetRoadPosition(newSettlementPosition, otherSettlementPosition);
-
-			moves.Add(new PlaceRoadMove(gameState.Id, roadPosition));
-
-			return moves;
-		}
-
-
-
+		
 		public Result<bool> RespondToTrade (GameState gameState, Guid playerId, PlayerTrade trade)
 		{
 			var aIPlayer = gameState.Players.Where(p => p.Id == playerId).FirstOrDefault();
@@ -288,5 +168,125 @@ namespace AIService.UseCases
 			return Result<List<PlayerTradeRequest>>.Success(trades);
 
 		}
+
+		
+		private List<Move> HandleGame(GameState gameState, Player player)
+		{
+			var moves = new List<Move>();
+
+			if (player.HasResources(Buyable.CITY))
+			{
+				var settlementToUpgrade = player.Settlements
+					.OrderByDescending(s => gameState.Map.GetSettlementResourceValue(s.Position))
+					.FirstOrDefault();
+
+				if (settlementToUpgrade != null)
+				{
+					moves.Add(new PlaceCityMove(gameState.Id, settlementToUpgrade.Position));
+					player.SubtractResources(Buyable.CITY);
+				}
+			}
+
+			if (player.HasResources(Buyable.SETTLEMENT))
+			{
+				var newSettlementPosition = GetBestSettlementPos(gameState, player);
+
+				if (newSettlementPosition != -1)
+				{
+					moves.Add(new PlaceSettlementMove(gameState.Id, newSettlementPosition));
+					player.SubtractResources(Buyable.SETTLEMENT);
+				}
+
+			}
+
+			if (player.HasResources(Buyable.ROAD) && (GetBestSettlementPos(gameState, player) == -1 || rng.NextDouble() > 0.5))
+			{
+				var newRoadPosition = GetBestRoadPos(gameState, player);
+				if (newRoadPosition != -1)
+				{
+					moves.Add(new PlaceRoadMove(gameState.Id, newRoadPosition));
+					player.SubtractResources(Buyable.ROAD);
+				}
+			}
+
+
+			return moves;
+		}
+
+		private List<Move> HandleBeginning(GameState gameState, Player player)
+		{
+			var moves = new List<Move>();
+
+			var map = gameState.Map;
+
+			var settlementsPositions = map.Settlements.Select(s => s.Position).ToList();
+
+			var newSettlementPosition = GetBestBeginningSettlementPos(gameState, player);
+
+			moves.Add(new PlaceSettlementMove(gameState.Id, newSettlementPosition));
+
+			var adjacentSettlements = GameMapData.AdjacentSettlements[newSettlementPosition];
+			var otherSettlementPosition = RandomExtensions.GetRandomElement(adjacentSettlements);
+			var roadPosition = Road.GetRoadPosition(newSettlementPosition, otherSettlementPosition);
+
+			moves.Add(new PlaceRoadMove(gameState.Id, roadPosition));
+
+			return moves;
+		}
+
+		private int GetBestSettlementPos(GameState gameState, Player player)
+		{
+			var viableSettlementPositions = gameState.Map.GetViableSettlementPositions(player);
+
+			if (viableSettlementPositions.Count == 0)
+				return -1;
+
+			var newSettlementPosition = viableSettlementPositions
+				.OrderByDescending(gameState.Map.GetSettlementResourceValue)
+				.FirstOrDefault();
+
+			if (newSettlementPosition == null)
+				return -1;
+
+			return newSettlementPosition;
+		}
+
+		private int GetBestBeginningSettlementPos(GameState gameState, Player player)
+		{
+			var viableSettlementPositions = gameState.Map.GetViableBeginningSettlementPositions();
+
+			if (viableSettlementPositions.Count == 0)
+				return -1;
+
+			var newSettlementPosition = viableSettlementPositions
+				.OrderByDescending(gameState.Map.GetSettlementResourceValue)
+				.FirstOrDefault();
+
+			if (newSettlementPosition == null)
+				return -1;
+
+			return newSettlementPosition;
+		}
+
+		private int GetBestRoadPos(GameState gameState, Player player)
+		{
+			var roadsToSettlement = gameState.Map.GetViableRoadsToSettlement(player);
+
+			if (roadsToSettlement.Count == 0)
+				return -1;
+
+			var bestRoadPositions = roadsToSettlement
+				.OrderByDescending(rs => gameState.Map.GetSettlementResourceValue(rs.SettlementPosition))
+				.Select(rs => rs.Roads)
+				.ToList();
+
+			if (bestRoadPositions.Count == 0)
+				return -1;
+
+			if (!gameState.Map.RoadAtPosition(bestRoadPositions[0][0]))
+				return bestRoadPositions[0][0];
+			else return bestRoadPositions[0][1];
+		}
+
 	}
 }

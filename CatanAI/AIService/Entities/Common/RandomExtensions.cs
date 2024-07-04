@@ -27,5 +27,10 @@
 
 			return default;
 		}
+
+		public static double GetRandomProbability()
+		{
+			return Random.NextDouble();
+		}
 	}
 }

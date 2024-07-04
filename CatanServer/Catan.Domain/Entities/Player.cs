@@ -22,7 +22,7 @@ namespace Catan.Domain.Entities
 			foreach (Resource resource in Enum.GetValues(typeof(Resource)))
 				if (resource != Resource.Desert)
 				{
-					ResourceCount.Add(resource, 4);
+					ResourceCount.Add(resource, 2);
 					TradeCount.Add(resource, 4);
 				}
 			IsAI = isAI;
